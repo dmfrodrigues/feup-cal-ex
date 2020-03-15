@@ -139,6 +139,7 @@ int testNP(string name, vector<Point> & pontos, double dmin, NP_FUNC func, strin
  * Prints result and performance information.
  */
 int testNPFile(string in, double dmin, NP_FUNC func, string alg) {
+    in = "../"+in;
     vector<Point> pontos;
     readPoints(in, pontos);
     return testNP(in, pontos, dmin, func, alg);
@@ -233,6 +234,3 @@ TEST(CAL_FP03, testNP_DC_8Threads) {
     setNumThreads(8);
     testNearestPoints(nearestPoints_DC_MT, "Divide and conquer with 8 threads");
 }
-
-
-
