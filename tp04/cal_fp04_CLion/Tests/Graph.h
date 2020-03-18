@@ -238,9 +238,6 @@ vector<T> Graph<T>::bfs(const T & source) const {
             q.push(e.dest);
         }
     }
-    for(Vertex<T> *p:vertexSet)
-        if(!p->visited)
-            dfsVisit(p, res);
 	return res;
 }
 
@@ -293,8 +290,29 @@ vector<T> Graph<T>::topsort() const {
 
 template <class T>
 int Graph<T>::maxNewChildren(const T & source, T &inf) const {
-	// TODO (28 lines, mostly reused)
-	return 0;
+    int res = 0;
+    for(Vertex<T> *p:vertexSet) p->visited = false;
+    queue<Vertex<T>*> q;
+    Vertex<T> *p = findVertex(source); cout << "L296" << endl;
+    if(p == NULL) return 0;  cout << "L297" << endl;
+    q.push(p);
+    while(!q.empty()){
+        Vertex<T> *p = q.front(); q.pop();
+        if(p->visited) continue;
+        p->visited = true;
+        int newres = 0;
+        for(const Edge<T> &e: p->adj){
+            if(!e.dest->visited) {
+                ++newres;
+                q.push(e.dest);
+            }
+        }
+        if(newres > res){
+            res = max(res, newres);
+            inf = p->info;
+        }
+    }
+    return res;
 }
 
 /****************** 3b) isDAG   (HOME WORK)  ********************/
@@ -309,9 +327,7 @@ int Graph<T>::maxNewChildren(const T & source, T &inf) const {
 
 template <class T>
 bool Graph<T>::isDAG() const {
-	// TODO (9 lines, mostly reused)
-	// HINT: use the auxiliary field "processing" to mark the vertices in the stack.
-	return true;
+    return (!topsort().empty());
 }
 
 /**
