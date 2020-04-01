@@ -97,6 +97,8 @@ Edge<T>::Edge(Vertex<T> *d, double w): dest(d), weight(w) {}
 
 /*************************** Graph  **************************/
 
+#include <unordered_map>
+
 template <class T>
 class Graph {
 	vector<Vertex<T> *> vertexSet;    // vertex set
@@ -115,7 +117,9 @@ public:
 	vector<T> getPathTo(const T &dest) const;   //TODO...
 
 	// Fp05 - all pairs
-	void floydWarshallShortestPath();   //TODO...
+    unordered_map<const Vertex<T>*, unordered_map<const Vertex<T>*, double> > D;
+    unordered_map<const Vertex<T>*, unordered_map<const Vertex<T>*, const Vertex<T>*> > P;
+    void floydWarshallShortestPath();   //TODO...
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest) const;   //TODO...
 
 };
@@ -173,27 +177,27 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
 
 template<class T>
 void Graph<T>::unweightedShortestPath(const T &orig) {
-    for(Vertex<T> *v:vertexSet) v->path = NULL;
+    for(Vertex<T> *v:vertexSet) v->path = nullptr;
     Vertex<T> *origin = findVertex(orig);
     queue<Vertex<T> *> q;
     origin->path = origin; q.push(origin);
     while(!q.empty()){
         Vertex<T> *u = q.front(); q.pop();
         for(Edge<T> e : u->adj){
-            if(e.dest->getPath() == NULL) {
+            if(e.dest->getPath() == nullptr) {
                 e.dest->path = u;
                 q.push(e.dest);
             }
         }
     }
-    origin->path = NULL;
+    origin->path = nullptr;
 }
 
 
 template<class T>
 void Graph<T>::dijkstraShortestPath(const T &orig) {
     for(Vertex<T> *v:vertexSet){
-        v->path = NULL;
+        v->path = nullptr;
         v->dist = 1e20;
     }
     Vertex<T> *origin = findVertex(orig);
@@ -212,21 +216,36 @@ void Graph<T>::dijkstraShortestPath(const T &orig) {
             }
         }
     }
-    origin->path = NULL;
+    origin->path = nullptr;
 }
 
 
 template<class T>
 void Graph<T>::bellmanFordShortestPath(const T &orig) {
-	// TODO
-}
+    for(Vertex<T> *v:vertexSet){
+	    v->dist = 1e20;
+	    v->path = nullptr;
+	}
+    findVertex(orig)->dist = 0.0;
+	for(size_t i = 0; i < vertexSet.size(); ++i){
+	    for(Vertex<T> *u:vertexSet){
+	        for(const Edge<T> &e:u->adj){
+	            double c = u->dist+e.weight;
+	            if(c < e.dest->dist){
+	                e.dest->dist = c;
+	                e.dest->path = u;
+	            }
+	        }
+	    }
+	}
 
+}
 
 template<class T>
 vector<T> Graph<T>::getPathTo(const T &dest) const{
 	vector<T> res;
 	Vertex<T> *v = findVertex(dest);
-	while(v != NULL){
+	while(v != nullptr){
 	    res.push_back(v->getInfo());
 	    v = v->getPath();
 	}
@@ -240,14 +259,48 @@ vector<T> Graph<T>::getPathTo(const T &dest) const{
 
 template<class T>
 void Graph<T>::floydWarshallShortestPath() {
+    D.clear(); P.clear();
+    for(const Vertex<T> *u:vertexSet){
+        for(const Vertex<T> *v:vertexSet) {
+            D[u][v] = 1e20;
+            P[u][v] = nullptr;
+        }
+    }
+    for(const Vertex<T> *u:vertexSet){
+        D[u][u] = 0.0;
+    }
+    for(const Vertex<T> *u:vertexSet){
+        for(const Edge<T> &e:u->adj){
+            if(e.weight < D[u][e.dest]) {
+                D[u][e.dest] = e.weight;
+                P[u][e.dest] = u;
+            }
+        }
+    }
+    for(const Vertex<T> *k:vertexSet){
+        for(const Vertex<T> *i:vertexSet){
+            if(D[i][k] == 1e20) continue;
+            for(const Vertex<T> *j:vertexSet){
+                double c = D[i][k] + D[k][j];
+                if(c < D[i][j]){
+                    D[i][j] = c;
+                    P[i][j] = P[k][j];
+                }
+            }
+        }
+    }
 	// TODO
 }
 
 template<class T>
 vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
-	vector<T> res;
-	// TODO
-	return res;
+    if(orig == dest) return vector<T>(1, orig);
+    const Vertex<T> *i = findVertex(orig);
+    const Vertex<T> *j = findVertex(dest);
+    unordered_map<const Vertex<T>*, unordered_map<const Vertex<T>*, const Vertex<T>*> > P_ = P;
+    vector<T> res = getfloydWarshallPath(orig, P_[i][j]->getInfo());
+    res.push_back(dest);
+    return res;
 }
 
 
