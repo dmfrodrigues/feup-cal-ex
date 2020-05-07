@@ -93,6 +93,14 @@ public:
 
 	// Fp07
 	double getWeight() const;
+
+	bool operator<(const Edge &e) const{
+	    if(weight != e.weight) return (weight < e.weight);
+	    else if(dest != e.dest) return (dest < e.dest);
+	    else return (orig < e.orig);
+	}
+
+	int queueIndex;
 };
 
 template <class T>
@@ -366,16 +374,37 @@ vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
 /**************** Minimum Spanning Tree  ***************/
 template <class T>
 bool Graph<T>::addBidirectionalEdge(const T &sourc, const T &dest, double w) {
-    // TODO
-    return false;
+    return (addEdge(sourc, dest, w) && addEdge(dest, sourc, w));
 }
 
 
-
+#include <unordered_map>
 template <class T>
 vector<Vertex<T>* > Graph<T>::calculatePrim() {
-	// TODO
-	return vertexSet;
+
+    unordered_map<T, bool> visited;
+    vector<Vertex<T>* > V = getVertexSet();
+    for(const Vertex<T> *v: V){
+        visited[v->getInfo()] = false;
+    }
+    MutablePriorityQueue<Edge<T>> Q;
+    Vertex<T> *u = V[0];
+    visited[u->getInfo()] = true;
+    for(Edge<T> &e: u->adj){
+        Q.insert(&e);
+    }
+
+    while(!Q.empty()){
+        Edge<T> *e = Q.extractMin();
+        if(visited[e->dest->getInfo()]) continue;
+        visited[e->dest->getInfo()] = true;
+        e->dest->path = e->orig;
+        for(Edge<T> &e2: e->dest->adj){
+            Q.insert(&e2);
+        }
+    }
+
+	return V;
 }
 
 
