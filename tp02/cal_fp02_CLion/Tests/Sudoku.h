@@ -19,13 +19,14 @@ using namespace std;
 class Sudoku
 {
 	/**
-	 * numbers[i][j] - n�mero que ocupa a linha i, coluna j (de 0 a 8)
-	 * 0 quer dizer n�o preenchido.
+	 * numbers[i][j] - numero que ocupa a linha i, coluna j (de 0 a 8)
+	 * 0 quer dizer nao preenchido.
 	 */
 	int numbers[9][9];
 
 	/**
-	 * Informac�o derivada da anterior, para acelerar processamento (n�mero de 1 a 9, nao usa 0)
+	 * Informacao derivada da anterior, para acelerar processamento
+	 * (numero de 1 a 9, nao usa 0)
 	 */
 	int countFilled;
 	bool columnHasNumber[9][10];
@@ -40,9 +41,9 @@ public:
 	Sudoku();
 
 	/**
-	 * Inicia um Sudoku com um conte�do inicial.
-	 * Lan�a excep��o IllegalArgumentException se os valores
-	 * estiverem fora da gama de 1 a 9 ou se existirem n�meros repetidos
+	 * Inicia um Sudoku com um conteudo inicial.
+	 * Lança excepçao IllegalArgumentException se os valores
+	 * estiverem fora da gama de 1 a 9 ou se existirem numeros repetidos
 	 * por linha, coluna ou bloc 3x3.
 	 *
 	 * @param nums matriz com os valores iniciais (0 significa por preencher)
@@ -50,20 +51,20 @@ public:
 	Sudoku(int nums[9][9]);
 
 	/**
-	 * Obtem o conte�do actual (s� para leitura!).
+	 * Obtem o conteudo actual (só para leitura!).
 	 */
 	int** getNumbers();
 
 
 	/**
-	 * Verifica se o Sudoku j� est� completamente resolvido
+	 * Verifica se o Sudoku ja está completamente resolvido
 	 */
 	bool isComplete();
 
 
 	/**
 	 * Resolve o Sudoku.
-	 * Retorna indica��o de sucesso ou insucesso (sudoku imposs�vel).
+	 * Retorna indicacao de sucesso ou insucesso (sudoku impossivel).
 	 */
 	bool solve();
 

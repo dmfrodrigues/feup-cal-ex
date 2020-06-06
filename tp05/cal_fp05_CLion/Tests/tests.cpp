@@ -59,7 +59,9 @@ void geneateRandomGridGraph(int n, Graph<pair<int,int>> & g) {
         for (int j = 0; j < n; j++)
             for (int di = -1; di <= 1; di++)
                 for (int dj = -1; dj <= 1; dj++)
-                    if ((di != 0) != (dj != 0) && i+di >= 0 && i+di < n && j+dj >= 0 && j+dj < n)
+                    if ((di != 0) != (dj != 0) &&
+                        i+di >= 0 && i+di < n &&
+                        j+dj >= 0 && j+dj < n)
                         g.addEdge(make_pair(i,j), make_pair(i+di,j+dj), dis(gen));
 }
 
@@ -119,7 +121,7 @@ TEST(CAL_FP05, test_dijkstra) {
     checkSinglePath(myGraph.getPathTo(1), "7 6 4 3 1 ");
 }
 
- /* //Uncomment the test below...
+//Uncomment the test below...
 TEST(CAL_FP05, test_performance_dijkstra) {
     for (int n = 10; n <= 100; n += 10) {
         Graph< pair<int,int> > g;
@@ -131,11 +133,12 @@ TEST(CAL_FP05, test_performance_dijkstra) {
             for (int j = 0; j < n; j++)
                 g.dijkstraShortestPath(make_pair(i,j));
         auto finish = std::chrono::high_resolution_clock::now();
-        auto elapsed = chrono::duration_cast<chrono::microseconds>(finish - start).count();
-        cout << "Dijkstra processing grid " << n << " x " << n << " average time (micro-seconds)=" << (elapsed / (n*n)) << endl;
+        auto elapsed = chrono::duration_cast<chrono::microseconds>
+            (finish - start).count();
+        cout << "Dijkstra processing grid " << n << " x " << n
+             << " average time (micro-seconds)=" << (elapsed / (n*n)) << endl;
     }
 }
-*/
 
 //Uncomment the test below...
 TEST(CAL_FP05, test_bellmanFord) {

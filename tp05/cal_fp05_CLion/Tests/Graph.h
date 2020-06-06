@@ -117,8 +117,20 @@ public:
 	vector<T> getPathTo(const T &dest) const;   //TODO...
 
 	// Fp05 - all pairs
-    unordered_map<const Vertex<T>*, unordered_map<const Vertex<T>*, double> > D;
-    unordered_map<const Vertex<T>*, unordered_map<const Vertex<T>*, const Vertex<T>*> > P;
+    unordered_map<
+        const Vertex<T>*,
+        unordered_map<
+            const Vertex<T>*,
+            double
+        >
+    > D;
+    unordered_map<
+        const Vertex<T>*,
+        unordered_map<
+            const Vertex<T>*,
+            const Vertex<T>*
+        >
+    > P;
     void floydWarshallShortestPath();   //TODO...
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest) const;   //TODO...
 
@@ -146,8 +158,9 @@ Vertex<T> * Graph<T>::findVertex(const T &in) const {
 }
 
 /*
- *  Adds a vertex with a given content or info (in) to a graph (this).
- *  Returns true if successful, and false if a vertex with that content already exists.
+ * Adds a vertex with a given content or info (in) to a graph (this).
+ * Returns true if successful,
+ * and false if a vertex with that content already exists.
  */
 template <class T>
 bool Graph<T>::addVertex(const T &in) {
@@ -160,7 +173,8 @@ bool Graph<T>::addVertex(const T &in) {
 /*
  * Adds an edge to a graph (this), given the contents of the source and
  * destination vertices and the edge weight (w).
- * Returns true if successful, and false if the source or destination vertex does not exist.
+ * Returns true if successful,
+ * and false if the source or destination vertex does not exist.
  */
 template <class T>
 bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
@@ -297,8 +311,7 @@ vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
     if(orig == dest) return vector<T>(1, orig);
     const Vertex<T> *i = findVertex(orig);
     const Vertex<T> *j = findVertex(dest);
-    unordered_map<const Vertex<T>*, unordered_map<const Vertex<T>*, const Vertex<T>*> > P_ = P;
-    vector<T> res = getfloydWarshallPath(orig, P_[i][j]->getInfo());
+    vector<T> res = getfloydWarshallPath(orig, P.at(i).at(j)->getInfo());
     res.push_back(dest);
     return res;
 }

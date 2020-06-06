@@ -1,7 +1,0 @@
-Dado que, em cada execução, np_DC divide o problema em duas partes, a função np_DC é chamada O(log N) vezes.
-Em cada execução de np_DC, além das chamadas a si próprio, o vetor de tamanho até N é percorrido em busca dos limites da faixa.
-Depois desse passo, a faixa, com até O(N) pontos, é ordenada em O(N log N).
-Posteriormente, é corrido npByY, que percorre verticalmente os pontos. Dado que já encontrámos o d para a esquerda e direita da faixa, ao pesquisar a faixa só precisamos de procurar os pares (P[a], P[b]) em que P[b] se encontra a uma distância em Y menor que d (dado que, se for maior, não interessa dado que já sabemos que existe outro par de pontos à distância d entre si), logo para cada ponto na faixa só precisamos de testar os pontos que se encontram na zona x in (x-d, x+d), y in (y, y+d), o que fornece um argumento para afirmar que, para cada ponto na faixa, são feitas O(1) análises.
-Assim, a complexidade de np_DC sem contar as chamadas a si própria são O(N log N) pela ordenação da faixa.
-Como np_CD é chamada O(log N) vezes, a complexidade final é O(N log² N).
-

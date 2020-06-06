@@ -9,15 +9,16 @@
 using namespace std;
 
 
-/* Calcula, numa sequ�ncia de n n�meros (n > 0), para cada subsequ�ncia de m n�meros (m <= n, m > 0),
- * o �ndice i a partir do qual a soma s dos valores dessa subsequ�ncia � m�nimo.
+/* Calcula, numa sequencia de n numeros (n > 0),
+ * para cada subsequencia de m numeros (m <= n, m > 0),
+ * o indice i a partir do qual a soma s dos valores dessa subsequencia é minimo.
  *
  * Argumentos:
- * 	sequence - Array com a sequ�ncia
- * 	size - Tamanho da sequ�ncia
+ * 	sequence - Array com a sequencia
+ * 	size - Tamanho da sequencia
  *
  * Devolve:
- * Uma string que cont�m com a indica��o do �ndice i e somat�rio s, para cada m
+ * Uma string que contém com a indicacao do indice i e somatorio s, para cada m
  * i[0],s[0];i[1],s[1],i[2],s[2]...
  * Exemplo: 1,4;9,1;11,2;18,1;22,0;
  */

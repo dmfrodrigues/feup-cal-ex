@@ -197,7 +197,8 @@ bool Graph<T>::addVertex(const T &in) {
 /*
  * Adds an edge to a graph (this), given the contents of the source and
  * destination vertices and the edge weight (w).
- * Returns true if successful, and false if the source or destination vertex does not exist.
+ * Returns true if successful, 
+ * and false if the source or destination vertex does not exist.
  */
 template <class T>
 bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
@@ -214,7 +215,8 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
 
 /**
  * Initializes single source shortest path data (path, dist).
- * Receives the content of the source vertex and returns a pointer to the source vertex.
+ * Receives the content of the source vertex
+ * and returns a pointer to the source vertex.
  * Used by all single-source shortest path algorithms.
  */
 template<class T>

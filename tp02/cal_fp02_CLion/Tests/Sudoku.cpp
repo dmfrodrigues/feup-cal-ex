@@ -13,9 +13,9 @@ Sudoku::Sudoku()
 }
 
 /**
- * Inicia um Sudoku com um conte�do inicial.
- * Lanca excep��o IllegalArgumentException se os valores
- * estiverem fora da gama de 1 a 9 ou se existirem n�meros repetidos
+ * Inicia um Sudoku com um conteudo inicial.
+ * Lanca excepçao IllegalArgumentException se os valores
+ * estiverem fora da gama de 1 a 9 ou se existirem numeros repetidos
  * por linha, coluna ou bloc 3x3.
  *
  * @param nums matriz com os valores iniciais (0 significa por preencher)
@@ -61,7 +61,7 @@ void Sudoku::initialize()
 }
 
 /**
- * Obtem o conte�do actual (s� para leitura!).
+ * Obtem o conteudo actual (só para leitura!).
  */
 int** Sudoku::getNumbers()
 {
@@ -79,7 +79,7 @@ int** Sudoku::getNumbers()
 }
 
 /**
- * Verifica se o Sudoku j� est� completamente resolvido
+ * Verifica se o Sudoku ja esta completamente resolvido
  */
 bool Sudoku::isComplete()
 {
@@ -90,7 +90,7 @@ bool Sudoku::isComplete()
 #include <set>
 /**
  * Resolve o Sudoku.
- * Retorna indica��o de sucesso ou insucesso (sudoku imposs�vel).
+ * Retorna indicacao de sucesso ou insucesso (sudoku impossivel).
  */
 bool Sudoku::solve(){
     if(isComplete()) return true;

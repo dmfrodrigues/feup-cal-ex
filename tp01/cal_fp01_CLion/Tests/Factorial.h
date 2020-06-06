@@ -9,7 +9,7 @@
 /*Calcula o factorial de um valor de entrada n (>=0) usando recursividade*/
 int factorialRecurs(int n);
 
-/*Calcula o factorial de um valor de entrada n (>=0) usando programa��o din�mica*/
+/*Calcula o factorial de um valor de entrada n (>=0) usando programacao dinamica*/
 int factorialDinam(int n);
 
 

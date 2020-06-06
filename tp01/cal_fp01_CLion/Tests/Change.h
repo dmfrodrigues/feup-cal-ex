@@ -8,12 +8,12 @@
 #include <string>
 using namespace std;
 
-/* Calcula o troco num determinado montante m, utilizando um n�mero m�nimo
- * de moedas de valores unit�rios indicados (coinValues).
+/* Calcula o troco num determinado montante m, utilizando um numero minimo
+ * de moedas de valores unitarios indicados (coinValues).
  * O array coinValues deve estar ordenado por ordem crescente.
- * O par�metro numCoins indica o tamanho do array.
+ * O parametro numCoins indica o tamanho do array.
  * Devolve:
- * Uma string com a sequ�ncia de valores das moedas por valores decrescente.
+ * Uma string com a sequencia de valores das moedas por valores decrescente.
  * Por exemplo: calcChange(9, 3, {1, 2, 5}) = "5;2;2;"
  * */
 string calcChange(int m, int numCoins, int *coinValues);

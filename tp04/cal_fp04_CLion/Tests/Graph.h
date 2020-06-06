@@ -105,7 +105,8 @@ bool Graph<T>::addVertex(const T &in) {
 /*
  * Adds an edge to a graph (this), given the contents of the source (sourc) and
  * destination (dest) vertices and the edge weight (w).
- * Returns true if successful, and false if the source or destination vertex does not exist.
+ * Returns true if successful,
+ * and false if the source or destination vertex does not exist.
  */
 template <class T>
 bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
@@ -202,7 +203,8 @@ vector<T> Graph<T>::dfs() const {
 }
 
 /*
- * Auxiliary function that visits a vertex (v) and its adjacent not yet visited, recursively.
+ * Auxiliary function that visits a vertex (v) and its adjacent not yet visited,
+ * recursively.
  * Updates a parameter with the list of visited node contents.
  */
 template <class T>
@@ -265,7 +267,8 @@ vector<T> Graph<T>::topsort() const {
     while(!indegree.empty()){
         const Vertex<T> *p = indegree.begin()->first;
         for(const auto &pr:indegree)
-            if(indegree[pr.first] < indegree[p] || (indegree[pr.first] == indegree[p] && pr.first->info < p->info))
+            if(indegree[pr.first] <  indegree[p] ||
+              (indegree[pr.first] == indegree[p] && pr.first->info < p->info))
                 p = pr.first;
         if(indegree[p] > 0) return vector<T>();
         res.push_back(p->info);
@@ -321,7 +324,8 @@ int Graph<T>::maxNewChildren(const T & source, T &inf) const {
  * Performs a depth-first search in a graph (this), to determine if the graph
  * is acyclic (acyclic directed graph or DAG).
  * During the search, a cycle is found if an edge connects to a vertex
- * that is being processed in the the stack of recursive calls (see theoretical classes).
+ * that is being processed in the the stack of recursive calls
+ * (see theoretical classes).
  * Returns true if the graph is acyclic, and false otherwise.
  */
 
@@ -331,7 +335,8 @@ bool Graph<T>::isDAG() const {
 }
 
 /**
- * Auxiliary function that visits a vertex (v) and its adjacent not yet visited, recursively.
+ * Auxiliary function that visits a vertex (v) and its adjacent not yet visited,
+ * recursively.
  * Returns false (not acyclic) if an edge to a vertex in the stack is found.
  */
 template <class T>
