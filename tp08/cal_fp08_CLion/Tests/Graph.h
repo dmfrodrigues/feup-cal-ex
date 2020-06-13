@@ -8,6 +8,9 @@
 #include <queue>
 #include <limits>
 #include <cmath>
+#include <stack>
+#include <unordered_set>
+#include <unordered_map>
 
 using namespace std;
 
@@ -76,6 +79,7 @@ class Edge {
 
 public:
 	double getFlow() const;
+	Vertex<T> *getOrig() const;
 	Vertex<T> *getDest() const;
 
 	friend class Graph<T>;
@@ -88,6 +92,11 @@ Edge<T>::Edge(Vertex<T> *o, Vertex<T> *d, double w, double f): orig(o), dest(d),
 template <class T>
 double Edge<T>::getFlow() const {
 	return flow;
+}
+
+template <class T>
+Vertex<T>* Edge<T>::getOrig() const {
+    return orig;
 }
 
 template <class T>
@@ -109,7 +118,7 @@ public:
 	Vertex<T> *addVertex(const T &in);
 	Edge<T> *addEdge(const T &sourc, const T &dest, double c, double f=0);
 	void fordFulkerson(T source, T target);
-
+    double ff_go(T source, T target);
 };
 
 template <class T>
@@ -156,8 +165,47 @@ vector<Vertex<T> *> Graph<T>::getVertexSet() const {
  */
 template <class T>
 void Graph<T>::fordFulkerson(T source, T target) {
-    // TODO
+    double f = 0;
+    std::cout << "Start" << std::endl;
+    while((f = ff_go(source, target)) > 0){
+        std::cout << "L171, f=" << f << std::endl;
+    }
+    std::cout << "Done" << std::endl;
 }
 
+template<class T>
+double Graph<T>::ff_go(T s_, T d_) {
+    Vertex<T> *s = findVertex(s_);
+    Vertex<T> *d = findVertex(d_);
+
+    std::unordered_map<Vertex<T>*, double> maxflow;
+    std::unordered_map<Vertex<T>*, Edge<T>*> prev;
+    for(Vertex<T> *v: getVertexSet()) {
+        maxflow[v] = 0;
+        prev[v] = NULL;
+    }
+    std::stack<Vertex<T>*> Q;
+    std::unordered_set<Vertex<T>*> visited;
+    maxflow[s] = INF; prev[s] = NULL; Q.push(s);
+    while(!Q.empty()){
+        Vertex<T> *u = Q.top(); Q.pop();
+        if(visited.count(u)) continue; else visited.insert(u);
+        if(u == d) break;
+        for(Edge<T> *e: u->getAdj()){ Vertex<T> *v = e->getDest();
+            double f = std::min(maxflow[u], e->capacity);
+            if(f > maxflow[v]){
+                maxflow[v] = f; prev[v] = e; Q.push(v);
+            }
+        }
+    }
+
+    double f = maxflow[d];
+    if(f > 0) {
+        for (Vertex<T> *v = d; v != s; v = prev[v]->getOrig()) {
+            Edge<T> *e = prev[v]; e->capacity -= f; e->flow += f;
+        }
+    }
+    return f;
+}
 
 #endif /* GRAPH_H_ */
