@@ -36,6 +36,9 @@
 	sensitive=true,
 	comment=[n][\itshape]{/*}{*/}
 }
+% Pseudocode
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 % Tables with bold rows
 \usepackage{tabularx}
 \newcommand\setrow[1]{\gdef\rowmac{#1}#1\ignorespaces}
