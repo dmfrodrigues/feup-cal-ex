@@ -1,0 +1,26 @@
+\documentclass{cal}
+\title{CAL solved exercises -- Exams}
+\author{Diogo Miguel Ferreira Rodrigues (dmfrodrigues2000@gmail.com)}
+\date{}
+\setcounter{tocdepth}{1}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries}{}{0pt}{\Huge}
+%
+\usepackage{import}
+\makeatletter
+\renewcommand{\l@chapter}{\bfseries\@dottedtocline{0}{0em}{2.5em}}
+\renewcommand{\l@section}{\normalfont\@dottedtocline{1}{1.5em}{3.5em}}
+\renewcommand{\l@subsection}{\normalfont\@dottedtocline{2}{4.0em}{3.6em}}
+\renewcommand{\l@subsubsection}{\normalfont\@dottedtocline{3}{7.4em}{4.5em}}
+\makeatother
+% Document
+\begin{document}
+\begingroup
+\maketitle
+    \let\clearpage\relax
+	\tableofcontents
+\endgroup
+\import{./2017N/}{2017N_sol.tex}
+\end{document}
