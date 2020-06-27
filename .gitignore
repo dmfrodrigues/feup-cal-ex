@@ -20,4 +20,7 @@ cmake-build-debug/
 *.gls
 *.dvi
 *.lof
-!exams/*/20[0-9][0-9][NR].pdf
+!exams/*/20[0-9][0-9]N.pdf
+!exams/*/20[0-9][0-9]R.pdf
+!exams/*/20[0-9][0-9]N-sol.pdf
+!exams/*/20[0-9][0-9]R-sol.pdf
