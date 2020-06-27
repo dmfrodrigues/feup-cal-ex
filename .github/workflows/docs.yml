@@ -1,0 +1,22 @@
+name: docs
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install latex
+      run: sudo apt install -y latexmk texlive-latex-extra texlive-science
+
+    - name: Compile exams
+      run: make exams/CAL_exams.pdf
+    - name: Upload exams
+      uses: actions/upload-artifact@v2
+      with:
+        name: CAL_exams.pdf
+        path: exams/CAL_exams.pdf
