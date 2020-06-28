@@ -303,12 +303,12 @@ Check if all destinations are supplied in the current network configuration. If 
 
 \ansseparator
 
-Not all destinations are completely supplied; the destinations that are not completely supplied depend on the algorithm we choose to calculate the maximum flow, but according to the algorithm we used destinations E and F are not completely supplied, as they demanded more $\SI{10}{\tonne}$ and $\SI{5}{\tonne}$ respectively. 
+Not all destinations are completely supplied; the destinations that are not completely supplied depend on the algorithm we choose to calculate the maximum flow, but according to the algorithm we used destinations $E$ and $F$ are not completely supplied, as they demanded more $\SI{10}{\tonne}$ and $\SI{5}{\tonne}$ respectively. 
 
 To guarantee complete supplying of all destinations, we would have to add more $\SI{10}{\tonne}$ transport capacity in $C \rightarrow E$, and more 5 ton in $C \rightarrow F$.
 
 \questionitem{Item c}
-Consider the following undirected graph that represents a map, where vertices represent storage units in a city and the edge values are distances between adjacent units. Find the shortest path between deposits A and G, mentioning the algorithm you used and showing all intermediate steps of your solution.
+Consider the following undirected graph that represents a map, where vertices represent storage units in a city and the edge values are distances between adjacent units. Find the shortest path between deposits $A$ and $G$, mentioning the algorithm you used and showing all intermediate steps of your solution.
 
 \begin{center}
     \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,]
@@ -328,17 +328,682 @@ Consider the following undirected graph that represents a map, where vertices re
                 (A) 	edge[above] node{10} (E)
                 (A) 	edge[above] node{5} (B)
                 (B) 	edge[above] node{8} (C)
-                (B) 	edge[above] node{28} (F)
-                (C) 	edge[above] node{39} (F)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
                 (D) 	edge[above] node{12} (H)
                 (E) 	edge[above] node{3} (F)
                 (E) 	edge[above] node{4} (H)
                 (F) 	edge[above] node{7} (G)
                 (F) 	edge[above] node{4} (I)
                 (G) 	edge[above] node{6} (I)
-                (H) 	edge[above] node{13} (I)
+                (H) 	edge[above] node{11} (I)
                 ;
     \end{tikzpicture}
 \end{center}
+
+\ansseparator
+
+I will use Dijkstra's algorithm.
+
+\begin{algorithm}[H]
+    \caption{Dijkstra's algorithm}
+    \begin{algorithmic}[1]
+        \Function{Dijkstra}{$G(V,E)$, $s$}
+            \For{$v \in V$}{ $dist(v) \gets \infty,~prev(v) \gets \text{NULL}$}
+            \EndFor
+            \State {$Q \gets V$}
+            \State {$dist(s) \gets 0$}
+            \While{$|Q| > 0$}
+                \State {$u \gets \text{vertex of $Q$ with least $dist(u)$}$}
+                \State {$Q \gets Q \backslash \{u\}$}
+                \For{$v \in \Call{Adj}{G, u}$}
+                    \State{$c' \gets dist(u) + w(u,v)$}
+                    \If{$c' < dist(v)$}
+                        \State{$dist(v) \gets c',~prev(v) \gets u$}
+                    \EndIf
+                \EndFor
+            \EndWhile
+            \State \Return $dist$, $prev$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for each node; nodes in gray are those not in $Q$; nodes in green saw their distance updated.
+
+\begin{center} \begin{longtable}{p{76mm} | p{76mm}}
+    \textbf{Line 5} & \textbf{Line 8} \\ \hline
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}](A){$A$};
+        \node[state, below left  of=A, label=above:{$\infty,-$}](D){$D$};
+        \node[state, below right of=A, label=above:{$\infty,-$}](E){$E$};
+        \node[state, below right of=D, label=above:{$\infty,-$}](H){$H$};
+        \node[state, above right of=E, label=above:{$\infty,-$}](B){$B$};
+        \node[state, below right of=B, label=above:{$\infty,-$}](F){$F$};
+        \node[state, above right of=F, label=above:{$\infty,-$}](C){$C$};
+        \node[state, below right of=F, label=above:{$\infty,-$}](I){$I$};
+        \node[state, above right of=I, label=above:{$\infty,-$}](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=pink](A){$A$};
+        \node[state, below left  of=A, label=above:{$\infty,-$}           ](D){$D$};
+        \node[state, below right of=A, label=above:{$\infty,-$}           ](E){$E$};
+        \node[state, below right of=D, label=above:{$\infty,-$}           ](H){$H$};
+        \node[state, above right of=E, label=above:{$\infty,-$}           ](B){$B$};
+        \node[state, below right of=B, label=above:{$\infty,-$}           ](F){$F$};
+        \node[state, above right of=F, label=above:{$\infty,-$}           ](C){$C$};
+        \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} \\
+    We start by setting $dist(A) \gets 0$. &
+    Select node in $Q$ with least $dist$, which is $A$.
+    \\ \\
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$},fill=LimeGreen](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$},fill=LimeGreen](E){$E$};
+        \node[state, below right of=D, label=above:{$\infty,-$}           ](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$},fill=LimeGreen](B){$B$};
+        \node[state, below right of=B, label=above:{$\infty,-$}           ](F){$F$};
+        \node[state, above right of=F, label=above:{$\infty,-$}           ](C){$C$};
+        \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}           ](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}           ](E){$E$};
+        \node[state, below right of=D, label=above:{$\infty,-$}           ](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=pink](B){$B$};
+        \node[state, below right of=B, label=above:{$\infty,-$}           ](F){$F$};
+        \node[state, above right of=F, label=above:{$\infty,-$}           ](C){$C$};
+        \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} \\
+    \begin{minipage}[c]{\linewidth}
+        $B$, $D$ and $E$ are adjacent to $A$.\\
+        $dist(A)+w(A,B)=5 < \infty$ so $B$ was updated.\\
+        $dist(A)+w(A,D)=6 < \infty$ so $D$ was updated.\\
+        $dist(A)+w(A,E)=10 < \infty$ so $E$ was updated.
+    \end{minipage} &
+    Select node in $Q$ with least $dist$, which is $B$.
+    \\ \\
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}           ](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}           ](E){$E$};
+        \node[state, below right of=D, label=above:{$\infty,-$}           ](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    26,B$},fill=LimeGreen](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$},fill=LimeGreen](C){$C$};
+        \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=pink](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}           ](E){$E$};
+        \node[state, below right of=D, label=above:{$\infty,-$}           ](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    26,B$}           ](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}           ](C){$C$};
+        \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} \\
+    \begin{minipage}[c]{\linewidth}
+        $A$, $C$ and $F$ are adjacent to $B$.\\
+        $A \not \in Q$ so we can ignore it.\\
+        $dist(B)+w(B,C)=13 < \infty$ so $C$ was updated.\\
+        $dist(B)+w(B,F)=26 < \infty$ so $F$ was updated. 
+    \end{minipage} &
+    Select node in $Q$ with least $dist$, which is $D$.
+    \\ \\
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}           ](E){$E$};
+        \node[state, below right of=D, label=above:{$    18,D$},fill=LimeGreen](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    26,B$}           ](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}           ](C){$C$};
+        \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=pink](E){$E$};
+        \node[state, below right of=D, label=above:{$    18,D$}           ](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    26,B$}           ](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}           ](C){$C$};
+        \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} \\
+    \begin{minipage}[c]{\linewidth}
+        $A$ and $H$ are adjacent to $D$.\\
+        $A \not \in Q$ so we can ignore it.\\
+        $dist(D)+w(D,H)=18 < \infty$ so $H$ was updated.
+    \end{minipage} &
+    Select node in $Q$ with least $dist$, which is $E$.
+    \\ \\
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$},fill=LimeGreen](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$},fill=LimeGreen](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}           ](C){$C$};
+        \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}           ](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}           ](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=pink](C){$C$};
+        \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} \\
+    \begin{minipage}[c]{\linewidth}
+        $A$, $F$ and $H$ are adjacent to $E$.\\
+        $A \not \in Q$ so we can ignore it.\\
+        $dist(E)+w(E,F) = 13 < 26$ so $F$ was updated.\\
+        $dist(E)+w(E,H) = 14 < 18$ so $H$ was updated.
+    \end{minipage} &
+    Select node in $Q$ with least $dist$, which is $C$.
+    \\ \\
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}           ](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}           ](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}           ](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=pink](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} \\
+    \begin{minipage}[c]{\linewidth}
+        $B$ and $F$ are adjacent to $C$.\\
+        $B \not \in Q$ so we can ignore it.\\
+        $dist(C)+w(C,F)=24 \not < 13$ so $F$ wasn't updated.
+    \end{minipage} &
+    Select node in $Q$ with least $dist$, which is $F$.
+    \\ \\
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}           ](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$},fill=LimeGreen](I){$I$};
+        \node[state, above right of=I, label=above:{$    20,F$},fill=LimeGreen](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=pink](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$    20,F$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} \\
+    \begin{minipage}[c]{\linewidth}
+        $B$, $C$, $E$, $G$ and $I$ are adjacent to $F$.\\
+        $B, C, E \not \in Q$ so we can ignore them.\\
+        $dist(F)+w(F,G)=20 < \infty$ so $G$ was updated.\\
+        $dist(F)+w(F,I)=17 < \infty$ so $I$ was updated.
+    \end{minipage} &
+    Select node in $Q$ with least $dist$, which is $H$.
+    \\ \\
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=gray](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$}           ](I){$I$};
+        \node[state, above right of=I, label=above:{$    20,F$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=gray](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$}, fill=pink](I){$I$};
+        \node[state, above right of=I, label=above:{$    20,F$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} \\
+    \begin{minipage}[c]{\linewidth}
+        $D$, $E$ and $I$ are adjacent to $H$.\\
+        $D,E \not \in Q$ so we can ignore them.\\
+        $dist(H)+w(H,I)=25 \not < 17$ so $I$ wasn't updated.
+    \end{minipage} &
+    Select node in $Q$ with least $dist$, which is $I$.
+    \\ \\
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=gray](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$}, fill=gray](I){$I$};
+        \node[state, above right of=I, label=above:{$    20,F$}           ](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=gray](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$}, fill=gray](I){$I$};
+        \node[state, above right of=I, label=above:{$    20,F$}, fill=pink](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} \\
+    \begin{minipage}[c]{\linewidth}
+        $F$, $G$ and $H$ are adjacent to $I$.\\
+        $F,H \not \in Q$ so we can ignore them.\\
+        $dist(I)+w(I,G) = 23 \not < 20$ so $G$ wasn't updated.
+    \end{minipage} &
+    Select node in $Q$ with least $dist$, which is $G$.
+    \\ \\
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=gray](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$}, fill=gray](I){$I$};
+        \node[state, above right of=I, label=above:{$    20,F$}, fill=gray](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture} \\
+    \begin{minipage}[c]{\linewidth}
+        $F$ and $I$ are adjacent to $G$.\\
+        $F,I \not \in Q$ so we can ignore them.
+    \end{minipage}
+\end{longtable} \end{center}
+
+\begin{center}
+    \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
+        \scriptsize
+        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=gray](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$}, fill=gray](I){$I$};
+        \node[state, above right of=I, label=above:{$    20,F$}, fill=gray](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above, line width=1.5pt] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{21} (F)
+                (C) 	edge[above] node{11} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above, line width=1.5pt] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above, line width=1.5pt] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{11} (I)
+                ;
+    \end{tikzpicture}
+\end{center}
+
+The shortest path from $A$ to $G$ is $A \rightarrow E \rightarrow F \rightarrow G$, with a total weight of 20.
 
 }
