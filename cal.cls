@@ -4,7 +4,7 @@
 % Margins
 \usepackage[top=35mm,bottom=35mm,left=25mm,right=25mm]{geometry}
 % Tables with colored cells
-\usepackage[table]{xcolor}%
+\usepackage[table,dvipsnames]{xcolor}%
 % Graphics and images
 \usepackage{graphicx}
 \usepackage{tikz}
