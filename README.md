@@ -6,7 +6,7 @@
 
 ## Documents
 
-Documents are compiled by Github Actions, to see them go to [`Actions`](https://github.com/dmfrodrigues/feup-tcom-ex/actions) > `Workflows` > [`Compile documents`](https://github.com/dmfrodrigues/feup-tcom-ex/actions?query=workflow%3A%22Compile+documents%22), go to the most recent action and check `This run > Artifacts`.
+Documents are compiled by Github Actions, to see them go to [`Actions`]((https://github.com/dmfrodrigues/feup-cal-ex/actions) > `Workflows` > [`docs`](https://github.com/dmfrodrigues/feup-cal-ex/actions?query=workflow%3Adocs), go to the most recent action and check `This run > Artifacts`.
 
 ## License
 
