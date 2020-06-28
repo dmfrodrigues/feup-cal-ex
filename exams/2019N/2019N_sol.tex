@@ -5,7 +5,259 @@
 
 \exampart{Part 1}
 
-TODO
+\question{Question 1}
+With dynamic programming, the function $\comb{n}{k}$ below can be calculated in how much time ($T(n,k)$) and space ($S(n,k)$)? (choose the lowest valid limits)
+
+\begin{equation*}
+    \comb{n}{k} = \begin{dcases}
+        1                               & : k = 0 \\
+        1                               & : k = n \\
+        \comb{n-1}{k} + \comb{n-1}{k-1} & : \text{otherwise}
+    \end{dcases}
+\end{equation*}
+
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item $T(n,k)=S(n,k)=O(1)$
+    \item $T(n,k)=O(k(n-k))$, $S(n,k)=O(n-k)$ \greencheckmark
+    \item $T(n,k)=O(n-k)$, $S(n,k)=O(k(n-k))$
+    \item $T(n,k)=S(n,k)=O(n+k)$
+\end{enumerate}
+\ansseparator
+
+To compute $\comb{10}{3}$ we need to compute all values in bold in the table:
+
+\begin{center} \begin{tabular}{r | r r r r r r r r r r r}
+        & \multicolumn{11}{c}{$k$} \\
+    $n$ &         0  &          1  &          2  &           3  &   4 &   5 &   6 &   7 &   8 &   9 &   10 \\ \hline
+      0 & \textbf{1} &             &             &              &     &     &     &     &     &     &      \\
+      1 & \textbf{1} &  \textbf{1} &             &              &     &     &     &     &     &     &      \\
+      2 & \textbf{1} &  \textbf{2} & \textbf{ 1} &              &     &     &     &     &     &     &      \\
+      3 & \textbf{1} &  \textbf{3} & \textbf{ 3} & \textbf{  1} &     &     &     &     &     &     &      \\
+      4 & \textbf{1} &  \textbf{4} & \textbf{ 6} & \textbf{  4} &   1 &     &     &     &     &     &      \\
+      5 & \textbf{1} &  \textbf{5} & \textbf{10} & \textbf{ 10} &   5 &   1 &     &     &     &     &      \\
+      6 & \textbf{1} &  \textbf{6} & \textbf{15} & \textbf{ 20} &  15 &   6 &   1 &     &     &     &      \\
+      7 & \textbf{1} &  \textbf{7} & \textbf{21} & \textbf{ 35} &  35 &  21 &   7 &   1 &     &     &      \\
+      8 &         1  &  \textbf{8} & \textbf{28} & \textbf{ 56} &  70 &  56 &  28 &   8 &   1 &     &      \\
+      9 &         1  &          9  & \textbf{36} & \textbf{ 84} & 126 & 126 &  84 &  36 &   9 &   1 &      \\
+     10 &         1  &         10  &         45  & \textbf{120} & 200 & 252 & 200 & 120 &  45 &  10 &   1  \\
+\end{tabular} \end{center}
+
+This example is enough to understand that, to compute $\comb{n}{k}$, one has to compute $k+1$ columns of the pascal triangle, each being $n-k+1$ rows tall. Given $\comb{n-1}{k}$ and $\comb{n-1}{k-1}$ have already been computed, computing $\comb{n}{k}$ takes time $O(1)$, so in total we require $O((k+1)(n-k+1)) = O(k(n-k))$ time.
+
+To calculate all the needed values of column $k'$ we only need to keep the $n-k+1$ values from the previous column $k'-1$ and an additional array of size $n-k+1$ to store the values of the new column $k'$ the values from row $n'-1$. Therefore we need $2*(n-k+1)$ integers, which means we need $O(n-k)$ memory.
+
+\question{Question 2}
+The \emph{quicksort} algorithm has a partition step, where the given array is rearranged into two subarrays with values less and greater than a \emph{pivot}, followed by a recursive step where the two subarrays are sorted by the same method. What type of algorithm is this?
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item Dynamic programming
+    \item Greedy 
+    \item Backtracking
+    \item \textbf{Divide-and-conquer \greencheckmark}
+\end{enumerate}
+
+\question{Question 3}
+An algorithm that explores a state space, searching for a solution state, is essentially an algorithm of which kind?
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item \textbf{Dynamic programming  \greencheckmark}
+    \item Greedy 
+    \item Backtracking
+    \item Divide-and-conquer
+\end{enumerate}
+
+\question{Question 4}
+The following algorithm (coded in C++) determines if an array $a$ of size $n$ has a subset with sum $x$. What kind of algorithm is this?
+
+\begin{lstlisting}[language=C++]
+bool hasSum(int a[], int n, int x){
+    if(x == 0) return true;
+    else if(n == 0) return false;
+    else return hasSum(a, n-1, x-a[n-1]) ||
+                hasSum(a, n-1, x);
+}
+\end{lstlisting}
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item Dynamic programming
+    \item Greedy 
+    \item \textbf{Backtracking \greencheckmark}
+    \item Divide-and-conquer
+\end{enumerate}
+
+\question{Question 5}
+Which of the following properties is not associated to the cycle invariant in an iterative algorithm?
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item at the beginning of the cycle, being implied by the pre-condition
+    \item at the end of the cycle, to imply the post-condition
+    \item to be true at each cycle iteration
+    \item \textbf{to be false in the last cycle iteration \greencheckmark}
+\end{enumerate}
+
+\question{Question 6}
+Which of the following graphs is bipartite?
+\begin{center}
+\begin{enumerate*}[label=\Alph*),itemjoin=\hspace{0.5cm}]\itemsep0em
+    \item \label{itm:2019N-P1-06-correct}
+    \begin{tikzpicture}[-,>=stealth',node distance=1cm,initial text=$ $,]
+        \tiny
+        \node[state](0) {};
+        \node[state, above right of=0](10) {};
+        \node[state, below right of=0](11) {};
+        \node[state, below right of=10](2) {};
+        \node[state, above right of=2](30) {};
+        \node[state, below right of=2](31) {};
+        \node[state, below right of=30](4) {};
+        
+        \draw   (0) edge (10)
+                (0) edge (11)
+                (10) edge (2)
+                (11) edge (2)
+                (2) edge (30)
+                (2) edge (31)
+                (30) edge (4)
+                (31) edge (4)
+                ;
+    \end{tikzpicture}
+    \greencheckmark
+    \item
+    \begin{tikzpicture}[-,>=stealth',node distance=1cm,initial text=$ $,]
+        \tiny
+        \node[state](0) {};
+        \node[state, above right of=0](10) {};
+        \node[state, below right of=0](11) {};
+        \node[state, right of=10](20) {};
+        \node[state, right of=11](21) {};
+        \node[state, below right of=20](3) {};
+        
+        \draw   (0) edge (10)
+                (0) edge (11)
+                (10) edge (11)
+                (20) edge (21)
+                (3) edge (20)
+                (3) edge (21)
+                ;
+	\end{tikzpicture}
+    \item 
+    \begin{tikzpicture}[-,>=stealth',node distance=1cm,initial text=$ $,]
+        \tiny
+        \node[state](00) {};
+        \node[state, below right of=00](1) {};
+        \node[state, above right of=1](01) {};
+        \node[state, below left of=1] (20) {};
+        \node[state, below right of=1] (21) {};
+        
+        \draw   (00) edge (1)
+                (01) edge (1)
+                (00) edge (01)
+                (20) edge (1)
+                (21) edge (1)
+                (20) edge (21)
+                ;
+    \end{tikzpicture}
+    \item
+    \begin{tikzpicture}[-,>=stealth',node distance=1.25cm,initial text=$ $,]
+        \tiny
+        \node[state](00) {};
+        \node[state, right of=00](10) {};
+        \node[state, below of=00](01) {};
+        \node[state, below of=10](11) {};
+        
+        \draw   (00) edge (01)
+                (00) edge (10)
+                (00) edge (11)
+                (01) edge (10)
+                (01) edge (11)
+                (10) edge (11)
+                ;
+	\end{tikzpicture}
+\end{enumerate*}
+\end{center}
+
+\ansseparator
+
+A bipartite graph is a graph whose nodes can be split into two sets where two nodes in the same set are not adjacent; this is equivalent to say the graph can be coloured with two colours in a graph colouring problem.
+
+If we colour the graph from option \ref{itm:2019N-P1-06-correct} we can easily see why it is bipartite:
+
+\begin{center}
+    \begin{tikzpicture}[-,>=stealth',node distance=1cm,initial text=$ $,]
+        \tiny
+        \node[state                   , fill=red ](0) {};
+        \node[state, above right of= 0, fill=blue](10) {};
+        \node[state, below right of= 0, fill=blue](11) {};
+        \node[state, below right of=10, fill=red ](2) {};
+        \node[state, above right of= 2, fill=blue](30) {};
+        \node[state, below right of= 2, fill=blue](31) {};
+        \node[state, below right of=30, fill=red ](4) {};
+        
+        \draw   (0) edge (10)
+                (0) edge (11)
+                (10) edge (2)
+                (11) edge (2)
+                (2) edge (30)
+                (2) edge (31)
+                (30) edge (4)
+                (31) edge (4)
+                ;
+    \end{tikzpicture}
+\end{center}
+
+\question{Question 7}
+Which of the following options is not a possible topological order of vertices of the following graph?
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+    \node[state](b) {b};
+    \node[state, right of=b](d) {d};
+    \node[state, right of=d](a) {a};
+    \node[state, below of=b](c) {c};
+    \node[state, right of=c](g) {g};
+    \node[state, right of=g](e) {e};
+
+    \draw   (b) edge (d)
+            (b) edge (c)
+            (d) edge (c)
+            (d) edge (g)
+            (g) edge (c)
+            (a) edge (d)
+            (g) edge (e)
+            (a) edge (e)
+            ;
+\end{tikzpicture}
+\end{center}
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item a-b-d-g-c-e
+    \item a-b-d-g-e-c 
+    \item \label{itm:2019N-P1-07-correct} \textbf{a-d-c-g-e-b \greencheckmark}
+    \item b-a-d-g-e-c
+\end{enumerate}
+
+\ansseparator
+
+Since $b \leadsto d$, $b$ must be before $d$, which is not the case in option \ref{itm:2019N-P1-07-correct}
+
+\question{Question 8}
+Distances through the shortest path of a vertex $s$ to each vertex in a weighted directed acyclic graph $G=(V,E)$, with possible negative-weight edges, can be calculated in what time?
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item $O(|V|+|E|)$ \greencheckmark
+    \item $O((|V|+|E|) \times \log |V|)$
+    \item $O(|V|\times|E|)$
+    \item $O(|V|^3)$
+\end{enumerate}
+
+\ansseparator
+
+This is a shortest path problem to all vertices in a DAG, which can be solved first by sorting vertices by topological order in $O(|V|+|E|)$ and then iterate over the vertices in topological order and update distances in $O(|V|+|E|)$.
+
+\question{Question 9}
+A graph $G=(V,E)$ can be considered dense when the relation between the number of vertices and the number of edges is of what order of magnitude?
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item $|V|-|E|$
+    \item $|V|^2-|E|$ \greencheckmark
+    \item $|V|-|E|^2$
+    \item $2 \times |V| - |E|$
+\end{enumerate}
+
+\ansseparator
+
+A complete simple graph has $|E|=\frac{1}{2}|V|(|V|-1)$, so the graph is considered dense when $|E| \approx |V|^2$.
 
 \exampart{Part 2}
 

@@ -56,10 +56,13 @@
 \usepackage[mathscr]{euscript}
 \usepackage{amsmath,amssymb}
 \usepackage{mathtools}
-\usepackage{enumitem}
+\usepackage[inline]{enumitem}
 \usepackage[binary-units=true]{siunitx} %SI units
+\newcommand\comb[2]{^{#1}C_{#2}}
+\usepackage{mathtools} %dcases
 % Definitions, theorems, remarks,...
 \usepackage{amsthm}
+\usepackage{amssymb, latexsym} %Load math symbols like \blacksquare, but also load normal \leadsto arrows
 \newtheorem{definition}{Definition}[section]
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}{Corollary}[theorem]
@@ -98,3 +101,5 @@
 \makeatother
 \RequirePackage{titlesec}
 \newcommand{\sectionbreak}{\clearpage}
+% Tick
+\newcommand\greencheckmark{{\color{ForestGreen}\checkmark}}
