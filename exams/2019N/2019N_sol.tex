@@ -1,0 +1,344 @@
+{
+\renewcommand{\thechapter}{\arabic{chapter}N}
+\setcounter{chapter}{18}
+\exam{Exam normal 2018/19}
+
+\exampart{Part 1}
+
+TODO
+
+\exampart{Part 2}
+
+\question{Question 1}
+Consider the binary square matrix $M$, with 2 dimensions and variable height/width, as a simplified representation of the map of a certain region, where 1 represents land and 0 represents water. We want to develop procedures to obtain information about the islands in the region, represented in the matrix as adjacent 1's. In the example below, $M$ represents a region made of two islands.
+
+\begin{equation*}
+    M = \begin{bmatrix}
+        1 & 1 & 0 \\
+        1 & 0 & 1 \\
+        0 & 0 & 1
+    \end{bmatrix}
+\end{equation*}
+
+Solutions to the following items should be presented in C++ or pseudocode.
+
+\questionitem{Item a}
+Implement an algorithm to determine the number of islands in the map, using one (or more) of the following approaches: greedy, backtrack and divide-and-conquer. Identify the followed approaches as well as their time complexities, justifying [note: for the example matrix, the result is 2].
+
+\ansseparator
+
+\lstinputlisting[language=C++]{2019N_01a.cpp}
+
+We used the backtracking approach through a depth-first search. The time complexity of this algorithm is $O(N)$, since each cell is set as visited only once, and its value is checked at most 5 times (from the 4 sides the DFS might eventually want to know if it has already been visited, plus once by the main cycle that checks if it has already been visited or not).
+
+\questionitem{Item b}
+
+TODO
+
+\question{Question 2}
+Consider three storage units A, B and C, having $\SI{20}{\tonne}$, $\SI{10}{\tonne}$ and $\SI{35}{\tonne}$ of a certain product respectively. We intend to deliver to three destinations D, E and F the amounts of $\SI{25}{\tonne}$, $\SI{20}{\tonne}$ and $\SI{20}{\tonne}$ of product respectively. The availabilities of transport, by truck, between different points are the following:
+
+\begin{center} \begin{tabular}{| c | c | c | c |} \hline
+    \diagbox{Origin}{Destin.} & D & E & F \\ \hline
+    A & 15 & 10 & - \\ \hline
+    B & 5 & - & 10 \\ \hline
+    C & 10 & 5 & 5 \\ \hline
+\end{tabular} \end{center}
+
+\questionitem{Item a}
+Find the best transportation plan, indicating the maximum network flow. Suggestion: consider an initial node aggregating supply and another aggregating demand.
+
+\ansseparator
+
+The following graph represents the flow graph between storage units and destinations.
+
+\begin{center}
+	\begin{tikzpicture}[->,>=stealth',node distance=1.88cm,initial text=$ $,]
+		\node[state](vi) {$v_i$};
+        \node[state, right of=vi](C) {$C$};
+        \node[state, above of=C ](A) {$A$};
+        \node[state, below of=C ](B) {$B$};
+        \node[state, right of=C ](D) {$D$};
+        \node[state, right of=A ](E) {$E$};
+        \node[state, right of=B ](F) {$F$};
+        \node[state, right of=D ](vf){$v_f$};
+        
+        \draw   (vi) 	edge[above] node{20} (A)
+                (vi) 	edge[below] node{10} (B)
+                (vi) 	edge[above] node{35} (C)
+                (A)     edge[above left] node{15} (D)
+                (A)     edge[above] node{10} (E)
+                (B)     edge[below left] node{5} (D)
+                (B)     edge[below] node{10} (F)
+                (C)     edge[above] node{10} (D)
+                (C)     edge[below left] node{5} (E)
+                (C)     edge[above left] node{5} (F)
+                
+                (D)     edge[above] node{25} (vf)
+                (E)     edge[above] node{20} (vf)
+                (F)     edge[above] node{20} (vf)
+                ;
+	\end{tikzpicture}
+\end{center}
+
+We will use the Edmonds-Karp algorithm, which consists of selecting the shortest expanding path (in case of tie, we will choose the highest-capacity shortest expanding path).
+
+\begin{center} \begin{tabular}{c | c | c}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+        \footnotesize
+		\node[state](vi) {$v_i$};
+        \node[state, right of=vi](C) {$C$};
+        \node[state, above of=C ](A) {$A$};
+        \node[state, below of=C ](B) {$B$};
+        \node[state, right of=C ](D) {$D$};
+        \node[state, right of=A ](E) {$E$};
+        \node[state, right of=B ](F) {$F$};
+        \node[state, right of=D ](vf){$v_f$};
+        
+        \draw   (vi) 	edge[above, line width=1.5pt] node{20} (A)
+                (vi) 	edge[below] node{10} (B)
+                (vi) 	edge[above] node{35} (C)
+                (A)     edge[above left, line width=1.5pt] node{15} (D)
+                (A)     edge[above] node{10} (E)
+                (B)     edge[below left] node{5} (D)
+                (B)     edge[below] node{10} (F)
+                (C)     edge[above] node{10} (D)
+                (C)     edge[below left] node{5} (E)
+                (C)     edge[above left] node{5} (F)
+                
+                (D)     edge[above, line width=1.5pt] node{25} (vf)
+                (E)     edge[above] node{20} (vf)
+                (F)     edge[above] node{20} (vf)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+        \footnotesize
+		\node[state](vi) {$v_i$};
+        \node[state, right of=vi](C) {$C$};
+        \node[state, above of=C ](A) {$A$};
+        \node[state, below of=C ](B) {$B$};
+        \node[state, right of=C ](D) {$D$};
+        \node[state, right of=A ](E) {$E$};
+        \node[state, right of=B ](F) {$F$};
+        \node[state, right of=D ](vf){$v_f$};
+        
+        \draw   (vi) 	edge[above] node{5} (A)
+                (vi) 	edge[below] node{10} (B)
+                (vi) 	edge[above, line width=1.5pt] node{35} (C)
+                (A)     edge[above left, dashed] node{0} (D)
+                (A)     edge[above] node{10} (E)
+                (B)     edge[below left] node{5} (D)
+                (B)     edge[below] node{10} (F)
+                (C)     edge[above, line width=1.5pt] node{10} (D)
+                (C)     edge[below left] node{5} (E)
+                (C)     edge[above left] node{5} (F)
+                
+                (D)     edge[above, line width=1.5pt] node{10} (vf)
+                (E)     edge[above] node{20} (vf)
+                (F)     edge[above] node{20} (vf)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+        \footnotesize
+		\node[state](vi) {$v_i$};
+        \node[state, right of=vi](C) {$C$};
+        \node[state, above of=C ](A) {$A$};
+        \node[state, below of=C ](B) {$B$};
+        \node[state, right of=C ](D) {$D$};
+        \node[state, right of=A ](E) {$E$};
+        \node[state, right of=B ](F) {$F$};
+        \node[state, right of=D ](vf){$v_f$};
+        
+        \draw   (vi) 	edge[above] node{5} (A)
+                (vi) 	edge[below, line width=1.5pt] node{10} (B)
+                (vi) 	edge[above] node{25} (C)
+                (A)     edge[above left, dashed] node{0} (D)
+                (A)     edge[above] node{10} (E)
+                (B)     edge[below left] node{5} (D)
+                (B)     edge[below, line width=1.5pt] node{10} (F)
+                (C)     edge[above, dashed] node{0} (D)
+                (C)     edge[below left] node{5} (E)
+                (C)     edge[above left] node{5} (F)
+                
+                (D)     edge[above, dashed] node{0} (vf)
+                (E)     edge[above] node{20} (vf)
+                (F)     edge[above, line width=1.5pt] node{20} (vf)
+                ;
+    \end{tikzpicture} \\
+    &
+    Total flow: 15 &
+    Total flow: 25
+\end{tabular} \end{center}
+\begin{center} \begin{tabular}{c | c | c}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+        \footnotesize
+		\node[state](vi) {$v_i$};
+        \node[state, right of=vi](C) {$C$};
+        \node[state, above of=C ](A) {$A$};
+        \node[state, below of=C ](B) {$B$};
+        \node[state, right of=C ](D) {$D$};
+        \node[state, right of=A ](E) {$E$};
+        \node[state, right of=B ](F) {$F$};
+        \node[state, right of=D ](vf){$v_f$};
+        
+        \draw   (vi) 	edge[above, line width=1.5pt] node{5} (A)
+                (vi) 	edge[below, dashed] node{0} (B)
+                (vi) 	edge[above] node{25} (C)
+                (A)     edge[above left, dashed] node{0} (D)
+                (A)     edge[above, line width=1.5pt] node{10} (E)
+                (B)     edge[below left] node{5} (D)
+                (B)     edge[below, dashed] node{0} (F)
+                (C)     edge[above, dashed] node{0} (D)
+                (C)     edge[below left] node{5} (E)
+                (C)     edge[above left] node{5} (F)
+                
+                (D)     edge[above, dashed] node{0} (vf)
+                (E)     edge[above, line width=1.5pt] node{20} (vf)
+                (F)     edge[above] node{10} (vf)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+        \footnotesize
+		\node[state](vi) {$v_i$};
+        \node[state, right of=vi](C) {$C$};
+        \node[state, above of=C ](A) {$A$};
+        \node[state, below of=C ](B) {$B$};
+        \node[state, right of=C ](D) {$D$};
+        \node[state, right of=A ](E) {$E$};
+        \node[state, right of=B ](F) {$F$};
+        \node[state, right of=D ](vf){$v_f$};
+        
+        \draw   (vi) 	edge[above, dashed] node{0} (A)
+                (vi) 	edge[below, dashed] node{0} (B)
+                (vi) 	edge[above, line width=1.5pt] node{25} (C)
+                (A)     edge[above left, dashed] node{0} (D)
+                (A)     edge[above] node{5} (E)
+                (B)     edge[below left] node{5} (D)
+                (B)     edge[below, dashed] node{0} (F)
+                (C)     edge[above, dashed] node{0} (D)
+                (C)     edge[below left, line width=1.5pt] node{5} (E)
+                (C)     edge[above left] node{5} (F)
+                
+                (D)     edge[above, dashed] node{0} (vf)
+                (E)     edge[above, line width=1.5pt] node{15} (vf)
+                (F)     edge[above] node{10} (vf)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+        \footnotesize
+		\node[state](vi) {$v_i$};
+        \node[state, right of=vi](C) {$C$};
+        \node[state, above of=C ](A) {$A$};
+        \node[state, below of=C ](B) {$B$};
+        \node[state, right of=C ](D) {$D$};
+        \node[state, right of=A ](E) {$E$};
+        \node[state, right of=B ](F) {$F$};
+        \node[state, right of=D ](vf){$v_f$};
+        
+        \draw   (vi) 	edge[above, dashed] node{0} (A)
+                (vi) 	edge[below, dashed] node{0} (B)
+                (vi) 	edge[above, line width=1.5pt] node{20} (C)
+                (A)     edge[above left, dashed] node{0} (D)
+                (A)     edge[above] node{5} (E)
+                (B)     edge[below left] node{5} (D)
+                (B)     edge[below, dashed] node{0} (F)
+                (C)     edge[above, dashed] node{0} (D)
+                (C)     edge[below left, dashed] node{0} (E)
+                (C)     edge[above left, line width=1.5pt] node{5} (F)
+                
+                (D)     edge[above, dashed] node{0} (vf)
+                (E)     edge[above] node{10} (vf)
+                (F)     edge[above, line width=1.5pt] node{10} (vf)
+                ;
+    \end{tikzpicture}\\
+    Total flow: 35 &
+    Total flow: 40 &
+    Total flow: 45
+\end{tabular} \end{center}
+\begin{center} \begin{tabular}{c}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+        \footnotesize
+		\node[state](vi) {$v_i$};
+        \node[state, right of=vi](C) {$C$};
+        \node[state, above of=C ](A) {$A$};
+        \node[state, below of=C ](B) {$B$};
+        \node[state, right of=C ](D) {$D$};
+        \node[state, right of=A ](E) {$E$};
+        \node[state, right of=B ](F) {$F$};
+        \node[state, right of=D ](vf){$v_f$};
+        
+        \draw   (vi) 	edge[above, dashed] node{0} (A)
+                (vi) 	edge[below, dashed] node{0} (B)
+                (vi) 	edge[above] node{15} (C)
+                (A)     edge[above left, dashed] node{0} (D)
+                (A)     edge[above] node{5} (E)
+                (B)     edge[below left] node{5} (D)
+                (B)     edge[below, dashed] node{0} (F)
+                (C)     edge[above, dashed] node{0} (D)
+                (C)     edge[below left, dashed] node{0} (E)
+                (C)     edge[above left, dashed] node{0} (F)
+                
+                (D)     edge[above, dashed] node{0} (vf)
+                (E)     edge[above] node{10} (vf)
+                (F)     edge[above] node{5} (vf)
+                ;
+    \end{tikzpicture}\\
+    Total flow: 50
+\end{tabular} \end{center}
+
+The optimal transportation plan is:
+\begin{alignat*}{3}
+    & A \rightarrow && D~& (+15) \\
+    & C \rightarrow && D~& (+10) \\
+    & B \rightarrow && F~& (+10) \\
+    & A \rightarrow && E~& (+5) \\
+    & C \rightarrow && E~& (+5) \\
+    & C \rightarrow && F~& (+5)
+\end{alignat*}
+
+which allows transporting $\SI{50}{\tonne}$ from storage units to destinations.
+
+\questionitem{Item b}
+Check if all destinations are supplied in the current network configuration. If not, point out what changes would have to be made to ensure the complete supplying of all destinations.
+
+\ansseparator
+
+Not all destinations are completely supplied; the destinations that are not completely supplied depend on the algorithm we choose to calculate the maximum flow, but according to the algorithm we used destinations E and F are not completely supplied, as they demanded more $\SI{10}{\tonne}$ and $\SI{5}{\tonne}$ respectively. 
+
+To guarantee complete supplying of all destinations, we would have to add more $\SI{10}{\tonne}$ transport capacity in $C \rightarrow E$, and more 5 ton in $C \rightarrow F$.
+
+\questionitem{Item c}
+Consider the following undirected graph that represents a map, where vertices represent storage units in a city and the edge values are distances between adjacent units. Find the shortest path between deposits A and G, mentioning the algorithm you used and showing all intermediate steps of your solution.
+
+\begin{center}
+    \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,]
+        \footnotesize
+        \node[state](A) {$A$};
+        \node[state, below left of=A](D){$D$};
+        \node[state, below right of=A](E){$E$};
+        \node[state, below right of=D](H){$H$};
+        \node[state, above right of=E](B){$B$};
+        \node[state, below right of=B](F){$F$};
+        \node[state, above right of=F](C){$C$};
+        \node[state, below right of=F](I){$I$};
+        \node[state, above right of=I](G){$G$};
+
+
+        \draw   (A) 	edge[above] node{6} (D)
+                (A) 	edge[above] node{10} (E)
+                (A) 	edge[above] node{5} (B)
+                (B) 	edge[above] node{8} (C)
+                (B) 	edge[above] node{28} (F)
+                (C) 	edge[above] node{39} (F)
+                (D) 	edge[above] node{12} (H)
+                (E) 	edge[above] node{3} (F)
+                (E) 	edge[above] node{4} (H)
+                (F) 	edge[above] node{7} (G)
+                (F) 	edge[above] node{4} (I)
+                (G) 	edge[above] node{6} (I)
+                (H) 	edge[above] node{13} (I)
+                ;
+    \end{tikzpicture}
+\end{center}
+
+}

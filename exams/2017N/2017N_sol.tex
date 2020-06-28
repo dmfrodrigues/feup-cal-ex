@@ -1,13 +1,12 @@
 {
 \renewcommand{\thechapter}{\arabic{chapter}N}
-\renewcommand{\thesubsection}{\thesection\alph{subsection}}
 \setcounter{chapter}{16}
-\chapter{Exam normal 2016/17}
+\exam{Exam normal 2016/17}
 
-\section{Question 1}
+\question{Question 1}
 In a library, you intend to organize a set of $n$ books into shelves. The books' relative order has been predetermined by the librarian and can't be changed. A book $i$ is characterized by its width $L_i$ and height $A_i$. The length of each shelf is $L_P$. The shelves' heights are adjustable, where the height of each shelf is the height of the tallest book. The cost of a particular arrangement is the sum of the heights of all shelves. The intention is to determine the arrangement that minimizes cost.
 
-\subsection{Item a}
+\questionitem{Item a}
 Implement (in C++ or pseudocode) a solution for the problem, using a greedy algorithm. Discuss its optimality and mention its time complexity. Justify.
 
 \ansseparator
@@ -18,7 +17,7 @@ This algorithm is not optimal, and this can be proven by a simple example, to wh
 
 Its time complexity is $O(n)$, since there is only one \textbf{for} loop (with no nested \textbf{for} loops) where all operations are elementary (thus $O(1)$).
 
-\subsection{Item b}
+\questionitem{Item b}
 To describe a solution, we need only two variables:
 \begin{itemize}
     \item How many books we have placed so far, $i$
@@ -47,10 +46,10 @@ Its time complexity is $O(n \cdot L_P)$, since there are $n \cdot L_P$ possibly 
 \newpage
 \lstinputlisting[language=C++]{2017N_01b.cpp}
 
-\section{Question 2}
+\question{Question 2}
 Considering graph paths problems, answer the following items. When describing algorithms use pseudocode or C++.
 
-\subsection{Item a}
+\questionitem{Item a}
 Consider the undirected graph in the figure.
 
 \begin{center}
@@ -113,7 +112,7 @@ Below is a trace of variables used in Dijkstra's algorithm.
 The shortest path from $A$ to $F$ is $A \rightarrow B \rightarrow C \rightarrow E \rightarrow F$, with a total cost of 7.
 
 \newpage
-\subsection{Item b}
+\questionitem{Item b}
 Present an efficient algorithm that, given a DAG (directed acyclic graph) with positive edges and vertices $v_i$, $v_f$ abd $v_k$ of that graph, finds the shortest path from $v_i$ to $v_f$ going through $v_k$. Suggestion: change Dijkstra's algorithm.
 
 \ansseparator
@@ -180,7 +179,7 @@ Present an efficient algorithm that, given a DAG (directed acyclic graph) with p
 \end{algorithm}
 
 \newpage
-\section{Question 3}
+\question{Question 3}
 Consider the weighted graph below and answer the following items.
 
 \begin{center}
@@ -206,7 +205,7 @@ Consider the weighted graph below and answer the following items.
 	\end{tikzpicture}
 \end{center}
 
-\subsection{Item a}
+\questionitem{Item a}
 Mention all articulation points of the graph, if there is any. Explain.
 
 \ansseparator
@@ -219,7 +218,7 @@ If $d$ is removed, the graph will become disconnected, having as strongly connec
 
 This is the only articulation point, since there is no other vertex that would disconnect the graph when removed.
 
-\subsection{Item b}
+\questionitem{Item b}
 Find an ``optimal Chinese postman path'', starting in vertex $a$. Explain, step by step, the method you used to calculate that path and why it is optimal.
 
 \ansseparator
@@ -337,7 +336,7 @@ Step 6: Find an Euler circuit in $G^*$.
 
 $a \rightarrow c \rightarrow f \rightarrow d \rightarrow g \rightarrow e \rightarrow b \rightarrow d \rightarrow e \rightarrow d \rightarrow a$
 
-\section{Question 4}
+\question{Question 4}
 A country's government decided to build a highway network connecting cities $C_1$, $C_2$, $C_3$, $C_4$, $C_5$, $C_6$ and $C_7$, as shown in the graph.
 
 \begin{center}
@@ -367,7 +366,7 @@ A country's government decided to build a highway network connecting cities $C_1
 
 Some parts of the network were classified as \emph{highways} (A) and others as \emph{national roads} (N). In parenthesis are the number of traffic lanes, which limits the maximum number of vehicles that can traverse it --- in the case of highways, each lane admits an hourly volume of 2,000 vehicles, while national road lanes admit only 1,000 vehicles. It has been estimated that the number of hourly travels between $C_1$ and $C_7$ is 18,000 vehicles per hour.
 
-\subsection{Item a}
+\questionitem{Item a}
 Check if the network can sustain the hourly number of estimated travels. Justify.
 
 \ansseparator
@@ -502,7 +501,7 @@ To reach an answer, we will apply the Edmonds-Karp algorithm, which consists of 
 
 As we can see, the maximum hourly vehicle flow from $C_1$ to $C_7$ is 12,000 vehicles, so the network cannot sustain the hourly number of estimated travels of 18,000 vehicles per hour.
 
-\subsection{Item b}
+\questionitem{Item b}
 If the govenment allowed a company to explore the network by charging road tolls in one of the roads, which would be the most profitable? Justify.
 
 \ansseparator
@@ -513,20 +512,20 @@ By the previous item, we can visualize this graph as a bipartite graph, where th
 
 Now we just need to choose the one with the most hourly car flow, so the final answer is $C_1 \rightarrow C_4$, with a capacity of 6k vehicles per hour.
 
-\section{Question 5}
+\question{Question 5}
 The genetic code uses 4 letters (A, C, G, T) to code the bases that make up DNA. Gene XPTO is made of the following base sequence, and respective letter frequency:
 \begin{center}\begin{tabular}{c c}
     A A G G T A C C T A C C C C C C C C C C C A & (5 A's, 13 C's, 2 G's, 2 T's)
 \end{tabular}\end{center}
 
-\subsection{Item a}
+\questionitem{Item a}
 Considering a coding system of fixed size, what is the smallest code, enough to represent the alphabet? What is the size, in bits, to code gene XPTO? Explain.
 
 \ansseparator
 
 Since the alphabet has $N=4$ letters we need $\lceil \log_2 {N} \rceil \SI{}{\bit} = \lceil 2 \rceil \SI{}{\bit} = \SI{2}{\bit}$ bits to represent each letter in the alphabet. To encode gene XPTO, we would need $\SI{2}{\bit}*22=\SI{44}{\bit}$.
 
-\subsection{Item b}
+\questionitem{Item b}
 Considering variable-length codes, what is the least total cost of coding gene XPTO? Explain in detail.
 
 \ansseparator
@@ -612,19 +611,19 @@ Thus, gene XPTO is encoded to
 
 which has a length of $5*\SI{2}{\bit} + 13*\SI{1}{\bit} + 2*\SI{3}{\bit} + 2*\SI{3}{\bit} = \SI{35}{\bit}$, which is an improvement compared to $\SI{44}{\bit}$ by constant-length codes.
 
-\section{Question 6}
+\question{Question 6}
 In an informatics summer camp, several interesting courses are offered to participants, and are taught by internationally recognized lecturers from well known universities and companies. Participants can sign up for several of those courses, without limitation as to the number of courses they choose. In the meanwhile, participants will only have course certificates for those they are approved in the final exam. Considering all final exams last one hour, and are only made once, students from different courses cannot have overlapping exams. Is it possible to implement an efficient algorithm to determine the least number of 1-hour slots so as to avoid students signed up in several courses to have overlapping exams?
 
 Considering this problem, answer the following items:
 
-\subsection{Item a}
+\questionitem{Item a}
 Rewrite this problem as a decision problem.
 
 \ansseparator
 
 Given a set of students and a set of exams for each student, as well as a number $N$, is there an acceptable exam schedule (no student has overlapping exams) that takes less than or $N$ 1-hour slots?
 
-\subsection{Item b}
+\questionitem{Item b}
 Check if there is an efficient solution to this problem, explaining the steps of your solution.
 
 \ansseparator
