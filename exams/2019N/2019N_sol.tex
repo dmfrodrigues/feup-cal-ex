@@ -1026,7 +1026,7 @@ What is the minimum number of bits needed to represent the characters of the abo
 
 \ansseparator
 
-There are $N=6$ unique characters, which are $\{a, b, e, n, s, \_\}$. To represent them with constant-length codes we need each code to have $\lceil \log_2{N} \rceil \SI{}{\bit} = \SI{3}{\bit}$. This means the phrase above can be represented by constant-length codes with a total of $18*\SI{3}{\bit}=\SI{54}{\bit}$.
+There are $N=6$ unique characters, which are $\{a, b, e, n, s, \_\}$. To represent them with constant-length codes we need each code to have $\lceil \log_2{N} \rceil \SI{}{\bit} = \SI{3}{\bit}$.
 
 \questionitem{Item b}
 Considering Huffman's compression algorithm with variable coding, present a binary coding for the characters in the phrase above and the tree you used to reach it.
@@ -1035,8 +1035,197 @@ Considering Huffman's compression algorithm with variable coding, present a bina
 
 Huffman coding produces a variable-length encoding so more frequent characters have smaller codes and less frequent characters have longer codes. It consists of finding the frequency of each character, and then successively join the two least frequent codes until all characters make up a binary tree.
 
-\begin{center} \begin{tabular}{c | c}
-    
+\begin{center} \begin{tabular}{P{75mm} | P{75mm}}
+    \begin{tikzpicture}
+        \Tree 	[.{$a$ (6)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$n$ (4)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$s$ (3)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$e$ (2)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$\_$ (2)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$b$ (1)}
+                ]
+    \end{tikzpicture} &
+    \begin{tikzpicture}
+        \Tree 	[.{$a$ (6)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$n$ (4)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$s$ (3)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$e$ (2)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_1$ (3)}
+                    [.{$\_$ (2)}
+                    ]
+                    [.{$b$ (1)}
+                    ]
+                ]
+    \end{tikzpicture} \\ \hline
+    \begin{tikzpicture}
+        \Tree 	[.{$a$ (6)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$n$ (4)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_2$ (5)}
+                    [.{$s$ (3)}
+                    ]
+                    [.{$e$ (2)}
+                    ]
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_1$ (3)}
+                    [.{$\_$ (2)}
+                    ]
+                    [.{$b$ (1)}
+                    ]
+                ]
+    \end{tikzpicture} &
+    \begin{tikzpicture}
+        \Tree 	[.{$a$ (6)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_2$ (5)}
+                    [.{$s$ (3)}
+                    ]
+                    [.{$e$ (2)}
+                    ]
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_3$ (7)}
+                    [.{$n$ (4)}
+                    ]
+                    [.{$T_1$ (3)}
+                        [.{$\_$ (2)}
+                        ]
+                        [.{$b$ (1)}
+                        ]
+                    ]
+                ]
+    \end{tikzpicture} \\ \hline
+    \begin{tikzpicture}
+        \Tree 	[.{$T_4$ (11)}
+                    [.{$a$ (6)}
+                    ]
+                    [.{$T_2$ (5)}
+                        [.{$s$ (3)}
+                        ]
+                        [.{$e$ (2)}
+                        ]
+                    ]
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_3$ (7)}
+                    [.{$n$ (4)}
+                    ]
+                    [.{$T_1$ (3)}
+                        [.{$\_$ (2)}
+                        ]
+                        [.{$b$ (1)}
+                        ]
+                    ]
+                ]
+    \end{tikzpicture} &
+    \begin{tikzpicture}
+        \Tree 	[.{$T_5$ (18)}
+                    [.{$T_4$ (11)}
+                        [.{$a$ (6)}
+                        ]
+                        [.{$T_2$ (5)}
+                            [.{$s$ (3)}
+                            ]
+                            [.{$e$ (2)}
+                            ]
+                        ]
+                    ]
+                    [.{$T_3$ (7)}
+                        [.{$n$ (4)}
+                        ]
+                        [.{$T_1$ (3)}
+                            [.{$\_$ (2)}
+                            ]
+                            [.{$b$ (1)}
+                            ]
+                        ]
+                    ]
+                ]
+    \end{tikzpicture}
 \end{tabular} \end{center}
+
+Thus the encoding table is:
+
+\begin{center} \begin{tabular}{c | r l}
+    \textbf{Character} & \textbf{Frequency} & \textbf{Code} \\ \hline
+    a  & 6 & 00 \\
+    n  & 4 & 10 \\
+    s  & 3 & 010 \\
+    e  & 2 & 011 \\
+    \_ & 2 & 110 \\
+    b  & 1 & 111
+\end{tabular} \end{center}
+
+\questionitem{Item c}
+What is the coding cost of the above phrase using constant coding? And what is its minimum cost, using variable coding? And what would it be the cost of using UTF-16 standard coding ($\SI{16}{\bit}$ per char)?
+
+\ansseparator
+
+The coding cost of the phrase using constant coding is $18*\SI{3}{\bit}=\SI{54}{\bit}$.
+
+The coding cost of the phrase using variable coding is $6*\SI{2}{\bit}+4*\SI{2}{\bit}+3*\SI{3}{\bit}+2*\SI{3}{\bit}+2*\SI{3}{\bit}+1*\SI{3}{\bit} = \SI{44}{\bit}$.
+
+The coding cost of the phrase using UTF-16 is $18*\SI{16}{\bit}=\SI{288}{\bit}$.
+
+\question{Question 4}
+A digital marketing company is planning to launch a campaign targetting influent people of a social network. A campaign is only considered to be successful if it reaches all target personalities. However, due to budget restrictions, it is not possible to contact all personalities directly. The company intends to take advantage of the fact they know some personalities are friends with others, and that if the campaign reaches a personality it will also reach his/her immediate friends (but not friends of friends). Is it possible to implement an efficient algorithm to find the list of personalities that should be directly contacted such that it results in a successful campaign while staying on budget?
+
+\questionitem{Item a}
+Formalize the problem and rewrite it as a decision problem.
+
+\ansseparator
+
+Given a set of influencers $V$ and their friendships $E$ (where influencers $u$ and $v$ are friends iff $(u,v) \in E$), find the smallest subset $S$ of influencers such that each influencer is in $S$ or is a friend of someone in $S$.
+
+Given a set of influencers and their relationships, is there a set $S$ with size $|S| \leq k$ such that each influencer is in $S$ or is a friend of someone in $S$?
+
+\questionitem{Item b}
+Check if there is an efficient solution to this problem, explaining the steps of your solution.
+
+\ansseparator
+
+This problem is exactly the same as the undirected vertex cover (VC) problem, where influencers $V$ are the nodes $V'$ in VC, friendships $E$ are the edges $E'$ in VC, and the subset of influencers $S$ such that each influencer is in $S$ or friend of someone in $S$ is the solution $S'$ of VC, which is the least subset of VC nodes such that all nodes are \emph{covered} by $S'$ (i.e., are either in $S'$ or are adjacent to at least one node that is in $S'$).
+
+As we know the VC problem is NP-complete, and since our problem is equivalent to VC we can deduce it is also NP-complete. That means there is not an \emph{efficient} solution to this problem.
+
+We thus spared us from going through the usual steps of proving the problem is NP and then reducing the VC problem to our problem, since the equivalence is trivial.
 
 }
