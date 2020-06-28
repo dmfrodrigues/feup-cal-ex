@@ -49,6 +49,9 @@
 % Tables with diagonal slashes
 %\usepackage{slashbox}
 \usepackage{diagbox}
+% Tables with p centered
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 % Math stuff
 \usepackage[mathscr]{euscript}
 \usepackage{amsmath,amssymb}
@@ -93,3 +96,5 @@
 \renewcommand\thesubsection{\thesection-\arabic{subsection}}
 \renewcommand\thesubsubsection{\thesubsection\alph{subsubsection}}
 \makeatother
+\RequirePackage{titlesec}
+\newcommand{\sectionbreak}{\clearpage}

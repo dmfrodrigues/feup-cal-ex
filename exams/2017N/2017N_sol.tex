@@ -534,38 +534,38 @@ To find the least total cost of coding gene XPTO, we will use Huffman encoding, 
 
 In this case, we already have the frequencies, so we can immediately build the binary tree, by successively joining less-frequent characters:
 
-\begin{center} \begin{tabular}{c | c}
-    \begin{tikzpicture}[-,>=stealth',node distance=1.7cm,initial text=$ $,]
+\begin{center} \begin{tabular}{P{75mm} | P{75mm}}
+    \begin{tikzpicture}[-,>=stealth',node distance=1.2cm,initial text=$ $,]
         \small
-        \node[state](C) {$C (13)$};
-        \node[state, right of=C](A) {$A (5)$};
-        \node[state, right of=A](G) {$G (2)$};
-        \node[state, right of=G](T) {$T (2)$};
+        \node[state            , label=above:{13}](C) {$C$};
+        \node[state, right of=C, label=above: {5}](A) {$A$};
+        \node[state, right of=A, label=above: {2}](G) {$G$};
+        \node[state, right of=G, label=above: {2}](T) {$T$};
 
         \draw   
                 ;
     \end{tikzpicture} &
-    \begin{tikzpicture}[-,>=stealth',node distance=1.7cm,initial text=$ $,]
+    \begin{tikzpicture}[-,>=stealth',node distance=1.2cm,initial text=$ $,]
         \small
-        \node[state](C) {$C (13)$};
-        \node[state, right of=C](A) {$A (5)$};
-        \node[state, right of=A](G) {$G (2)$};
-        \node[state, above right of=G](T1) {$T_1 (4)$};
-        \node[state, below right of=T1](T) {$T (2)$};
+        \node[state                   , label=above:{13}](C) {$C$};
+        \node[state, right of=C       , label=above: {5}](A) {$A$};
+        \node[state, right of=A       , label=above: {2}](G) {$G$};
+        \node[state, above right of=G , label=above: {4}](T1) {$T_1$};
+        \node[state, below right of=T1, label=above: {2}](T) {$T$};
         
 
         \draw   (T1) 	edge (G)
                 (T1) 	edge (T)
                 ;
     \end{tikzpicture} \\[5pt]
-    \begin{tikzpicture}[-,>=stealth',node distance=1.7cm,initial text=$ $,]
+    \begin{tikzpicture}[-,>=stealth',node distance=1.2cm,initial text=$ $,]
         \small
-        \node[state](C) {$C (13)$};
-        \node[state, right of=C](A) {$A (5)$};
-        \node[state, right of=A](G) {$G (2)$};
-        \node[state, above right of=G](T1) {$T_1 (4)$};
-        \node[state, below right of=T1](T) {$T (2)$};
-        \node[state, above left of=T1](T2) {$T_2 (9)$};
+        \node[state                   , label=above:{13}](C) {$C$};
+        \node[state, right of=C       , label=above: {5}](A) {$A$};
+        \node[state, right of=A       , label=above: {2}](G) {$G$};
+        \node[state, above right of=G , label=above: {4}](T1) {$T_1$};
+        \node[state, below right of=T1, label=above: {2}](T) {$T$};
+        \node[state, above left  of=T1, label=above: {9}](T2) {$T_2$};
 
         \draw   (T1) 	edge (G)
                 (T1) 	edge (T)
@@ -573,15 +573,15 @@ In this case, we already have the frequencies, so we can immediately build the b
                 (T2) 	edge (T1)
                 ;
     \end{tikzpicture} & 
-    \begin{tikzpicture}[-,>=stealth',node distance=1.7cm,initial text=$ $,]
+    \begin{tikzpicture}[-,>=stealth',node distance=1.2cm,initial text=$ $,]
         \small
-        \node[state](C) {$C (13)$};
-        \node[state, right of=C](A) {$A (5)$};
-        \node[state, right of=A](G) {$G (2)$};
-        \node[state, above right of=G](T1) {$T_1 (4)$};
-        \node[state, below right of=T1](T) {$T (2)$};
-        \node[state, above left of=T1](T2) {$T_2 (9)$};
-        \node[state, above left of=T2](T3) {$T_3 (22)$};
+        \node[state                   , label=above:{13}](C) {$C$};
+        \node[state, right of=C       , label=above: {5}](A) {$A$};
+        \node[state, right of=A       , label=above: {2}](G) {$G$};
+        \node[state, above right of=G , label=above: {4}](T1) {$T_1$};
+        \node[state, below right of=T1, label=above: {2}](T) {$T$};
+        \node[state, above left  of=T1, label=above: {9}](T2) {$T_2$};
+        \node[state, above left  of=T2, label=above:{22}](T3) {$T_3$};
 
         \draw   (T1) 	edge (G)
                 (T1) 	edge (T)
@@ -593,6 +593,7 @@ In this case, we already have the frequencies, so we can immediately build the b
     \end{tikzpicture}
 \end{tabular} \end{center}
 
+\newpage
 This means the encoding table is
 
 \begin{center} \begin{tabular}{c | l}

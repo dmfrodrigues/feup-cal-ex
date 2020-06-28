@@ -16,10 +16,8 @@ int main(){
     int H, W; cin >> H >> W;
     M = vector< vector<uint8_t> >(H, vector<uint8_t>(W));
     visited = vector< vector<uint8_t> >(H, vector<uint8_t>(W, false));
-    for(int h = 0; h < H; ++h)
-        for(int w = 0; w < W; ++w)
-            cin >> M[h][w];
-
+    for(int h = 0; h < H; ++h) for(int w = 0; w < W; ++w) cin >> M[h][w];
+    
     int num_islands = 0;
     for(int h = 0; h < H; ++h){
         for(int w = 0; w < W; ++w){

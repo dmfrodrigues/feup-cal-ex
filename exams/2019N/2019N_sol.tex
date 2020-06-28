@@ -27,14 +27,20 @@ Implement an algorithm to determine the number of islands in the map, using one 
 
 \ansseparator
 
-\lstinputlisting[language=C++]{2019N_01a.cpp}
+\lstinputlisting[language=C++]{2019N_p2_01a.cpp}
 
 We used the backtracking approach through a depth-first search. The time complexity of this algorithm is $O(N)$, since each cell is set as visited only once, and its value is checked at most 5 times (from the 4 sides the DFS might eventually want to know if it has already been visited, plus once by the main cycle that checks if it has already been visited or not).
 
 \questionitem{Item b}
+Implement an algorithm to determine the area of the largest island (number of cells of the largest island), using dynamic programming. Mention and justify its time complexity [node: for the example matrix, the result is 3].
 
-TODO
+\ansseparator
 
+\lstinputlisting[language=C++]{2019N_p2_01b.cpp}
+
+I used a backtracking approach, which probably does not qualify as dynamic programming. Since I have not found any dynamic programming approach, suggestions are welcome.
+
+\newpage
 \question{Question 2}
 Consider three storage units A, B and C, having $\SI{20}{\tonne}$, $\SI{10}{\tonne}$ and $\SI{35}{\tonne}$ of a certain product respectively. We intend to deliver to three destinations D, E and F the amounts of $\SI{25}{\tonne}$, $\SI{20}{\tonne}$ and $\SI{20}{\tonne}$ of product respectively. The availabilities of transport, by truck, between different points are the following:
 
@@ -343,6 +349,7 @@ Consider the following undirected graph that represents a map, where vertices re
 
 \ansseparator
 
+\newpage
 I will use Dijkstra's algorithm.
 
 \begin{algorithm}[H]
@@ -370,7 +377,7 @@ I will use Dijkstra's algorithm.
 
 Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for each node; nodes in gray are those not in $Q$; nodes in green saw their distance updated.
 
-\begin{center} \begin{longtable}{p{76mm} | p{76mm}}
+\begin{center} \begin{tabular}{p{76mm} | p{76mm}}
     \textbf{Line 5} & \textbf{Line 8} \\ \hline
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
@@ -494,7 +501,9 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
         $dist(A)+w(A,E)=10 < \infty$ so $E$ was updated.
     \end{minipage} &
     Select node in $Q$ with least $dist$, which is $B$.
-    \\ \\
+\end{tabular} \end{center}
+\newpage
+\begin{center} \begin{longtable}{p{76mm} | p{76mm}}
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
         \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
@@ -1005,5 +1014,29 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
 \end{center}
 
 The shortest path from $A$ to $G$ is $A \rightarrow E \rightarrow F \rightarrow G$, with a total weight of 20.
+
+\question{Question 3}
+Consider the following 18-characters string, and answer with justification to all the following items.
+\begin{center}
+    \textbf{\textit{``bananas e ananases''}}
+\end{center}
+
+\questionitem{Item a}
+What is the minimum number of bits needed to represent the characters of the above phrase, considering the use of a constant-length coding system. Justify.
+
+\ansseparator
+
+There are $N=6$ unique characters, which are $\{a, b, e, n, s, \_\}$. To represent them with constant-length codes we need each code to have $\lceil \log_2{N} \rceil \SI{}{\bit} = \SI{3}{\bit}$. This means the phrase above can be represented by constant-length codes with a total of $18*\SI{3}{\bit}=\SI{54}{\bit}$.
+
+\questionitem{Item b}
+Considering Huffman's compression algorithm with variable coding, present a binary coding for the characters in the phrase above and the tree you used to reach it.
+
+\ansseparator
+
+Huffman coding produces a variable-length encoding so more frequent characters have smaller codes and less frequent characters have longer codes. It consists of finding the frequency of each character, and then successively join the two least frequent codes until all characters make up a binary tree.
+
+\begin{center} \begin{tabular}{c | c}
+    
+\end{tabular} \end{center}
 
 }
