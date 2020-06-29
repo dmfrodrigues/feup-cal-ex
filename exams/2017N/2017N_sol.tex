@@ -412,16 +412,16 @@ To reach an answer, we will apply the Edmonds-Karp algorithm, which consists of 
         \node[state, below right of=C5](C7) {$C_7$};
         
 
-        \draw   (C1) 	edge[above] node{6k} (C2)
-                (C1) 	edge[above] node{4k} (C3)
-                (C1) 	edge[right, line width=1.5pt] node{6k} (C4)
-                (C2) 	edge[left ] node{4k} (C5)
-                (C3) 	edge[right] node{2k} (C6)
-                (C4) 	edge[above] node{2k} (C6)
-                (C4) 	edge[right, line width=1.5pt] node{6k} (C7)
-                (C5) 	edge[above] node{2k} (C4)
-                (C5) 	edge[left ] node{6k} (C7)
-				(C6) 	edge[right] node{6k} (C7)
+        \draw   (C1) 	edge[above] node{6} (C2)
+                (C1) 	edge[above] node{4} (C3)
+                (C1) 	edge[right, line width=1.5pt] node{6} (C4)
+                (C2) 	edge[left ] node{4} (C5)
+                (C3) 	edge[right] node{2} (C6)
+                (C4) 	edge[above] node{2} (C6)
+                (C4) 	edge[right, line width=1.5pt] node{6} (C7)
+                (C5) 	edge[above] node{2} (C4)
+                (C5) 	edge[left ] node{6} (C7)
+				(C6) 	edge[right] node{6} (C7)
                 ;
     \end{tikzpicture} &
     \begin{tikzpicture}[->,>=stealth',node distance=1.7cm,initial text=$ $,]
@@ -435,16 +435,18 @@ To reach an answer, we will apply the Edmonds-Karp algorithm, which consists of 
         \node[state, below right of=C5](C7) {$C_7$};
         
 
-        \draw   (C1) 	edge[above, line width=1.5pt] node{6k} (C2)
-                (C1) 	edge[above] node{4k} (C3)
-                (C1) 	edge[right, dashed] node{0k} (C4)
-                (C2) 	edge[left , line width=1.5pt] node{4k} (C5)
-                (C3) 	edge[right] node{2k} (C6)
-                (C4) 	edge[above] node{2k} (C6)
-                (C4) 	edge[right, dashed] node{0k} (C7)
-                (C5) 	edge[above] node{2k} (C4)
-                (C5) 	edge[left , line width=1.5pt] node{6k} (C7)
-                (C6) 	edge[right] node{6k} (C7)
+        \draw   (C1) 	edge[above, line width=1.5pt] node{6} (C2)
+                (C1) 	edge[above] node{4} (C3)
+                (C1) 	edge[bend right=10, left , dashed] node{0} (C4)
+                (C4) 	edge[bend right=10, right] node{6} (C1)
+                (C2) 	edge[left , line width=1.5pt] node{4} (C5)
+                (C3) 	edge[right] node{2} (C6)
+                (C4) 	edge[above] node{2} (C6)
+                (C4) 	edge[bend right=10, left , dashed] node{0} (C7)
+                (C7) 	edge[bend right=10, right] node{6} (C4)
+                (C5) 	edge[above] node{2} (C4)
+                (C5) 	edge[left , line width=1.5pt] node{6} (C7)
+                (C6) 	edge[right] node{6} (C7)
                 ;
     \end{tikzpicture} & 
     \begin{tikzpicture}[->,>=stealth',node distance=1.7cm,initial text=$ $,]
@@ -458,16 +460,21 @@ To reach an answer, we will apply the Edmonds-Karp algorithm, which consists of 
         \node[state, below right of=C5](C7) {$C_7$};
         
 
-        \draw   (C1) 	edge[above] node{2k} (C2)
-                (C1) 	edge[above, line width=1.5pt] node{4k} (C3)
-                (C1) 	edge[right, dashed] node{0k} (C4)
-                (C2) 	edge[left , dashed] node{0k} (C5)
-                (C3) 	edge[right, line width=1.5pt] node{2k} (C6)
-                (C4) 	edge[above] node{2k} (C6)
-                (C4) 	edge[right, dashed] node{0k} (C7)
-                (C5) 	edge[above] node{2k} (C4)
-                (C5) 	edge[left ] node{2k} (C7)
-                (C6) 	edge[right, line width=1.5pt] node{6k} (C7)
+        \draw   (C1) 	edge[bend right=10, left ] node{2} (C2)
+                (C2) 	edge[bend right=10, below] node{4} (C1)
+                (C1) 	edge[above, line width=1.5pt] node{4} (C3)
+                (C1) 	edge[bend right=10, left , dashed] node{0} (C4)
+                (C4) 	edge[bend right=10, right] node{6} (C1)
+                (C2) 	edge[bend right=10, left , dashed] node{0} (C5)
+                (C5) 	edge[bend right=10, right] node{4} (C2)
+                (C3) 	edge[right, line width=1.5pt] node{2} (C6)
+                (C4) 	edge[above] node{2} (C6)
+                (C4) 	edge[bend right=10, left , dashed] node{0} (C7)
+                (C7) 	edge[bend right=10, right] node{6} (C4)
+                (C5) 	edge[above] node{2} (C4)
+                (C5) 	edge[bend right=10, left ] node{2} (C7)
+                (C7) 	edge[bend right=10, above] node{4} (C5)
+                (C6) 	edge[right, line width=1.5pt] node{6} (C7)
                 ;
     \end{tikzpicture} & 
     \begin{tikzpicture}[->,>=stealth',node distance=1.7cm,initial text=$ $,]
@@ -481,18 +488,26 @@ To reach an answer, we will apply the Edmonds-Karp algorithm, which consists of 
         \node[state, below right of=C5](C7) {$C_7$};
         
 
-        \draw   (C1) 	edge[above] node{2k} (C2)
-                (C1) 	edge[above] node{2k} (C3)
-                (C1) 	edge[right, dashed] node{0k} (C4)
-                (C2) 	edge[left , dashed] node{0k} (C5)
-                (C3) 	edge[right, dashed] node{0k} (C6)
-                (C4) 	edge[above] node{2k} (C6)
-                (C4) 	edge[right, dashed] node{0k} (C7)
-                (C5) 	edge[above] node{2k} (C4)
-                (C5) 	edge[left ] node{2k} (C7)
-                (C6) 	edge[right] node{4k} (C7)
+        \draw   (C1) 	edge[bend right=10, left ] node{2} (C2)
+                (C2) 	edge[bend right=10, below] node{4} (C1)
+                (C1) 	edge[bend right=10, below] node{2} (C3)
+                (C3) 	edge[bend right=10, right] node{2} (C1)
+                (C1) 	edge[bend right=10, left , dashed] node{0} (C4)
+                (C4) 	edge[bend right=10, right] node{6} (C1)
+                (C2) 	edge[bend right=10, left , dashed] node{0} (C5)
+                (C5) 	edge[bend right=10, right] node{4} (C2)
+                (C3) 	edge[bend right=10, left , dashed] node{0} (C6)
+                (C6) 	edge[bend right=10, right] node{2} (C3)
+                (C4) 	edge[above] node{2} (C6)
+                (C4) 	edge[bend right=10, left , dashed] node{0} (C7)
+                (C7) 	edge[bend right=10, right] node{6} (C4)
+                (C5) 	edge[above] node{2} (C4)
+                (C5) 	edge[bend right=10, left ] node{2} (C7)
+                (C7) 	edge[bend right=10, above] node{4} (C5)
+                (C6) 	edge[bend right=10, above] node{4} (C7)
+                (C7) 	edge[bend right=10, right] node{2} (C6)
                 ;
-    \end{tikzpicture}\\
+    \end{tikzpicture} \\
     &
     Total flow: 6k &
     Total flow: 10k &
