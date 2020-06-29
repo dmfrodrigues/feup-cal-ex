@@ -1,0 +1,16 @@
+{
+\renewcommand{\thechapter}{\arabic{chapter}N}
+\setcounter{chapter}{15}
+\exam{Exam normal 2015/16}
+
+\question{Question 1}
+Assume you are managing the process of placing outdoor billboards in a part of the A1 highway (north-south direction) with $N$ kilometers. Vector \texttt{pos[]} specifies possible places for billboards, where \texttt{pos[i]} is the distance in $\SI{}{\kilo\metre}$ from point $i$ to the end of the road (assume this vector to be sorted in increasing order). On placing a billboard, a value is charged which depends on the place the billboard is placed. Consider \texttt{value[]} to be the vector representing values to be charged, where \texttt{value[i]} is the value to be charged for placing a billboard at position \texttt{pos[i]}. You cannot place billboards less than $\SI{5}{\kilo\metre}$ appart. You want to find the maximum value that can be charged for billboards.
+
+\questionitem{Item a}
+Implement (in C++ or pseudocode) a solution for this problem, using a greedy algorithm. Mention its time complexity. Is that algorithm optimal? Explain.
+
+\ansseparator
+
+\lstinputlisting[language=C++]{2016N_01a.cpp}
+
+}
