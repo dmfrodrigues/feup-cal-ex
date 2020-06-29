@@ -259,6 +259,123 @@ A graph $G=(V,E)$ can be considered dense when the relation between the number o
 
 A complete simple graph has $|E|=\frac{1}{2}|V|(|V|-1)$, so the graph is considered dense when $|E| \approx |V|^2$.
 
+\question{Question 10}
+Which shortest path algorithms in a graph $G=(V,E)$ use dynamic programming?
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item A*, Dijkstra
+    \item \textbf{Bellman-Ford, Floyd-Warshall \greencheckmark}
+    \item Bellman-Ford, A*
+    \item Floyd-Warshall, D'Esopo-Pape
+\end{enumerate}
+
+\question{Question 11}
+What is the weight of the minimum spanning tree of the following graph?
+\begin{center}
+    \begin{tikzpicture}[-,>=stealth',node distance=1.8cm,initial text=$ $,]
+        \node[state](a) {a};
+        \node[state, below left  of=a](b) {b};
+        \node[state, below right of=b](c) {c};
+        \node[state, above right of=c](d) {d};
+        \node[state, above right of=d](e) {e};
+        \node[state, below right of=d](f) {f};
+        \node[state, below right of=e](g) {g};
+
+        \draw   (a) edge[above] node{4} (b)
+                (b) edge[below] node{3} (c)
+                (a) edge[above] node{1} (d)
+                (c) edge[below] node{1} (d)
+                (d) edge[above] node{3} (e)
+                (d) edge[below] node{4} (f)
+                (e) edge[above] node{1} (g)
+                (f) edge[below] node{3} (g)
+                ;
+    \end{tikzpicture}
+\end{center}
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item 6
+    \item 9
+    \item \textbf{12 \greencheckmark}
+    \item 18
+\end{enumerate}
+
+\ansseparator
+
+\begin{center}
+    \begin{tikzpicture}[-,>=stealth',node distance=1.8cm,initial text=$ $,]
+        \node[state](a) {a};
+        \node[state, below left  of=a](b) {b};
+        \node[state, below right of=b](c) {c};
+        \node[state, above right of=c](d) {d};
+        \node[state, above right of=d](e) {e};
+        \node[state, below right of=d](f) {f};
+        \node[state, below right of=e](g) {g};
+
+        \draw   (a) edge[above] node{4} (b)
+                (b) edge[below, line width=1.5pt] node{3} (c)
+                (a) edge[above, line width=1.5pt] node{1} (d)
+                (c) edge[below, line width=1.5pt] node{1} (d)
+                (d) edge[above, line width=1.5pt] node{3} (e)
+                (d) edge[below] node{4} (f)
+                (e) edge[above, line width=1.5pt] node{1} (g)
+                (f) edge[below, line width=1.5pt] node{3} (g)
+                ;
+    \end{tikzpicture}
+\end{center}
+
+\question{Question 12}
+How many strongly connected components does the following graph have?
+
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.5cm,initial text=$ $,]
+        \tiny
+        \node[state](00) {};
+        \node[state, right of=00](10) {};
+        \node[state, below of=00](01) {};
+        \node[state, right of=01](11) {};
+        \node[state, right of=11](21) {};
+        
+        \draw   (00) edge (10)
+                (10) edge (01)
+                (10) edge (11)
+                (01) edge (00)
+                (01) edge (11)
+                (11) edge[bend right] (21)
+                (21) edge[bend right] (11)
+                ;
+    \end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item 1
+    \item \textbf{2 \greencheckmark}
+    \item 3
+    \item 0
+\end{enumerate}
+
+\ansseparator
+
+The two SCCs are coloured blue and red.
+
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.5cm,initial text=$ $,]
+        \tiny
+        \node[state             , fill=blue](00) {};
+        \node[state, right of=00, fill=blue](10) {};
+        \node[state, below of=00, fill=blue](01) {};
+        \node[state, right of=01, fill=red ](11) {};
+        \node[state, right of=11, fill=red ](21) {};
+        
+        \draw   (00) edge (10)
+                (10) edge (01)
+                (10) edge (11)
+                (01) edge (00)
+                (01) edge (11)
+                (11) edge[bend right] (21)
+                (21) edge[bend right] (11)
+                ;
+    \end{tikzpicture}
+\end{center}
+
 \exampart{Part 2}
 
 \question{Question 1}
