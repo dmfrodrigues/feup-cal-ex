@@ -180,13 +180,13 @@ If we colour the graph from option \ref{itm:2019N-P1-06-correct} we can easily s
 \begin{center}
     \begin{tikzpicture}[-,>=stealth',node distance=1cm,initial text=$ $,]
         \tiny
-        \node[state                   , fill=red ](0) {};
-        \node[state, above right of= 0, fill=blue](10) {};
-        \node[state, below right of= 0, fill=blue](11) {};
-        \node[state, below right of=10, fill=red ](2) {};
-        \node[state, above right of= 2, fill=blue](30) {};
-        \node[state, below right of= 2, fill=blue](31) {};
-        \node[state, below right of=30, fill=red ](4) {};
+        \node[state                   , fill=gray!50 ](0) {};
+        \node[state, above right of= 0, fill=gray!170](10) {};
+        \node[state, below right of= 0, fill=gray!170](11) {};
+        \node[state, below right of=10, fill=gray!50 ](2) {};
+        \node[state, above right of= 2, fill=gray!170](30) {};
+        \node[state, below right of= 2, fill=gray!170](31) {};
+        \node[state, below right of=30, fill=gray!50 ](4) {};
         
         \draw   (0) edge (10)
                 (0) edge (11)
@@ -354,16 +354,16 @@ How many strongly connected components does the following graph have?
 
 \ansseparator
 
-The two SCCs are coloured blue and red.
+The two SCCs are coloured dark and light gray.
 
 \begin{center}
     \begin{tikzpicture}[->,>=stealth',node distance=1.5cm,initial text=$ $,]
         \tiny
-        \node[state             , fill=blue](00) {};
-        \node[state, right of=00, fill=blue](10) {};
-        \node[state, below of=00, fill=blue](01) {};
-        \node[state, right of=01, fill=red ](11) {};
-        \node[state, right of=11, fill=red ](21) {};
+        \node[state             , fill=gray!170](00) {};
+        \node[state, right of=00, fill=gray!170](10) {};
+        \node[state, below of=00, fill=gray!170](01) {};
+        \node[state, right of=01, fill=gray!50 ](11) {};
+        \node[state, right of=11, fill=gray!50 ](21) {};
         
         \draw   (00) edge (10)
                 (10) edge (01)
