@@ -842,4 +842,114 @@ Below is a trace, showing the residues graph.
 \questionitem{Item b}
 What will be the flow through $E \rightarrow H$ if a sprinkler is instaled in vertex $E$?
 
+\ansseparator
+
+If a sprinkler is installed in $E$, the only two augmenting paths the Edmonds-Karp algorithm will select are $v_i \rightarrow A \rightarrow B \rightarrow E \rightarrow v_f$ with a flow of 8, and $v_i \rightarrow C \rightarrow B \rightarrow E \rightarrow v_f$ with a flow of 7. After that, all flow from $B \rightarrow E$ will be exausted, so there is no more flow. That means all other pipes, including $E \rightarrow H$, will have 0 flow.
+
+\question{Question 5}
+Consider the evolutional distance between two genes is the minimum number of mutations that transform a gene into another. According to this concept, answer the following questions, justifying your answers.
+
+\questionitem{Item a}
+What is the evolutional distance between the two following genes:
+\begin{itemize}
+    \item XPTO: A G G T A C T A C C C C A
+    \item OPTX: A A G G A C A C C C C A
+\end{itemize}
+
+\ansseparator
+
+Consider a mutation can either be an insertion, a deletion or the replacement of a DNA base.
+
+We will use a dynamic programming approach to solve this problem. Each state is uniquely identified by:
+\begin{itemize}
+    \item $i$, length of the first string being considered.
+    \item $j$, length of the second string being considered.
+\end{itemize}
+
+$D_i^j$ is the edit distance between $P[0:i)$ and $T[0:j)$, so the recursive formula is:
+
+\begin{equation*}
+    D_i^j = \min \begin{dcases}
+        D_{i-1}^{j-1}   & : P_i = T_j \\
+        D_{i-1}^{j-1}+1 & \text{(replace $T_j$ by $P_i$)} \\
+        D_{i-1}^{j  }+1 & \text{(insert $P_i$ after $T_j$)} \\
+        D_{i  }^{j-1}+1 & \text{(erase $T_j$)}
+    \end{dcases}
+\end{equation*}
+
+The base cases are $D_0^j = j$ and $D_i^0 = i$, which are the costs of creating one of the strings from nothing.
+
+The solution is $D_M^N$ where $|P|=M$ and $|T|=N$.
+
+\begin{center} \begin{tabular}{r r | rrrrrrrrrrrrr}
+        & $T$ &    & A & A & G & G & A & C & A & C & C &  C &  C &  A \\
+    $P$ &     &  0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\ \hline
+        &   0 &  \textbf{0} & \textbf{1} & 2 & 3 & 4 & 5 & 6 &   &   &   &    &    &    \\
+    A   &   1 &  1 & 0 & \textbf{1} & 2 & 3 & 4 & 5 &   &   &   &    &    &    \\
+    G   &   2 &  2 & 1 & 1 & \textbf{1} & 2 & 3 & 4 &   &   &   &    &    &    \\
+    G   &   3 &  3 & 2 & 2 & 1 & \textbf{1} & 2 & 3 &   &   &   &    &    &    \\
+    T   &   4 &  4 & 3 & 3 & 2 & 2 & \textbf{2} & 3 &   &   &   &    &    &    \\
+    A   &   5 &  5 & 4 & 4 & 3 & 3 & \textbf{2} & 3 &   &   &   &    &    &    \\
+    C   &   6 &  6 & 5 & 5 & 4 & 4 & 3 & \textbf{2} &   &   &   &    &    &    \\
+    T   &   7 &  7 & 6 & 6 & 5 & 5 & 4 & \textbf{3} &   &   &   &    &    &    \\
+    A   &   8 &    &   &   &   &   &   &   & \textbf{3} &   &   &    &    &    \\
+    C   &   9 &    &   &   &   &   &   &   &   & \textbf{3} &   &    &    &    \\
+    C   &  10 &    &   &   &   &   &   &   &   &   & \textbf{3} &    &    &    \\
+    C   &  11 &    &   &   &   &   &   &   &   &   &   & \textbf{3} &    &    \\
+    C   &  12 &    &   &   &   &   &   &   &   &   &   &    & \textbf{3} &    \\
+    A   &  13 &    &   &   &   &   &   &   &   &   &   &    &    & \textbf{3} \\
+\end{tabular} \end{center}
+
+The evolutional distance between the two genes is 3.
+
+\questionitem{Item b}
+Define the prefix-function to use the Knuth-Morris-Pratt algorithm to search gene G T G C C in a DNA sequence.
+
+\ansseparator
+
+\newpage
+
+\begin{equation*}
+    \pi_q = \max \{k : k < q \wedge P[0:k) = P[q-k:q)\}
+\end{equation*}
+
+\begin{center} \begin{tabular}{r | rrrrr}
+    $q$     & 1 & 2 & 3 & 4 & 5 \\ \hline
+    $P_q$   & G & T & G & C & C \\ \hline
+    $\pi_q$ & 0 & 0 & 1 & 0 & 0
+\end{tabular} \end{center}
+
+\question{Question 6}
+In graph theory, a \emph{clique} of an undirected graph is a subset of its vertices such that, for each pair of vertices $(u, v)$, there is an edge connecting them. Formally, given an undirected graph $G=(V,E)$, a subset $V_C \subseteq V$ is a \emph{clique} of graph $G$ iff $\forall u, v \in V_C \implies (u,v) \in E$.
+
+Considering this problem, answer the following questions:
+
+\questionitem{Item a}
+Rewrite the clique problem $C$ in undirected graphs as a decision problem.
+
+\ansseparator
+
+Given an undirected graph $G=(V,E)$, does it have a clique $V_C$ ($V_C$ is a clique iff $V_C^2 \subseteq E$) with size $|V_C|$ larger than a given $k$?
+
+\questionitem{Item b}
+Check if there is an efficient solution for this problem, briefly explaining your process' steps.\\
+
+\textbf{Suggestion:} If needed, you can use the following definitions of NP-complete problems, as well as consider other NP-complete problems you may know.
+
+\textbf{Graph colouring (GC):} Given a graph $G=(V,E)$, to colour graph $G$ is to assign labels (or colors) to all vertices of $G$ so that there is no edge $(i,j) \in E$ for which $i$ and $j$ have the same label (or color); that is, $color(i) \neq color(j)$.
+
+\textbf{Independent set (IS):} Given a graph $G=(V,E)$, an independent set of vertices of $G$ is a subset $V_i \subseteq V$ such that there are not two vertices $i, j \in V_i$ where $(i,j) \in E$.
+
+\ansseparator
+
+There is not an efficient solution to this problem, given it is NP-complete. This is because:
+\begin{itemize}
+    \item it is in NP, since we can check if a set is a clique in polynomial time, by iterating over all pairs $(i,j)$ and check if they exist in $E$.
+    \item the IS problem is reducible to the clique problem, if we consider that:
+    \begin{itemize}
+        \item A graph $G(V,E)$ in the IS problem is a graph $G'(V,E')$ in the clique problem, where $E' = \overline{E} = V^2 \backslash E$ ($E'$ is the complement of $E$).
+        \item A clique $V_C$ in the clique problem is an independent set $V_i$ in the IS problem, because an independent set in $G(V,E)$ is $V_i \subseteq V : \forall i, j \in V_i, (i,j) \not \in E$ and a clique in $G'(V,E')$ is $V_C \subseteq V : \forall i, j \in V_i, (i,j) \in E'$, and because $E'=\overline{E}$ we trivially know that $(i,j) \not \in E \iff (i,j) \in E'$.
+    \end{itemize}
+\end{itemize}
+
 }
