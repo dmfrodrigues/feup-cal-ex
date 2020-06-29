@@ -103,3 +103,7 @@
 \newcommand{\sectionbreak}{\clearpage}
 % Tick
 \newcommand\greencheckmark{{\color{ForestGreen}\checkmark}}
+% Colors
+\definecolor{visitedcolor}{gray}{0.75}
+\definecolor{activecolor}{gray}{0.40}
+

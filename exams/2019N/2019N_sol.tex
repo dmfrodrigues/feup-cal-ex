@@ -844,7 +844,7 @@ I will use Dijkstra's algorithm.
     \end{algorithmic}
 \end{algorithm}
 
-Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for each node; nodes in gray are those not in $Q$; nodes in green saw their distance updated.
+Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for each node; nodes in light gray are those not in $Q$; nodes in dark gray are active nodes (current value of $u$); nodes with double line saw their distance updated.
 
 \begin{center} \begin{tabular}{p{76mm} | p{76mm}}
     \textbf{Line 5} & \textbf{Line 8} \\ \hline
@@ -878,7 +878,7 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \end{tikzpicture} &
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=pink](A){$A$};
+        \node[state                  , label=above:{$     0,-$}, fill=activecolor](A){$A$};
         \node[state, below left  of=A, label=above:{$\infty,-$}           ](D){$D$};
         \node[state, below right of=A, label=above:{$\infty,-$}           ](E){$E$};
         \node[state, below right of=D, label=above:{$\infty,-$}           ](H){$H$};
@@ -909,11 +909,11 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \\ \\
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$},fill=LimeGreen](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$},fill=LimeGreen](E){$E$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$},double](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$},double](E){$E$};
         \node[state, below right of=D, label=above:{$\infty,-$}           ](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$},fill=LimeGreen](B){$B$};
+        \node[state, above right of=E, label=above:{$     5,B$},double](B){$B$};
         \node[state, below right of=B, label=above:{$\infty,-$}           ](F){$F$};
         \node[state, above right of=F, label=above:{$\infty,-$}           ](C){$C$};
         \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
@@ -937,11 +937,11 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \end{tikzpicture} &
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
         \node[state, below left  of=A, label=above:{$     6,A$}           ](D){$D$};
         \node[state, below right of=A, label=above:{$    10,A$}           ](E){$E$};
         \node[state, below right of=D, label=above:{$\infty,-$}           ](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=pink](B){$B$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=activecolor](B){$B$};
         \node[state, below right of=B, label=above:{$\infty,-$}           ](F){$F$};
         \node[state, above right of=F, label=above:{$\infty,-$}           ](C){$C$};
         \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
@@ -975,13 +975,13 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
 \begin{center} \begin{longtable}{p{76mm} | p{76mm}}
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
         \node[state, below left  of=A, label=above:{$     6,A$}           ](D){$D$};
         \node[state, below right of=A, label=above:{$    10,A$}           ](E){$E$};
         \node[state, below right of=D, label=above:{$\infty,-$}           ](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
-        \node[state, below right of=B, label=above:{$    26,B$},fill=LimeGreen](F){$F$};
-        \node[state, above right of=F, label=above:{$    13,B$},fill=LimeGreen](C){$C$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
+        \node[state, below right of=B, label=above:{$    26,B$},double](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$},double](C){$C$};
         \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
         \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
 
@@ -1003,11 +1003,11 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \end{tikzpicture} &
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=pink](D){$D$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=activecolor](D){$D$};
         \node[state, below right of=A, label=above:{$    10,A$}           ](E){$E$};
         \node[state, below right of=D, label=above:{$\infty,-$}           ](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
         \node[state, below right of=B, label=above:{$    26,B$}           ](F){$F$};
         \node[state, above right of=F, label=above:{$    13,B$}           ](C){$C$};
         \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
@@ -1039,11 +1039,11 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \\ \\
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
         \node[state, below right of=A, label=above:{$    10,A$}           ](E){$E$};
-        \node[state, below right of=D, label=above:{$    18,D$},fill=LimeGreen](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, below right of=D, label=above:{$    18,D$},double](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
         \node[state, below right of=B, label=above:{$    26,B$}           ](F){$F$};
         \node[state, above right of=F, label=above:{$    13,B$}           ](C){$C$};
         \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
@@ -1067,11 +1067,11 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \end{tikzpicture} &
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=pink](E){$E$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=activecolor](E){$E$};
         \node[state, below right of=D, label=above:{$    18,D$}           ](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
         \node[state, below right of=B, label=above:{$    26,B$}           ](F){$F$};
         \node[state, above right of=F, label=above:{$    13,B$}           ](C){$C$};
         \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
@@ -1102,12 +1102,12 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \\ \\
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
-        \node[state, below right of=D, label=above:{$    14,E$},fill=LimeGreen](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
-        \node[state, below right of=B, label=above:{$    13,E$},fill=LimeGreen](F){$F$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=visitedcolor](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$},double](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$},double](F){$F$};
         \node[state, above right of=F, label=above:{$    13,B$}           ](C){$C$};
         \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
         \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
@@ -1130,13 +1130,13 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \end{tikzpicture} &
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=visitedcolor](E){$E$};
         \node[state, below right of=D, label=above:{$    14,E$}           ](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
         \node[state, below right of=B, label=above:{$    13,E$}           ](F){$F$};
-        \node[state, above right of=F, label=above:{$    13,B$}, fill=pink](C){$C$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=activecolor](C){$C$};
         \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
         \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
 
@@ -1166,13 +1166,13 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \\ \\
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=visitedcolor](E){$E$};
         \node[state, below right of=D, label=above:{$    14,E$}           ](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
         \node[state, below right of=B, label=above:{$    13,E$}           ](F){$F$};
-        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=visitedcolor](C){$C$};
         \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
         \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
 
@@ -1194,13 +1194,13 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \end{tikzpicture} &
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=visitedcolor](E){$E$};
         \node[state, below right of=D, label=above:{$    14,E$}           ](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
-        \node[state, below right of=B, label=above:{$    13,E$}, fill=pink](F){$F$};
-        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=activecolor](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=visitedcolor](C){$C$};
         \node[state, below right of=F, label=above:{$\infty,-$}           ](I){$I$};
         \node[state, above right of=I, label=above:{$\infty,-$}           ](G){$G$};
 
@@ -1229,15 +1229,15 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \\ \\
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=visitedcolor](E){$E$};
         \node[state, below right of=D, label=above:{$    14,E$}           ](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
-        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
-        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
-        \node[state, below right of=F, label=above:{$    17,F$},fill=LimeGreen](I){$I$};
-        \node[state, above right of=I, label=above:{$    20,F$},fill=LimeGreen](G){$G$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=visitedcolor](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=visitedcolor](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$},double](I){$I$};
+        \node[state, above right of=I, label=above:{$    20,F$},double](G){$G$};
 
 
         \draw   (A) 	edge[above] node{6} (D)
@@ -1257,13 +1257,13 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \end{tikzpicture} &
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
-        \node[state, below right of=D, label=above:{$    14,E$}, fill=pink](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
-        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
-        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=visitedcolor](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=activecolor](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=visitedcolor](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=visitedcolor](C){$C$};
         \node[state, below right of=F, label=above:{$    17,F$}           ](I){$I$};
         \node[state, above right of=I, label=above:{$    20,F$}           ](G){$G$};
 
@@ -1293,13 +1293,13 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \\ \\
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
-        \node[state, below right of=D, label=above:{$    14,E$}, fill=gray](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
-        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
-        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=visitedcolor](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=visitedcolor](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=visitedcolor](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=visitedcolor](C){$C$};
         \node[state, below right of=F, label=above:{$    17,F$}           ](I){$I$};
         \node[state, above right of=I, label=above:{$    20,F$}           ](G){$G$};
 
@@ -1321,14 +1321,14 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \end{tikzpicture} &
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
-        \node[state, below right of=D, label=above:{$    14,E$}, fill=gray](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
-        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
-        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
-        \node[state, below right of=F, label=above:{$    17,F$}, fill=pink](I){$I$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=visitedcolor](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=visitedcolor](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=visitedcolor](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=visitedcolor](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$}, fill=activecolor](I){$I$};
         \node[state, above right of=I, label=above:{$    20,F$}           ](G){$G$};
 
 
@@ -1356,14 +1356,14 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \\ \\
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
-        \node[state, below right of=D, label=above:{$    14,E$}, fill=gray](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
-        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
-        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
-        \node[state, below right of=F, label=above:{$    17,F$}, fill=gray](I){$I$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=visitedcolor](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=visitedcolor](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=visitedcolor](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=visitedcolor](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$}, fill=visitedcolor](I){$I$};
         \node[state, above right of=I, label=above:{$    20,F$}           ](G){$G$};
 
 
@@ -1384,15 +1384,15 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \end{tikzpicture} &
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
-        \node[state, below right of=D, label=above:{$    14,E$}, fill=gray](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
-        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
-        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
-        \node[state, below right of=F, label=above:{$    17,F$}, fill=gray](I){$I$};
-        \node[state, above right of=I, label=above:{$    20,F$}, fill=pink](G){$G$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=visitedcolor](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=visitedcolor](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=visitedcolor](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=visitedcolor](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$}, fill=visitedcolor](I){$I$};
+        \node[state, above right of=I, label=above:{$    20,F$}, fill=activecolor](G){$G$};
 
 
         \draw   (A) 	edge[above] node{6} (D)
@@ -1419,15 +1419,15 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \\ \\
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
-        \node[state, below right of=D, label=above:{$    14,E$}, fill=gray](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
-        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
-        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
-        \node[state, below right of=F, label=above:{$    17,F$}, fill=gray](I){$I$};
-        \node[state, above right of=I, label=above:{$    20,F$}, fill=gray](G){$G$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=visitedcolor](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=visitedcolor](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=visitedcolor](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=visitedcolor](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$}, fill=visitedcolor](I){$I$};
+        \node[state, above right of=I, label=above:{$    20,F$}, fill=visitedcolor](G){$G$};
 
 
         \draw   (A) 	edge[above] node{6} (D)
@@ -1454,15 +1454,15 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
 \begin{center}
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
-        \node[state                  , label=above:{$     0,-$}, fill=gray](A){$A$};
-        \node[state, below left  of=A, label=above:{$     6,A$}, fill=gray](D){$D$};
-        \node[state, below right of=A, label=above:{$    10,A$}, fill=gray](E){$E$};
-        \node[state, below right of=D, label=above:{$    14,E$}, fill=gray](H){$H$};
-        \node[state, above right of=E, label=above:{$     5,B$}, fill=gray](B){$B$};
-        \node[state, below right of=B, label=above:{$    13,E$}, fill=gray](F){$F$};
-        \node[state, above right of=F, label=above:{$    13,B$}, fill=gray](C){$C$};
-        \node[state, below right of=F, label=above:{$    17,F$}, fill=gray](I){$I$};
-        \node[state, above right of=I, label=above:{$    20,F$}, fill=gray](G){$G$};
+        \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
+        \node[state, below left  of=A, label=above:{$     6,A$}, fill=visitedcolor](D){$D$};
+        \node[state, below right of=A, label=above:{$    10,A$}, fill=visitedcolor](E){$E$};
+        \node[state, below right of=D, label=above:{$    14,E$}, fill=visitedcolor](H){$H$};
+        \node[state, above right of=E, label=above:{$     5,B$}, fill=visitedcolor](B){$B$};
+        \node[state, below right of=B, label=above:{$    13,E$}, fill=visitedcolor](F){$F$};
+        \node[state, above right of=F, label=above:{$    13,B$}, fill=visitedcolor](C){$C$};
+        \node[state, below right of=F, label=above:{$    17,F$}, fill=visitedcolor](I){$I$};
+        \node[state, above right of=I, label=above:{$    20,F$}, fill=visitedcolor](G){$G$};
 
 
         \draw   (A) 	edge[above] node{6} (D)
