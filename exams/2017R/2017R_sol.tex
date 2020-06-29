@@ -1,0 +1,845 @@
+{
+\renewcommand{\thechapter}{\arabic{chapter}R}
+\setcounter{chapter}{16}
+\exam{Exam resource 2016/17}
+
+\question{Question 1}
+Consider a sequence of natural numbers $S$, for instance $S = \langle 8, 2, 6, 7, 1, 2, 3, 4, 5, 4, 5, 3, 1 \rangle$. We want to find the minimum number of subsequences (of contiguous elements) such that each subsequence starts and ends with the same number.
+
+In the presented example, the minimum number is 4, and the subsequences are ($\langle 8 \rangle$, $\langle 2, 6, 7, 1, 2 \rangle$, $\langle 3, 4, 5, 4, 5, 3 \rangle$ and $\langle 1 \rangle$).
+
+\questionitem{Item a}
+Implement (in C++ or pseudocode) a solution for this problem, using a greedy algorithm and explain. Mention its time complexity. Justify.
+
+\ansseparator
+
+\lstinputlisting[language=C++]{2017R_01a.cpp}
+
+This algorithm first finds the last occurence of every number in the sequence, and then processes the sequence again and expands each sequence individually to as close to the end as possible (so given we have already processed the first $i$ numbers and we are processing number $S_i$, we will greedily extend this sequence until that number's last occurence).
+
+Calculating the last occurence of each number in the sequence takes time $O(N)$ amortized, since we iterate over $S$ in reverse order and \texttt{unordered\_map} operations are time $O(1)$ amortized. The final processing of $S$ takes at most $O(N)$ for an array where all numbers appear only once.
+
+\questionitem{Item b}
+Formalize a solution for this problem, using dynamic programming. Implement (in C++ or pseudocode) that solution and explain. Mention its time complexity. Justify.
+
+\ansseparator
+
+To uniquely identify a state we need to know:
+\begin{itemize}
+    \item $i$, the position of the number we are about to process.
+    \item $s$, the first number of the sequence we are currently building.
+\end{itemize}
+
+A state's solution $T_i^s$ is the number of sequences so far.
+
+From a state $T_i^s$ we can generate two more solutions:
+\begin{itemize}
+    \item $T_{i+1}^s = T_i^s$, by simply considering $i$ is in the current subsequence.
+    \item $T_{i+1}^{S_i} = T_i^s + 1$ if $s = S_{i-1}$, so we end the current subsequence and create a new one starting in $i$.
+\end{itemize}
+
+The base case is $T_1^{S_0} = 0$, which means we assigned the first element to a sequence and have $0$ complete sequences.
+
+The final solution is $T_N^{S_{N-1}}+1$, which translates to ``having analysed all $N$ elements of $S$, what is the least number of sequences such that the first element of the current (and last) sequence is equal to the last element'' (this is so that we can end the last sequence in the last element).
+
+\lstinputlisting[language=C++]{2017R_01b.cpp}
+
+Its time complexity is $O(|S|\cdot M)$ amortized where $M$ is the maximum value of numbers in $S$. This is because our states are identified by $1 \leq i \leq |S|$ and $1 \leq s \leq M$ so we have at most exactly $|S|\cdot M$ states, and each state can produce two more states in constant time. Also, access to the second dimension of $T$ is made via an \texttt{unordered\_map}, so its access time is $O(1)$ amortized.
+
+\question{Question 2}
+Consider the following weighted undirected graph. Edge weights are integers $w$ where $0 < w < 20$.
+\begin{center}
+	\begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,]
+        \node[state](A) {$A$};
+        \node[state, below right of=A](C) {$C$};
+        \node[state, above right of=C](B) {$B$};
+        \node[state, below left  of=C](D) {$D$};
+        \node[state, below right of=C](F) {$F$};
+        \node[state, below right of=D](E) {$E$};
+        \node[state, below left  of=E](G) {$G$};
+        \node[state, below right of=E](H) {$H$};
+        
+        
+
+        \draw   (A) edge[above] node{12} (B)
+                (A) edge[above] node{16} (C)
+                (A) edge[left ] node{14} (D)
+                (B) edge[above] node{ 8} (C)
+                (B) edge[right] node{19} (F)
+                (B) edge[right, bend left] node{13} (H)
+                (C) edge[above] node{17} (D)
+                (C) edge[above] node{10} (F)
+                (D) edge[above] node{11} (E)
+                (D) edge[left ] node{ 3} (G)
+                (E) edge[above] node{15} (F)
+                (E) edge[above] node{ 5} (G)
+                (E) edge[above] node{ 9} (H)
+                (F) edge[right] node{ 6} (H)
+                (G) edge[above] node{ 1} (H)
+                ;
+	\end{tikzpicture}
+\end{center}
+
+\questionitem{Item a}
+Get the sequence of edges of the minimum spanning tree, in the order by which they are considered when Prim's algorithm is applied. Justify. Consider $A$ to be the starting vertex.
+
+\ansseparator
+
+Below is a simplified trace of Prim's algorithm in this graph.
+
+\begin{center} \begin{tabular}{l | l | l | r}
+    \textbf{Visited} & \textbf{Adjacent edges}                                                                                                                      & \textbf{Chosen edge}   & \textbf{Weight} \\ \hline
+    $A$              & $A \xrightarrow{12} B$, $A \xrightarrow{16} C$, $A \xrightarrow{14} D$                                                                       & $A \xrightarrow{12} B$ & 12 \\
+    $A,B$            & $A \xrightarrow{16} C$, $A \xrightarrow{14} D$, $B \xrightarrow{8} C$, $B \xrightarrow{19} F$, $B \xrightarrow{13} H$                        & $B \xrightarrow{ 8} C$ & 20 \\
+    $A,B,C$          & $A \xrightarrow{14} D$, $B \xrightarrow{19} F$, $B \xrightarrow{13} H$, $C \xrightarrow{17} D$, $C \xrightarrow{10} F$                       & $C \xrightarrow{10} F$ & 30 \\
+    $A,B,C,F$        & $A \xrightarrow{14} D$, $B \xrightarrow{13} H$, $C \xrightarrow{17} D$, $F \xrightarrow{15} E$, $F \xrightarrow{6} H$                        & $F \xrightarrow{ 6} H$ & 36 \\
+    $A,B,C,F,H$      & $A \xrightarrow{14} D$, $C \xrightarrow{17} D$, $F \xrightarrow{15} E$, $H \xrightarrow{9} E$, $H \xrightarrow{1} G$                         & $H \xrightarrow{ 1} G$ & 37 \\
+    $A,B,C,F,G,H$    & $A \xrightarrow{14} D$, $C \xrightarrow{17} D$, $F \xrightarrow{15} E$, $H \xrightarrow{9} E$, $G \xrightarrow{3} D$, $G \xrightarrow{5} E$  & $G \xrightarrow{ 3} D$ & 40 \\
+    $A,B,C,D,F,G,H$  & $D \xrightarrow{11} E$, $F \xrightarrow{15} E$, $H \xrightarrow{9} E$, $G \xrightarrow{5} E$                                                 & $G \xrightarrow{ 5} E$ & 45 \\
+    $A,B,C,D,F,G,H$  & &
+\end{tabular} \end{center}
+
+\begin{center}
+	\begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,]
+        \node[state](A) {$A$};
+        \node[state, below right of=A](C) {$C$};
+        \node[state, above right of=C](B) {$B$};
+        \node[state, below left  of=C](D) {$D$};
+        \node[state, below right of=C](F) {$F$};
+        \node[state, below right of=D](E) {$E$};
+        \node[state, below left  of=E](G) {$G$};
+        \node[state, below right of=E](H) {$H$};
+        
+        
+
+        \draw   (A) edge[line width=1.5pt] node{12 (\#1)} (B)
+                (A) edge[] node{16} (C)
+                (A) edge[left] node{14} (D)
+                (B) edge[line width=1.5pt] node{ 8 (\#2)} (C)
+                (B) edge[right] node{19} (F)
+                (B) edge[bend left=60] node{13} (H)
+                (C) edge[] node{17} (D)
+                (C) edge[line width=1.5pt] node{10 (\#3)} (F)
+                (D) edge[] node{11} (E)
+                (D) edge[left, line width=1.5pt] node{ 3 (\#6)} (G)
+                (E) edge[] node{15} (F)
+                (E) edge[line width=1.5pt] node{ 5 (\#7)} (G)
+                (E) edge[] node{ 9} (H)
+                (F) edge[right,line width=1.5pt] node{ 6 (\#4)} (H)
+                (G) edge[below, line width=1.5pt] node{ 1 (\#5)} (H)
+                ;
+	\end{tikzpicture}
+\end{center}
+
+The MST edges, by the order they were added to the MST, is $A \text{---} B$, $B \text{---} C$, $C \text{---} F$, $F \text{---} H$, $H \text{---} G$, $G \text{---} D$ and $G \text{---} E$.
+
+\questionitem{Item b}
+A new edge $C\text{---}E$ is added to the graph. What is the possible range of values for its weight so that $C\text{---}E$ belongs to the MST? Explain.
+
+\ansseparator
+
+To guarantee $(C,E)$ belongs to the MST found by Prim's algorithm, it would have to have a weight of $9$ or less. This is because edge \#3 has weight 10 and all following edges have weight less than 10, and to guarantee an edge $(u,v)$ is added one must guarantee it will be the edge with least weight in one of the possible edge choices after either $u$ or $v$ have been added to the MST. Therefore, our best chances are to have $w(C,E) < 10$ so that it is selected as edge \#3.
+
+\question{Question 3}
+Consider the previous question's graph, representing a map, where vertices identify points of historic/landscape interest and edges present distances between points.
+
+\questionitem{Item a}
+Mr. Santos is on vacation in the hotel at $A$ and wants to visit some points of interest during the days he will be staying there, so he is interested on knowing the shortest paths originating from $A$. Applying Dijkstra's algorithm, present distances to each vertex in the graph as they are processed. What is the shortest path from $A$ to $H$?
+
+\ansseparator
+
+\begin{center}
+    \setlength{\tabcolsep}{0.95pt}
+    \begin{tabular}{c | c | c | c}
+        (1) & (2) & (3) & (4) \\
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=activecolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$\infty$}](C) {$C$};
+            \node[state, above right of=C, label=right:{$\infty$}](B) {$B$};
+            \node[state, below left  of=C, label=right:{$\infty$}](D) {$D$};
+            \node[state, below right of=C, label=left :{$\infty$}](F) {$F$};
+            \node[state, below right of=D, label=above:{$\infty$}](E) {$E$};
+            \node[state, below left  of=E, label=left :{$\infty$}](G) {$G$};
+            \node[state, below right of=E, label=right:{$\infty$}](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} & 
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}, double](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, double](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, double](D) {$D$};
+            \node[state, below right of=C, label=left :{$\infty$}](F) {$F$};
+            \node[state, below right of=D, label=above:{$\infty$}](E) {$E$};
+            \node[state, below left  of=E, label=left :{$\infty$}](G) {$G$};
+            \node[state, below right of=E, label=right:{$\infty$}](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=activecolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}](D) {$D$};
+            \node[state, below right of=C, label=left :{$\infty$}](F) {$F$};
+            \node[state, below right of=D, label=above:{$\infty$}](E) {$E$};
+            \node[state, below left  of=E, label=left :{$\infty$}](G) {$G$};
+            \node[state, below right of=E, label=right:{$\infty$}](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}](D) {$D$};
+            \node[state, below right of=C, label=left :{$    31$}, double](F) {$F$};
+            \node[state, below right of=D, label=above:{$\infty$}](E) {$E$};
+            \node[state, below left  of=E, label=left :{$\infty$}](G) {$G$};
+            \node[state, below right of=E, label=right:{$    25$}, double](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} \\ \hline
+        (5) & (6) & (7) & (8) \\
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, fill=activecolor](D) {$D$};
+            \node[state, below right of=C, label=left :{$    31$}](F) {$F$};
+            \node[state, below right of=D, label=above:{$\infty$}](E) {$E$};
+            \node[state, below left  of=E, label=left :{$\infty$}](G) {$G$};
+            \node[state, below right of=E, label=right:{$    25$}](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, fill=visitedcolor](D) {$D$};
+            \node[state, below right of=C, label=left :{$    31$}](F) {$F$};
+            \node[state, below right of=D, label=above:{$    25$}, double](E) {$E$};
+            \node[state, below left  of=E, label=left :{$    17$}, double](G) {$G$};
+            \node[state, below right of=E, label=right:{$    25$}](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}, fill=activecolor ](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, fill=visitedcolor](D) {$D$};
+            \node[state, below right of=C, label=left :{$    31$}](F) {$F$};
+            \node[state, below right of=D, label=above:{$    25$}](E) {$E$};
+            \node[state, below left  of=E, label=left :{$    17$}](G) {$G$};
+            \node[state, below right of=E, label=right:{$    25$}](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}, fill=visitedcolor](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, fill=visitedcolor](D) {$D$};
+            \node[state, below right of=C, label=left :{$    26$}, double](F) {$F$};
+            \node[state, below right of=D, label=above:{$    25$}](E) {$E$};
+            \node[state, below left  of=E, label=left :{$    17$}](G) {$G$};
+            \node[state, below right of=E, label=right:{$    25$}](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} \\ \hline
+        (9) & (10) & (11) & (12) \\
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}, fill=visitedcolor](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, fill=visitedcolor](D) {$D$};
+            \node[state, below right of=C, label=left :{$    26$}](F) {$F$};
+            \node[state, below right of=D, label=above:{$    25$}](E) {$E$};
+            \node[state, below left  of=E, label=left :{$    17$}, fill=activecolor](G) {$G$};
+            \node[state, below right of=E, label=right:{$    25$}](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}, fill=visitedcolor](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, fill=visitedcolor](D) {$D$};
+            \node[state, below right of=C, label=left :{$    26$}](F) {$F$};
+            \node[state, below right of=D, label=above:{$    22$}, double](E) {$E$};
+            \node[state, below left  of=E, label=left :{$    17$}, fill=visitedcolor](G) {$G$};
+            \node[state, below right of=E, label=right:{$    18$}, double](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}, fill=visitedcolor](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, fill=visitedcolor](D) {$D$};
+            \node[state, below right of=C, label=left :{$    26$}](F) {$F$};
+            \node[state, below right of=D, label=above:{$    22$}](E) {$E$};
+            \node[state, below left  of=E, label=left :{$    17$}, fill=visitedcolor](G) {$G$};
+            \node[state, below right of=E, label=right:{$    18$}, fill=activecolor ](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}, fill=visitedcolor](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, fill=visitedcolor](D) {$D$};
+            \node[state, below right of=C, label=left :{$    24$}, double](F) {$F$};
+            \node[state, below right of=D, label=above:{$    22$}](E) {$E$};
+            \node[state, below left  of=E, label=left :{$    17$}, fill=visitedcolor](G) {$G$};
+            \node[state, below right of=E, label=right:{$    18$}, fill=visitedcolor](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} \\ \hline
+        (13) & (14) & (15) & (16) \\
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}, fill=visitedcolor](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, fill=visitedcolor](D) {$D$};
+            \node[state, below right of=C, label=left :{$    24$}](F) {$F$};
+            \node[state, below right of=D, label=above:{$    22$}, fill=activecolor ](E) {$E$};
+            \node[state, below left  of=E, label=left :{$    17$}, fill=visitedcolor](G) {$G$};
+            \node[state, below right of=E, label=right:{$    18$}, fill=visitedcolor](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}, fill=visitedcolor](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, fill=visitedcolor](D) {$D$};
+            \node[state, below right of=C, label=left :{$    24$}](F) {$F$};
+            \node[state, below right of=D, label=above:{$    22$}, fill=visitedcolor](E) {$E$};
+            \node[state, below left  of=E, label=left :{$    17$}, fill=visitedcolor](G) {$G$};
+            \node[state, below right of=E, label=right:{$    18$}, fill=visitedcolor](H) {$H$};
+            
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}, fill=visitedcolor](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, fill=visitedcolor](D) {$D$};
+            \node[state, below right of=C, label=left :{$    24$}, fill=activecolor ](F) {$F$};
+            \node[state, below right of=D, label=above:{$    22$}, fill=visitedcolor](E) {$E$};
+            \node[state, below left  of=E, label=left :{$    17$}, fill=visitedcolor](G) {$G$};
+            \node[state, below right of=E, label=right:{$    18$}, fill=visitedcolor](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[-,>=stealth',node distance=1.52cm,initial text=$ $,]
+            \footnotesize
+            \node[state                  , label=left :{$     0$}, fill=visitedcolor](A) {$A$};
+            \node[state, below right of=A, label=above:{$    16$}, fill=visitedcolor](C) {$C$};
+            \node[state, above right of=C, label=right:{$    12$}, fill=visitedcolor](B) {$B$};
+            \node[state, below left  of=C, label=right:{$    14$}, fill=visitedcolor](D) {$D$};
+            \node[state, below right of=C, label=left :{$    24$}, fill=visitedcolor](F) {$F$};
+            \node[state, below right of=D, label=above:{$    22$}, fill=visitedcolor](E) {$E$};
+            \node[state, below left  of=E, label=left :{$    17$}, fill=visitedcolor](G) {$G$};
+            \node[state, below right of=E, label=right:{$    18$}, fill=visitedcolor](H) {$H$};
+
+            \draw   (A) edge[] node{12} (B)
+                    (A) edge[] node{16} (C)
+                    (A) edge[] node{14} (D)
+                    (B) edge[above] node{ 8} (C)
+                    (B) edge[] node{19} (F)
+                    (B) edge[bend left=25] node{13} (H)
+                    (C) edge[] node{17} (D)
+                    (C) edge[] node{10} (F)
+                    (D) edge[] node{11} (E)
+                    (D) edge[] node{ 3} (G)
+                    (E) edge[] node{15} (F)
+                    (E) edge[] node{ 5} (G)
+                    (E) edge[] node{ 9} (H)
+                    (F) edge[] node{ 6} (H)
+                    (G) edge[] node{ 1} (H)
+                    ;
+        \end{tikzpicture}
+    \end{tabular}
+\end{center}
+
+The shortest path from $A$ to $H$ is $A \rightarrow D \rightarrow G \rightarrow H$, with a total weight of 18.
+
+\questionitem{Item b}
+Mr. Santos now wants to go for a walk to point $H$, visiting the minimum number of different points, since passing through a point requires paying a tariff. Describe in pseudocode an efficient algorithm to help Mr. Santos plan his walk. What is the time complexity of the algorithm? Justify.
+
+\ansseparator
+
+This problem is equivalent to the shortest path problem in an undirected unweighted graph, so we can use a breadth-first search to find the shortest path.
+
+\begin{algorithm}[H]
+    \caption{2017R-3b}
+    \begin{algorithmic}[1]
+        \Function{BFS}{$G(V,E), s$}
+            \For{$v \in V$}{ $dist(v) \gets \infty,~prev(v) \gets \text{NULL}$}
+            \EndFor
+            \State{$Q \gets \Call{Queue}{ }$}
+            \State {$dist(s) \gets 0,~Q.\Call{Push}{s}$}
+            \While{$|Q| > 0$}
+                \State {$u \gets Q.\Call{Front}{ }$}
+                \State {$Q.\Call{Pop}{ }$}
+                \If {$u = s$}{ break}
+                \EndIf
+                \For {$v \in \Call{Adj}{G, u}$}
+                    \State {$c' \gets dist(u) + 1$}
+                    \If{$c' < dist(v)$}
+                        \State {$dist(v) \gets c',~prev(v) \gets u$}
+                    \EndIf
+                \EndFor
+            \EndWhile
+            \State \Return $dist$, $prev$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+This algorithm has complexity $O(|V|+|E|)$, because it processes every node exactly once, and every edge exactly twice (edge $(u,v)$ is processed once when processing $u$ and again when processing $v$).
+
+\question{Question 4}
+An irrigation system was projected with the following configuration, where pipe capacities are indicated by the integer values next to the respective edges. There are two pumps feeding the irrigation system at a constant rate (litres/hour), placed at vertices $A$ and $C$. Sprinklers have been installed at vertices $D$, $F$, $G$ and $I$. Answer the following items, adequately justifying your answer.
+
+\begin{center}
+	\begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+        \node[state](A) {$A$};
+        \node[state, right of=A](B) {$B$};
+        \node[state, right of=B](C) {$C$};
+        \node[state, below of=A](D) {$D$};
+        \node[state, below of=B](E) {$E$};
+        \node[state, below of=C](F) {$F$};
+        \node[state, below of=D](G) {$G$};
+        \node[state, below of=E](H) {$H$};
+        \node[state, below of=F](I) {$I$};
+        
+        
+        \draw   (A) edge[above] node{ 8} (B)
+                (C) edge[above] node{ 8} (B)
+                (B) edge[right] node{15} (E)
+                (D) edge[above] node{ 5} (E)
+                (F) edge[above] node{ 7} (E)
+                (E) edge[left ] node{10} (H)
+                (H) edge[above] node{ 7} (G)
+                (H) edge[above] node{ 5} (I)
+                (G) edge[left ] node{ 3} (D)
+                (I) edge[left ] node{ 3} (F)
+                ;
+	\end{tikzpicture}
+\end{center}
+
+\questionitem{Item a}
+What is the maximum flow feeding the whole irrigation system?
+
+\ansseparator
+
+\newpage
+By creating a single source and sink for this system we can have a better overview of it.
+
+\begin{center}
+	\begin{tikzpicture}[->,>=stealth',node distance=1.8cm,initial text=$ $,]
+        \node[state](A) {$A$};
+        \node[state, right of=A](B) {$B$};
+        \node[state, right of=B](C) {$C$};
+        \node[state, below of=A](D) {$D$};
+        \node[state, below of=B](E) {$E$};
+        \node[state, below of=C](F) {$F$};
+        \node[state, below of=D](G) {$G$};
+        \node[state, below of=E](H) {$H$};
+        \node[state, below of=F](I) {$I$};
+        \node[state, initial, above of=B](vi) {$v_i$};
+        \node[state, accepting, below of=H](vf) {$v_f$};
+        
+        \draw   (A) edge[above] node{ 8} (B)
+                (C) edge[above] node{ 8} (B)
+                (B) edge[right] node{15} (E)
+                (D) edge[above] node{ 5} (E)
+                (F) edge[above] node{ 7} (E)
+                (E) edge[left ] node{10} (H)
+                (H) edge[above] node{ 7} (G)
+                (H) edge[above] node{ 5} (I)
+                (G) edge[left ] node{ 3} (D)
+                (I) edge[left ] node{ 3} (F)
+                (vi)edge[left ] node{$\infty$} (A)
+                (vi)edge[right] node{$\infty$} (C)
+                (G) edge[right] node{$\infty$} (vf)
+                (I) edge[left ] node{$\infty$} (vf)
+                (D) edge[left , bend right=90] node{$\infty$} (vf)
+                (F) edge[right, bend left =90] node{$\infty$} (vf)
+                ;
+	\end{tikzpicture}
+\end{center}
+
+We will use the Edmonds-Karp algorithm to find the maximum flow. This algorithm consists of selecting the shortest augmenting path and then proceed as usual for Ford-Fulkerson, decrementing residues and increasing flows.
+
+Below is a trace, showing the residues graph.
+
+\begin{center}
+    \setlength{\tabcolsep}{1pt}
+    \begin{tabular}{c | c | c}
+        \begin{tikzpicture}[->,>=stealth',node distance=1.5cm,initial text=$ $,]
+            \footnotesize
+            \node[state](A) {$A$};
+            \node[state, right of=A](B) {$B$};
+            \node[state, right of=B](C) {$C$};
+            \node[state, below of=A](D) {$D$};
+            \node[state, below of=B](E) {$E$};
+            \node[state, below of=C](F) {$F$};
+            \node[state, below of=D](G) {$G$};
+            \node[state, below of=E](H) {$H$};
+            \node[state, below of=F](I) {$I$};
+            \node[state, initial, above of=B](vi) {$v_i$};
+            \node[state, accepting, below of=H](vf) {$v_f$};
+            
+            \draw   (A) edge[below, line width=1.5pt] node{ 8} (B)
+                    (C) edge[above] node{ 8} (B)
+                    (B) edge[left, line width=1.5pt] node{15} (E)
+                    (D) edge[above] node{ 5} (E)
+                    (F) edge[above] node{ 7} (E)
+                    (E) edge[left , line width=1.5pt] node{10} (H)
+                    (H) edge[above, line width=1.5pt] node{ 7} (G)
+                    (H) edge[below] node{ 5} (I)
+                    (G) edge[left ] node{ 3} (D)
+                    (I) edge[left ] node{ 3} (F)
+                    (vi)edge[left , line width=1.5pt] node{$\infty$} (A)
+                    (vi)edge[right] node{$\infty$} (C)
+                    (G) edge[left , line width=1.5pt] node{$\infty$} (vf)
+                    (I) edge[left ] node{$\infty$} (vf)
+                    (D) edge[left , bend right=70] node{$\infty$} (vf)
+                    (F) edge[right, bend left =70] node{$\infty$} (vf)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[->,>=stealth',node distance=1.5cm,initial text=$ $,]
+            \footnotesize
+            \node[state](A) {$A$};
+            \node[state, right of=A](B) {$B$};
+            \node[state, right of=B](C) {$C$};
+            \node[state, below of=A](D) {$D$};
+            \node[state, below of=B](E) {$E$};
+            \node[state, below of=C](F) {$F$};
+            \node[state, below of=D](G) {$G$};
+            \node[state, below of=E](H) {$H$};
+            \node[state, below of=F](I) {$I$};
+            \node[state, initial, above of=B](vi) {$v_i$};
+            \node[state, accepting, below of=H](vf) {$v_f$};
+            
+            \draw   (A) edge[below, bend right=10] node{ 1} (B)
+                    (B) edge[above, bend right=10] node{ 7} (A)
+                    (C) edge[above, line width=1.5pt] node{ 8} (B)
+                    (B) edge[left , bend right=10, line width=1.5pt] node{8} (E)
+                    (E) edge[right, bend right=10] node{7} (B)
+                    (D) edge[above] node{ 5} (E)
+                    (F) edge[above] node{ 7} (E)
+                    (E) edge[left , bend right=10, line width=1.5pt] node{ 3} (H)
+                    (H) edge[right, bend right=10] node{7} (E)
+                    (H) edge[above, bend right=10, dashed] node{ 0} (G)
+                    (G) edge[below, bend right=10] node{ 7} (H)
+                    (H) edge[below, line width=1.5pt] node{ 5} (I)
+                    (G) edge[left ] node{ 3} (D)
+                    (I) edge[left ] node{ 3} (F)
+                    (vi)edge[left , bend right=10] node{$\infty$} (A)
+                    (A) edge[right, bend right=10] node{7} (vi)
+                    (vi)edge[left , line width=1.5pt] node{$\infty$} (C)
+                    (G) edge[left , bend right=10] node{$\infty$} (vf)
+                    (vf)edge[right, bend right=10] node{7} (G)
+                    (I) edge[left , line width=1.5pt] node{$\infty$} (vf)
+                    (D) edge[left , bend right=70] node{$\infty$} (vf)
+                    (F) edge[right, bend left =70] node{$\infty$} (vf)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[->,>=stealth',node distance=1.5cm,initial text=$ $,]
+            \footnotesize
+            \node[state](A) {$A$};
+            \node[state, right of=A](B) {$B$};
+            \node[state, right of=B](C) {$C$};
+            \node[state, below of=A](D) {$D$};
+            \node[state, below of=B](E) {$E$};
+            \node[state, below of=C](F) {$F$};
+            \node[state, below of=D](G) {$G$};
+            \node[state, below of=E](H) {$H$};
+            \node[state, below of=F](I) {$I$};
+            \node[state, initial, above of=B](vi) {$v_i$};
+            \node[state, accepting, below of=H](vf) {$v_f$};
+            
+            \draw   (A) edge[below, bend right=10] node{ 1} (B)
+                    (B) edge[above, bend right=10] node{ 7} (A)
+                    (C) edge[above, bend right=10] node{ 5} (B)
+                    (B) edge[below, bend right=10] node{ 3} (C)
+                    (B) edge[left , bend right=10] node{5} (E)
+                    (E) edge[right, bend right=10] node{10} (B)
+                    (D) edge[above] node{ 5} (E)
+                    (F) edge[above] node{ 7} (E)
+                    (E) edge[left , bend right=10, dashed] node{ 0} (H)
+                    (H) edge[right, bend right=10] node{10} (E)
+                    (H) edge[above, bend right=10, dashed] node{ 0} (G)
+                    (G) edge[below, bend right=10] node{ 7} (H)
+                    (H) edge[below, bend right=10] node{ 2} (I)
+                    (I) edge[above, bend right=10] node{ 3} (H)
+                    (G) edge[left ] node{ 3} (D)
+                    (I) edge[left ] node{ 3} (F)
+                    (vi)edge[left , bend right=10] node{$\infty$} (A)
+                    (A) edge[right, bend right=10] node{7} (vi)
+                    (vi)edge[left , bend right=10] node{$\infty$} (C)
+                    (C) edge[right, bend right=10] node{3} (vi)
+                    (G) edge[left , bend right=10] node{$\infty$} (vf)
+                    (vf)edge[right, bend right=10] node{7} (G)
+                    (I) edge[left , bend right=10] node{$\infty$} (vf)
+                    (vf)edge[right, bend right=10] node{3} (I)
+                    (D) edge[left , bend right=70] node{$\infty$} (vf)
+                    (F) edge[right, bend left =70] node{$\infty$} (vf)
+                    ;
+        \end{tikzpicture} \\
+        &
+        Total flow: 7 &
+        Total flow: 10
+    \end{tabular}
+\end{center}
+
+\questionitem{Item b}
+What will be the flow through $E \rightarrow H$ if a sprinkler is instaled in vertex $E$?
+
+}
