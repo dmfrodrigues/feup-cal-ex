@@ -376,6 +376,106 @@ The two SCCs are coloured dark and light gray.
     \end{tikzpicture}
 \end{center}
 
+\question{Question 13}
+Which of the following graphs is not envolved in Ford-Fulkerson algorithm to compute maximum flow in a transport network?
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item \textbf{paths graph \greencheckmark}
+    \item capacities graph
+    \item flows graph
+    \item residuals graph
+\end{enumerate}
+
+\ansseparator
+
+The Ford-Fulkerson algorithm uses three data structures:
+\begin{itemize}
+    \item Capacities graph -- input graph.
+    \item Flows graph -- output graph.
+    \item Residuals graph -- auxiliary structure, can be updated from the capacities graph if we do not intend to reuse it.
+\end{itemize}
+
+\question{Question 14}
+About a cut $(S, T)$ in a transport network represented by a graph $G=(V,E)$, which of the following options is false?
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item \label{itm:2019N-P1-14-A} The capacity of cut $(S,T)$ is the sum of capacities of cutten edges from $S$ to $T$.
+    \item \label{itm:2019N-P1-14-B} $(S,T)$ is a partition of $V$ into two sets, $S$ and $T=V-S$ such that the source is in $S$ and the sink is in $T$.
+    \item \label{itm:2019N-P1-14-C} \label{itm:2019N-P1-14-correct} \textbf{The minimum cost in a transport network is equal to the capacity of the minimum cut. \greencheckmark}
+    \item \label{itm:2019N-P1-14-D} The maximum flow in a transport network is equal to the capacity of the minimum cut.
+\end{enumerate}
+
+\ansseparator
+
+\newpage
+\begin{itemize}
+    \item[] \ref{itm:2019N-P1-14-A} follows from the definition of cut capacity.
+    \item[] \ref{itm:2019N-P1-14-B} is one of the necessary conditions for $(S,T)$ to be a cut.
+    \item[] \ref{itm:2019N-P1-14-C} states the opposite of the \emph{max-flow min-cost theorem}.
+    \item[] \ref{itm:2019N-P1-14-D} follows from the \emph{max-flow min-cost theorem}.  
+\end{itemize}
+
+\question{Question 15}
+A path visiting each edge of a graph exactly once is called a \rule{2.5cm}{0.15mm} path.
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item \textbf{eulerian \greencheckmark}
+    \item hamiltonian
+    \item chinese postman
+    \item travelling salesman
+\end{enumerate}
+
+\question{Question 16}
+The Knuth-Morris-Pratt algorithm has the objective of:
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item Searching exact matches of a pattern in a text.
+    \item \textbf{Searching approximate matches of a pattern in a text. \greencheckmark}
+    \item Generating the finite automata corresponding to the pattern one wants to search.
+    \item Pre-processing the pattern so as to perform advances the same size as the pattern.
+\end{enumerate}
+
+\question{Question 17}
+How much time does it take to compute the edit distance between a pattern $P$ and a text $T$?
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item $O(|P| \times |T|)$ \greencheckmark
+    \item $O(|P| + |T|)$
+    \item $O(|P| \times \log |T|)$
+    \item $O(|P|^2 \times |T|)$
+\end{enumerate}
+
+\question{Question 18}
+About the Gale-Shapley algorithm for stable marriages considering complete preferences, it is true that:
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item \label{itm:2019N-P1-18-A} Its time complexity does not depend on the size of the groups to be paired.
+    \item \label{itm:2019N-P1-18-B} \textbf{The choice of proposing group affects the result. \greencheckmark}
+    \item \label{itm:2019N-P1-18-C} The choice of proposing group affects the result stability.
+    \item \label{itm:2019N-P1-18-D} The choice of proposing group affects the cycle variant.
+\end{enumerate}
+
+\ansseparator
+
+\begin{itemize}
+    \item[] \ref{itm:2019N-P1-18-A} is false, since its time complexity is $O(n^2)$ where $n$ is the size of each set.
+    \item[] \ref{itm:2019N-P1-18-B} is true, because there can be more than one optimal matching.
+    \item[] \ref{itm:2019N-P1-18-C} is false, because this algorithm always finds a stable matching.
+    \item[] \ref{itm:2019N-P1-18-D} is false, because it does not affect the cycle variant, which is $I = n-i$ where $i$ is the cycle variable.  
+\end{itemize}
+
+\question{Question 19}
+Which of the following problems has an efficient solution?
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item Hamiltonian path
+    \item Vertex cover
+    \item Travelling salesman
+    \item \textbf{Topological sort \greencheckmark}
+\end{enumerate}
+
+\question{Question 20}
+To prove a problem X is NP-complete, considering a known NP-complete problem Y, it is necessary to:
+\begin{enumerate}[label=\Alph*)]\itemsep0em
+    \item Reduce Y to X, in constant time
+    \item Reduce X to Y, in polynomial time
+    \item Reduce Y to X, in sub-exponential time
+    \item \textbf{Show X is in NP \greencheckmark}
+\end{enumerate}
+
 \exampart{Part 2}
 
 \question{Question 1}
