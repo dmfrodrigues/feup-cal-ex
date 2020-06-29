@@ -229,11 +229,11 @@ Step 1: find all vertices of odd degree.
 	\begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,]
 		\node[state](a) {$a$};
 		\node[state, below left of=a](c) {$c$};
-		\node[state, below right of=a, fill=gray](d) {$d$};
+		\node[state, below right of=a, fill=gray!75](d) {$d$};
 		\node[state, below right of=c](f) {$f$};
         \node[state, above right of=d](b) {$b$};
         \node[state, below right of=d](g) {$g$};
-        \node[state, above right of=g, fill=gray](e) {$e$};
+        \node[state, above right of=g, fill=gray!75](e) {$e$};
 
         \draw   (a) 	edge node{2} (c)
                 (a) 	edge node{7} (d)
@@ -261,8 +261,8 @@ Step 3: Build a complete graph $G'$ with odd-degree vertices and edges equal to 
 \begin{center}
 	\begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,]
 		\node[state](a) {$a$};
-		\node[state, fill=gray](d) {$d$};
-		\node[state, right of=d, fill=gray](e) {$e$};
+		\node[state, fill=gray!75](d) {$d$};
+		\node[state, right of=d, fill=gray!75](e) {$e$};
 
         \draw   (d) 	edge[above] node{6} (e)
                 ;
@@ -274,8 +274,8 @@ Step 4: Find a minimum-weight perfect pairing.
 \begin{center}
 	\begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,]
 		\node[state](a) {$a$};
-		\node[state, fill=gray](d) {$d$};
-		\node[state, right of=d, fill=gray](e) {$e$};
+		\node[state, fill=gray!75](d) {$d$};
+		\node[state, right of=d, fill=gray!75](e) {$e$};
 
         \draw   (d) 	edge[above,line width=1.5pt] node{6} (e)
                 ;
@@ -288,11 +288,11 @@ Step 5: For each pair $(u,v)$ in the perfect pairing, add pseudo-edges to $G$ an
 	\begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,]
 		\node[state](a) {$a$};
 		\node[state, below left of=a](c) {$c$};
-		\node[state, below right of=a, fill=gray](d) {$d$};
+		\node[state, below right of=a, fill=gray!75](d) {$d$};
 		\node[state, below right of=c](f) {$f$};
         \node[state, above right of=d](b) {$b$};
         \node[state, below right of=d](g) {$g$};
-        \node[state, above right of=g, fill=gray](e) {$e$};
+        \node[state, above right of=g, fill=gray!75](e) {$e$};
 
         \draw   (a) 	edge node{2} (c)
                 (a) 	edge node{7} (d)
@@ -314,11 +314,11 @@ Step 6: Find an Euler circuit in $G^*$.
 	\begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,]
 		\node[state](a) {$a$};
 		\node[state, below left of=a](c) {$c$};
-		\node[state, below right of=a, fill=gray](d) {$d$};
+		\node[state, below right of=a, fill=gray!75](d) {$d$};
 		\node[state, below right of=c](f) {$f$};
         \node[state, above right of=d](b) {$b$};
         \node[state, below right of=d](g) {$g$};
-        \node[state, above right of=g, fill=gray](e) {$e$};
+        \node[state, above right of=g, fill=gray!75](e) {$e$};
 
         \draw   (a) 	edge node{1} (c)
                 (a) 	edge node{10} (d)
