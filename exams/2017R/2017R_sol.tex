@@ -80,6 +80,7 @@ Consider the following weighted undirected graph. Edge weights are integers $w$ 
 	\end{tikzpicture}
 \end{center}
 
+\newpage
 \questionitem{Item a}
 Get the sequence of edges of the minimum spanning tree, in the order by which they are considered when Prim's algorithm is applied. Justify. Consider $A$ to be the starting vertex.
 
@@ -140,6 +141,7 @@ A new edge $C\text{---}E$ is added to the graph. What is the possible range of v
 
 To guarantee $(C,E)$ belongs to the MST found by Prim's algorithm, it would have to have a weight of $9$ or less. This is because edge \#3 has weight 10 and all following edges have weight less than 10, and to guarantee an edge $(u,v)$ is added one must guarantee it will be the edge with least weight in one of the possible edge choices after either $u$ or $v$ have been added to the MST. Therefore, our best chances are to have $w(C,E) < 10$ so that it is selected as edge \#3.
 
+\newpage
 \question{Question 3}
 Consider the previous question's graph, representing a map, where vertices identify points of historic/landscape interest and edges present distances between points.
 
@@ -148,6 +150,9 @@ Mr. Santos is on vacation in the hotel at $A$ and wants to visit some points of 
 
 \ansseparator
 
+The shortest path from $A$ to $H$ is $A \rightarrow D \rightarrow G \rightarrow H$, with a total weight of 18.
+
+\newpage
 \begin{center}
     \setlength{\tabcolsep}{0.95pt}
     \begin{tabular}{c | c | c | c}
@@ -606,8 +611,6 @@ Mr. Santos is on vacation in the hotel at $A$ and wants to visit some points of 
     \end{tabular}
 \end{center}
 
-The shortest path from $A$ to $H$ is $A \rightarrow D \rightarrow G \rightarrow H$, with a total weight of 18.
-
 \questionitem{Item b}
 Mr. Santos now wants to go for a walk to point $H$, visiting the minimum number of different points, since passing through a point requires paying a tariff. Describe in pseudocode an efficient algorithm to help Mr. Santos plan his walk. What is the time complexity of the algorithm? Justify.
 
@@ -672,16 +675,16 @@ An irrigation system was projected with the following configuration, where pipe 
 	\end{tikzpicture}
 \end{center}
 
+\newpage
 \questionitem{Item a}
 What is the maximum flow feeding the whole irrigation system?
 
 \ansseparator
 
-\newpage
 By creating a single source and sink for this system we can have a better overview of it.
 
 \begin{center}
-	\begin{tikzpicture}[->,>=stealth',node distance=1.8cm,initial text=$ $,]
+	\begin{tikzpicture}[->,>=stealth',node distance=1.65cm,initial text=$ $,]
         \node[state](A) {$A$};
         \node[state, right of=A](B) {$B$};
         \node[state, right of=B](C) {$C$};
@@ -708,8 +711,8 @@ By creating a single source and sink for this system we can have a better overvi
                 (vi)edge[right] node{$\infty$} (C)
                 (G) edge[right] node{$\infty$} (vf)
                 (I) edge[left ] node{$\infty$} (vf)
-                (D) edge[left , bend right=90] node{$\infty$} (vf)
-                (F) edge[right, bend left =90] node{$\infty$} (vf)
+                (D) edge[left , bend right=75] node{$\infty$} (vf)
+                (F) edge[right, bend left =75] node{$\infty$} (vf)
                 ;
 	\end{tikzpicture}
 \end{center}
@@ -902,12 +905,11 @@ The solution is $D_M^N$ where $|P|=M$ and $|T|=N$.
 
 The evolutional distance between the two genes is 3.
 
+\newpage
 \questionitem{Item b}
 Define the prefix-function to use the Knuth-Morris-Pratt algorithm to search gene G T G C C in a DNA sequence.
 
 \ansseparator
-
-\newpage
 
 \begin{equation*}
     \pi_q = \max \{k : k < q \wedge P[0:k) = P[q-k:q)\}

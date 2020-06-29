@@ -11,8 +11,12 @@
 \usepackage{tikz-qtree}
 \usetikzlibrary{automata, positioning, arrows}
 % Encodings (to render letters with diacritics and special characters)
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \DeclareUnicodeCharacter{2205}{$\emptyset$}
+\usepackage{textcomp, eurosym}
+\let\texteuro\euro
+\newcommand\eqeuro{\text{\euro}}
 % Language
 \usepackage[english]{babel}
 %
@@ -106,4 +110,3 @@
 % Colors
 \definecolor{visitedcolor}{gray}{0.75}
 \definecolor{activecolor}{gray}{0.40}
-

@@ -4,7 +4,9 @@ using namespace std;
 int main(){
     // Input
     size_t N; cin >> N;
-    vector<int> S(N); for(size_t i = 0; i < N; ++i) cin >> S[i];
+    vector<int> S(N);
+    for(size_t i = 0; i < N; ++i)
+        cin >> S[i];
     // Get last occurence of each digit
     unordered_map<int, size_t> last_occurence;
     for(ssize_t i = N-1; i >= 0; --i)
@@ -20,6 +22,7 @@ int main(){
     new_sequence.pop_back();
     // Print
     cout << new_sequence.size() << endl;
-    for(const size_t &i: new_sequence) cout << i << endl;
+    for(const size_t &i: new_sequence)
+        cout << i << endl;
     return 0;
 }

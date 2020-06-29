@@ -869,7 +869,6 @@ Consider the following undirected graph that represents a map, where vertices re
 
 \ansseparator
 
-\newpage
 I will use Dijkstra's algorithm.
 
 \begin{algorithm}[H]
@@ -957,7 +956,9 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
     \end{tikzpicture} \\
     We start by setting $dist(A) \gets 0$. &
     Select node in $Q$ with least $dist$, which is $A$.
-    \\ \\
+\end{tabular} \end{center}
+\newpage
+\begin{center} \begin{longtable}{p{76mm} | p{76mm}}
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
         \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
@@ -1020,10 +1021,7 @@ Below I present a trace of the program. In parenthesis is $dist$ and $prev$ for 
         $dist(A)+w(A,D)=6 < \infty$ so $D$ was updated.\\
         $dist(A)+w(A,E)=10 < \infty$ so $E$ was updated.
     \end{minipage} &
-    Select node in $Q$ with least $dist$, which is $B$.
-\end{tabular} \end{center}
-\newpage
-\begin{center} \begin{longtable}{p{76mm} | p{76mm}}
+    Select node in $Q$ with least $dist$, which is $B$. \\ \\
     \begin{tikzpicture}[-,>=stealth',node distance=1.6cm,initial text=$ $,]
         \scriptsize
         \node[state                  , label=above:{$     0,-$}, fill=visitedcolor](A){$A$};
@@ -1555,6 +1553,8 @@ Considering Huffman's compression algorithm with variable coding, present a bina
 
 Huffman coding produces a variable-length encoding so more frequent characters have smaller codes and less frequent characters have longer codes. It consists of finding the frequency of each character, and then successively join the two least frequent codes until all characters make up a binary tree.
 
+\newpage
+
 \begin{center} \begin{tabular}{P{75mm} | P{75mm}}
     \begin{tikzpicture}
         \Tree 	[.{$a$ (6)}
@@ -1724,6 +1724,8 @@ The coding cost of the phrase using constant coding is $18*\SI{3}{\bit}=\SI{54}{
 The coding cost of the phrase using variable coding is $6*\SI{2}{\bit}+4*\SI{2}{\bit}+3*\SI{3}{\bit}+2*\SI{3}{\bit}+2*\SI{3}{\bit}+1*\SI{3}{\bit} = \SI{44}{\bit}$.
 
 The coding cost of the phrase using UTF-16 is $18*\SI{16}{\bit}=\SI{288}{\bit}$.
+
+\newpage
 
 \question{Question 4}
 A digital marketing company is planning to launch a campaign targetting influent people of a social network. A campaign is only considered to be successful if it reaches all target personalities. However, due to budget restrictions, it is not possible to contact all personalities directly. The company intends to take advantage of the fact they know some personalities are friends with others, and that if the campaign reaches a personality it will also reach his/her immediate friends (but not friends of friends). Is it possible to implement an efficient algorithm to find the list of personalities that should be directly contacted such that it results in a successful campaign while staying on budget?

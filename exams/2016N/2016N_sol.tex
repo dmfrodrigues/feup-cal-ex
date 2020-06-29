@@ -13,4 +13,189 @@ Implement (in C++ or pseudocode) a solution for this problem, using a greedy alg
 
 \lstinputlisting[language=C++]{2016N_01a.cpp}
 
+This algorithm runs in time $O(N)$, since it iterates once over each of the $N$ potential billboard places.
+
+This algorithm works by selecting the billboard with smallest \texttt{pos} that complies with the $\SI{5}{\kilo\metre}$ rule.
+
+This algorithm is not optimal. To prove that, we will present a test case for which our algorithm produces a sub-optimal solution: $pos = \langle 1, 2 \rangle$, $value = \langle 1, 10 \rangle$. Our algorithm would only choose to place a billboard at 0 (with profit 1), but the solution of placing a billboard at 1 (with profit 10) is better, thus our algorithm has not found the optimal solution, otherwise it would be impossible to mention a better solution.
+
+\questionitem{Item b}
+Formalize a solution to this problem using dynamic programming. Implement (in C++ or pseudocode) that solution and mention its time complexity. Explain.\\
+
+\textbf{Suggestion:} if you wish, you may consider a value \texttt{e[j]} as being the closest place from \texttt{pos[j]} whose distance to \texttt{j} is greater than or equal to $\SI{5}{\kilo\metre}$.
+
+\ansseparator
+
+A state is uniquely represented by:
+\begin{itemize}
+    \item $i$, the place we are about to process.
+    \item $d$, the location from which we can install the next billboard.
+\end{itemize}
+
+$S_i^d$ is the profit we make in state $(i,d)$.
+
+The base case is $S_0^0 = 0$, meaning we have not yet installed any billboards and are deciding to install a billboard or not in the first place.
+
+Each state $(i,d)$ can contribute to two more states:
+\begin{itemize}
+    \item If a billboard can be placed ($d \leq pos[i]$) then $S_{i+1}^{pos[i]+5-1}$ can be $S_i^d + value[i]$.
+    \item $S_{i+1}^d = S_i^d$ if we do not place a billboard at $i$.
+\end{itemize}
+
+The solution is $\max_{d \in \mathbb{R}}\{S_{N}^d\}$.
+
+\newpage
+\lstinputlisting[language=C++]{2016N_01b.cpp}
+
+\question{Question 2}
+The following directed graph represents a map, where vertices are cities and the value of an edge is the distance between adjacent cities. Mr Joaquim lives in city $A$ and intends to visit his family in city $G$.
+
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.61cm,initial text=$ $,]
+        \small
+		\node[state](A) {$A$};
+        \node[state, above of=A](B) {$B$};
+        \node[state, above of=B](C) {$C$};
+        \node[state, left  of=A](E) {$E$};
+        \node[state, above of=E](D) {$D$};
+        \node[state, above of=D](G) {$G$};
+        \node[state, left  of=D](F) {$F$};
+        
+        \draw   (A) 	edge[bend right=40, right] node{8} (C)
+                (A) 	edge[above] node{7} (E)
+                (B) 	edge[right] node{2} (A)
+                (B) 	edge[bend left=10, below] node{3} (D)
+                (C) 	edge[right] node{4} (B)
+                (C) 	edge[above] node{1} (D)
+                (D) 	edge[bend left=10, above] node{1} (B)
+                (D) 	edge[above] node{4} (F)
+                (D) 	edge[left ] node{9} (G)
+                (E) 	edge[right] node{3} (D)
+                (E) 	edge[bend right=10, above] node{10} (F)
+                (F) 	edge[bend right=10, below] node{9} (E)
+                (F) 	edge[left ] node{3} (G)
+                (G) 	edge[above] node{6} (C)
+                
+                ;
+	\end{tikzpicture}
+\end{center}
+
+\questionitem{Item a}
+Find the path that Mr Joaquin should follow to travel the least distance. Explain.
+
+\ansseparator
+
+We will find the shortest path from $A$ to $G$ using Dijkstra's algorithm. The following table is a trace for Dijkstra's algorithm.
+
+\begin{algorithm}[H]
+    \caption{Dijkstra's algorithm}
+    \begin{algorithmic}[1]
+        \Function{Dijkstra}{$G(V,E)$, $s$}
+            \For{$v \in V$}{ $dist(v) \gets \infty,~prev(v) \gets \text{NULL}$}
+            \EndFor
+            \State {$Q \gets V$}
+            \State {$dist(s) \gets 0$}
+            \While{$|Q| > 0$}
+                \State {$u \gets \text{vertex of $Q$ with least $dist(u)$}$}
+                \State {$Q \gets Q \backslash \{u\}$}
+                \For{$v \in \Call{Adj}{G, u}$}
+                    \State{$c' \gets dist(u) + w(u,v)$}
+                    \If{$c' < dist(v)$}
+                        \State{$dist(v) \gets c',~prev(v) \gets u$}
+                    \EndIf
+                \EndFor
+            \EndWhile
+            \State \Return $dist$, $prev$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{center} \begin{tabular}{r | c c c}
+    \textbf{Line} & $(dist, prev)$                                                                                              & $Q$                 & $u$ \\ \hline
+    3             & $\langle (\infty, -), (\infty, -), (\infty, -), (\infty, -), (\infty, -), (\infty, -), (\infty, -) \rangle$ & $\{A,B,C,D,E,F,G\}$ & -   \\
+    5             & $\langle (     0, -), (\infty, -), (\infty, -), (\infty, -), (\infty, -), (\infty, -), (\infty, -) \rangle$ & $\{A,B,C,D,E,F,G\}$ & -   \\
+    8             & $\langle (     0, -), (\infty, -), (\infty, -), (\infty, -), (\infty, -), (\infty, -), (\infty, -) \rangle$ & $\{  B,C,D,E,F,G\}$ & $A$ \\
+    5             & $\langle (     0, -), (\infty, -), (     8, A), (\infty, -), (     7, A), (\infty, -), (\infty, -) \rangle$ & $\{  B,C,D,E,F,G\}$ & $A$ \\
+    8             & $\langle (     0, -), (\infty, -), (     8, A), (\infty, -), (     7, A), (\infty, -), (\infty, -) \rangle$ & $\{  B,C,D,  F,G\}$ & $E$ \\
+    5             & $\langle (     0, -), (\infty, -), (     8, A), (    10, E), (     7, A), (    17, E), (\infty, -) \rangle$ & $\{  B,C,D,  F,G\}$ & $E$ \\
+    8             & $\langle (     0, -), (\infty, -), (     8, A), (    10, E), (     7, A), (    17, E), (\infty, -) \rangle$ & $\{  B,  D,  F,G\}$ & $C$ \\
+    5             & $\langle (     0, -), (    12, C), (     8, A), (     9, C), (     7, A), (    17, E), (\infty, -) \rangle$ & $\{  B,  D,  F,G\}$ & $C$ \\
+    8             & $\langle (     0, -), (    12, C), (     8, A), (     9, C), (     7, A), (    17, E), (\infty, -) \rangle$ & $\{  B,      F,G\}$ & $D$ \\
+    5             & $\langle (     0, -), (    10, D), (     8, A), (     9, C), (     7, A), (    13, D), (    18, D) \rangle$ & $\{  B,      F,G\}$ & $D$ \\
+    8             & $\langle (     0, -), (    10, D), (     8, A), (     9, C), (     7, A), (    13, D), (    18, D) \rangle$ & $\{          F,G\}$ & $B$ \\
+    5             & $\langle (     0, -), (    10, D), (     8, A), (     9, C), (     7, A), (    13, D), (    18, D) \rangle$ & $\{          F,G\}$ & $B$ \\
+    8             & $\langle (     0, -), (    10, D), (     8, A), (     9, C), (     7, A), (    13, D), (    18, D) \rangle$ & $\{            G\}$ & $F$ \\
+    5             & $\langle (     0, -), (    10, D), (     8, A), (     9, C), (     7, A), (    13, D), (    16, F) \rangle$ & $\{            G\}$ & $F$ \\
+    8             & $\langle (     0, -), (    10, D), (     8, A), (     9, C), (     7, A), (    13, D), (    16, F) \rangle$ & $\{             \}$ & $G$ \\
+    5             & $\langle (     0, -), (    10, D), (     8, A), (     9, C), (     7, A), (    13, D), (    16, F) \rangle$ & $\{             \}$ & $G$ \\
+    12            & $\langle (     0, -), (    10, D), (     8, A), (     9, C), (     7, A), (    13, D), (    16, F) \rangle$ & $\{             \}$ & -   \\
+\end{tabular} \end{center}
+
+The shortest path from $A$ to $G$ is $A \rightarrow C \rightarrow D \rightarrow F \rightarrow G$, with a total weight of 16.
+
+\questionitem{Item b}
+Mr Joaquim is now worried with the travel's cost. His car consumes $\SI{1}{\litre}$ per unit distance. The price of gasoline in cities $\{A,B,C,D,E,F,G\}$ is $\{1\eqeuro, 2\eqeuro, 1\eqeuro, 2\eqeuro, 1\eqeuro, 1\eqeuro, 1\eqeuro\}$ respectively. Mr Joaquim only fills when needed (when he does not have enough gasoline to cross the road he wants to cross) and always fills $\SI{10}{\litre}$ of gasoline. Initially the car tank is empty. Implement an algorithm (in C++ or pseudocode) to determine the path Mr Joaquim should use so as to minimize the money spent on gasoline, and show the path he should follow. Explain. Suggestion: change Dijkstra's algorithm.
+
+\ansseparator
+
+\begin{algorithm}[H]
+    \caption{Dijkstra's algorithm}
+    \begin{algorithmic}[1]
+        \Function{Dijkstra}{$G(V,E,w)$, $price$, $s$, $d$}
+            \For{$v \in V$}{ $cost(v) \gets \infty,~prev(v) \gets \text{NULL},~tank(v) \gets 0$}
+            \EndFor
+            \State {$Q \gets V$}
+            \State {$cost(s) \gets 0$}
+            \While{$|Q| > 0$}
+                \State {$u \gets \text{vertex of $Q$ with least $dist(u)$}$}
+                \State {$Q \gets Q \backslash \{u\}$}
+                \If{$u = d$}{ break}
+                \EndIf
+                \For{$v \in \Call{Adj}{G, u}$}
+                    \State{$c' \gets cost(u) + (w(u,v) \leq tank(u) ? 0 : 10*price(u))$}
+                    \State{$t' \gets tank(u) + (w(u,v) \leq tank(u) ? 0 : 10) - w(u,v) $}
+                    \If{$c' < cost(v)\text{ \textbf{or} }(c' = cost(v) \text{ \textbf{and} } t' > tank(v))$}
+                        \State{$cost(v) \gets c',~prev(v) \gets u,~tank(v) \gets t'$}
+                    \EndIf
+                \EndFor
+            \EndWhile
+            \State \Return $dist$, $prev$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',node distance=3cm,initial text=$ $,]
+        \small
+		\node[state            , fill=visitedcolor](A) {$A (     0, -, 0)$};
+        \node[state, above of=A, fill=visitedcolor](B) {$B (    10, D, 0)$};
+        \node[state, above of=B, fill=visitedcolor](C) {$C (    10, A, 2)$};
+        \node[state, left  of=A, fill=visitedcolor](E) {$E (    10, A, 3)$};
+        \node[state, above of=E, fill=visitedcolor](D) {$D (    10, C, 1)$};
+        \node[state, above of=D, fill=visitedcolor](G) {$G (    20, F, 0)$};
+        \node[state, left  of=D, fill=visitedcolor](F) {$F (    20, E, 3)$};
+        
+        \draw   (A) 	edge[bend right=40, right] node{8} (C)
+                (A) 	edge[above] node{7} (E)
+                (B) 	edge[right] node{2} (A)
+                (B) 	edge[bend left=10, below] node{3} (D)
+                (C) 	edge[right] node{4} (B)
+                (C) 	edge[above] node{1} (D)
+                (D) 	edge[bend left=10, above] node{1} (B)
+                (D) 	edge[above] node{4} (F)
+                (D) 	edge[left ] node{9} (G)
+                (E) 	edge[right] node{3} (D)
+                (E) 	edge[bend right=10, above] node{10} (F)
+                (F) 	edge[bend right=10, below] node{9} (E)
+                (F) 	edge[left ] node{3} (G)
+                (G) 	edge[above] node{6} (C)
+                
+                ;
+	\end{tikzpicture}
+\end{center}
+
+I am almost absolutely sure this algorithm is not optimal in these conditions, although I am not sure why it is not optimal.
+
+The best path is $A \rightarrow E \rightarrow F \rightarrow G$. Mr Joaquim must refill his tank in $A$ and $E$ so he spends 20\euro.
+
 }
