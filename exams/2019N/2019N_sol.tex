@@ -558,8 +558,8 @@ The following graph represents the flow graph between storage units and destinat
 
 We will use the Edmonds-Karp algorithm, which consists of selecting the shortest augmenting path (in case of tie, we will choose the highest-capacity shortest augmenting path).
 
-\begin{center} \begin{tabular}{c | c | c}
-    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+\begin{center} \begin{tabular}{c | c}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.8cm,initial text=$ $,]
         \footnotesize
 		\node[state](vi) {$v_i$};
         \node[state, right of=vi](C) {$C$};
@@ -570,23 +570,23 @@ We will use the Edmonds-Karp algorithm, which consists of selecting the shortest
         \node[state, right of=B ](F) {$F$};
         \node[state, right of=D ](vf){$v_f$};
         
-        \draw   (vi) 	edge[above, line width=1.5pt] node{20} (A)
-                (vi) 	edge[below] node{10} (B)
-                (vi) 	edge[above] node{35} (C)
-                (A)     edge[above left, line width=1.5pt] node{15} (D)
-                (A)     edge[above] node{10} (E)
-                (B)     edge[below left] node{5} (D)
-                (B)     edge[below] node{10} (F)
-                (C)     edge[above] node{10} (D)
-                (C)     edge[below left] node{5} (E)
-                (C)     edge[above left] node{5} (F)
+        \draw   (vi) 	edge[line width=1.5pt] node{20} (A)
+                (vi) 	edge[] node{10} (B)
+                (vi) 	edge[] node{35} (C)
+                (A)     edge[bend right=15, line width=1.5pt] node{15} (D)
+                (A)     edge[] node{10} (E)
+                (B)     edge[bend right=15] node{5} (D)
+                (B)     edge[] node{10} (F)
+                (C)     edge[] node{10} (D)
+                (C)     edge[bend right=15] node{5} (E)
+                (C)     edge[bend right=15] node{5} (F)
                 
-                (D)     edge[above, line width=1.5pt] node{25} (vf)
-                (E)     edge[above] node{20} (vf)
-                (F)     edge[above] node{20} (vf)
+                (D)     edge[line width=1.5pt] node{25} (vf)
+                (E)     edge[] node{20} (vf)
+                (F)     edge[] node{20} (vf)
                 ;
     \end{tikzpicture} &
-    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+    \begin{tikzpicture}[->,>=stealth',node distance=1.8cm,initial text=$ $,]
         \footnotesize
 		\node[state](vi) {$v_i$};
         \node[state, right of=vi](C) {$C$};
@@ -597,55 +597,30 @@ We will use the Edmonds-Karp algorithm, which consists of selecting the shortest
         \node[state, right of=B ](F) {$F$};
         \node[state, right of=D ](vf){$v_f$};
         
-        \draw   (vi) 	edge[above] node{5} (A)
-                (vi) 	edge[below] node{10} (B)
-                (vi) 	edge[above, line width=1.5pt] node{35} (C)
-                (A)     edge[above left, dashed] node{0} (D)
-                (A)     edge[above] node{10} (E)
-                (B)     edge[below left] node{5} (D)
-                (B)     edge[below] node{10} (F)
-                (C)     edge[above, line width=1.5pt] node{10} (D)
-                (C)     edge[below left] node{5} (E)
-                (C)     edge[above left] node{5} (F)
+        \draw   (vi) 	edge[bend right=10] node{5} (A)
+                (A) 	edge[bend right=10] node{15} (vi)
+                (vi) 	edge[] node{10} (B)
+                (vi) 	edge[line width=1.5pt] node{35} (C)
+                (A)     edge[bend right=15, above left, dashed] node{0} (D)
+                (D)     edge[bend right=15, above left] node{15} (A)
+                (A)     edge[] node{10} (E)
+                (B)     edge[bend right=15] node{5} (D)
+                (B)     edge[] node{10} (F)
+                (C)     edge[line width=1.5pt] node{10} (D)
+                (C)     edge[bend right=15] node{5} (E)
+                (C)     edge[bend right=15] node{5} (F)
                 
-                (D)     edge[above, line width=1.5pt] node{10} (vf)
-                (E)     edge[above] node{20} (vf)
-                (F)     edge[above] node{20} (vf)
-                ;
-    \end{tikzpicture} &
-    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
-        \footnotesize
-		\node[state](vi) {$v_i$};
-        \node[state, right of=vi](C) {$C$};
-        \node[state, above of=C ](A) {$A$};
-        \node[state, below of=C ](B) {$B$};
-        \node[state, right of=C ](D) {$D$};
-        \node[state, right of=A ](E) {$E$};
-        \node[state, right of=B ](F) {$F$};
-        \node[state, right of=D ](vf){$v_f$};
-        
-        \draw   (vi) 	edge[above] node{5} (A)
-                (vi) 	edge[below, line width=1.5pt] node{10} (B)
-                (vi) 	edge[above] node{25} (C)
-                (A)     edge[above left, dashed] node{0} (D)
-                (A)     edge[above] node{10} (E)
-                (B)     edge[below left] node{5} (D)
-                (B)     edge[below, line width=1.5pt] node{10} (F)
-                (C)     edge[above, dashed] node{0} (D)
-                (C)     edge[below left] node{5} (E)
-                (C)     edge[above left] node{5} (F)
-                
-                (D)     edge[above, dashed] node{0} (vf)
-                (E)     edge[above] node{20} (vf)
-                (F)     edge[above, line width=1.5pt] node{20} (vf)
+                (D)     edge[bend right=10, line width=1.5pt] node{10} (vf)
+                (vf)    edge[bend right=10] node{15} (D)
+                (E)     edge[] node{20} (vf)
+                (F)     edge[] node{20} (vf)
                 ;
     \end{tikzpicture} \\
     &
-    Total flow: 15 &
-    Total flow: 25
+    Total flow: 15
 \end{tabular} \end{center}
-\begin{center} \begin{tabular}{c | c | c}
-    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+\begin{center} \begin{tabular}{c | c}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.8cm,initial text=$ $,]
         \footnotesize
 		\node[state](vi) {$v_i$};
         \node[state, right of=vi](C) {$C$};
@@ -656,23 +631,28 @@ We will use the Edmonds-Karp algorithm, which consists of selecting the shortest
         \node[state, right of=B ](F) {$F$};
         \node[state, right of=D ](vf){$v_f$};
         
-        \draw   (vi) 	edge[above, line width=1.5pt] node{5} (A)
-                (vi) 	edge[below, dashed] node{0} (B)
-                (vi) 	edge[above] node{25} (C)
-                (A)     edge[above left, dashed] node{0} (D)
-                (A)     edge[above, line width=1.5pt] node{10} (E)
-                (B)     edge[below left] node{5} (D)
-                (B)     edge[below, dashed] node{0} (F)
-                (C)     edge[above, dashed] node{0} (D)
-                (C)     edge[below left] node{5} (E)
-                (C)     edge[above left] node{5} (F)
+        \draw   (vi) 	edge[bend right=10] node{5} (A)
+                (A) 	edge[bend right=10] node{15} (vi)
+                (vi) 	edge[line width=1.5pt] node{10} (B)
+                (vi) 	edge[bend right=10] node{25} (C)
+                (C) 	edge[bend right=10] node{10} (vi)
+                (A)     edge[bend right=15, dashed] node{0} (D)
+                (D)     edge[bend right=15] node{15} (A)
+                (A)     edge[] node{10} (E)
+                (B)     edge[bend right=15] node{5} (D)
+                (B)     edge[line width=1.5pt] node{10} (F)
+                (C)     edge[bend right=10,dashed] node{0} (D)
+                (D)     edge[bend right=10,] node{10} (C)
+                (C)     edge[bend right=15] node{5} (E)
+                (C)     edge[bend right=15] node{5} (F)
                 
-                (D)     edge[above, dashed] node{0} (vf)
-                (E)     edge[above, line width=1.5pt] node{20} (vf)
-                (F)     edge[above] node{10} (vf)
+                (D)     edge[bend right=10, dashed] node{0} (vf)
+                (vf)    edge[bend right=10] node{25} (D)
+                (E)     edge[] node{20} (vf)
+                (F)     edge[line width=1.5pt] node{20} (vf)
                 ;
     \end{tikzpicture} &
-    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+    \begin{tikzpicture}[->,>=stealth',node distance=1.8cm,initial text=$ $,]
         \footnotesize
 		\node[state](vi) {$v_i$};
         \node[state, right of=vi](C) {$C$};
@@ -683,23 +663,72 @@ We will use the Edmonds-Karp algorithm, which consists of selecting the shortest
         \node[state, right of=B ](F) {$F$};
         \node[state, right of=D ](vf){$v_f$};
         
-        \draw   (vi) 	edge[above, dashed] node{0} (A)
-                (vi) 	edge[below, dashed] node{0} (B)
-                (vi) 	edge[above, line width=1.5pt] node{25} (C)
-                (A)     edge[above left, dashed] node{0} (D)
-                (A)     edge[above] node{5} (E)
-                (B)     edge[below left] node{5} (D)
-                (B)     edge[below, dashed] node{0} (F)
-                (C)     edge[above, dashed] node{0} (D)
-                (C)     edge[below left, line width=1.5pt] node{5} (E)
-                (C)     edge[above left] node{5} (F)
+        \draw   (vi) 	edge[bend right=10, line width=1.5pt] node{5} (A)
+                (A) 	edge[bend right=10] node{15} (vi)
+                (vi) 	edge[bend right=10, dashed] node{0} (B)
+                (B) 	edge[bend right=10] node{10} (vi)
+                (vi) 	edge[bend right=10] node{25} (C)
+                (C) 	edge[bend right=10] node{10} (vi)
+                (A)     edge[bend right=15, dashed] node{0} (D)
+                (D)     edge[bend right=15] node{15} (A)
+                (A)     edge[line width=1.5pt] node{10} (E)
+                (B)     edge[bend right=15] node{5} (D)
+                (B)     edge[bend right=10,dashed] node{0} (F)
+                (F)     edge[bend right=10] node{10} (B)
+                (C)     edge[bend right=10, dashed] node{0} (D)
+                (D)     edge[bend right=10] node{10} (C)
+                (C)     edge[bend right=15] node{5} (E)
+                (C)     edge[bend right=15] node{5} (F)
                 
-                (D)     edge[above, dashed] node{0} (vf)
-                (E)     edge[above, line width=1.5pt] node{15} (vf)
-                (F)     edge[above] node{10} (vf)
+                (D)     edge[bend right=10, dashed] node{0} (vf)
+                (vf)    edge[bend right=10] node{25} (D)
+                (E)     edge[line width=1.5pt] node{20} (vf)
+                (F)     edge[bend right=10] node{10} (vf)
+                (vf)    edge[bend right=10] node{10} (F)
+                ;
+    \end{tikzpicture} \\
+    Total flow: 25 &
+    Total flow: 35
+\end{tabular} \end{center}
+\begin{center} \begin{tabular}{c | c}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.8cm,initial text=$ $,]
+        \footnotesize
+		\node[state](vi) {$v_i$};
+        \node[state, right of=vi](C) {$C$};
+        \node[state, above of=C ](A) {$A$};
+        \node[state, below of=C ](B) {$B$};
+        \node[state, right of=C ](D) {$D$};
+        \node[state, right of=A ](E) {$E$};
+        \node[state, right of=B ](F) {$F$};
+        \node[state, right of=D ](vf){$v_f$};
+        
+        \draw   (vi) 	edge[bend right=10, dashed] node{0} (A)
+                (A) 	edge[bend right=10] node{20} (vi)
+                (vi) 	edge[bend right=10, dashed] node{0} (B)
+                (B) 	edge[bend right=10] node{10} (vi)
+                (vi) 	edge[bend right=10, line width=1.5pt] node{25} (C)
+                (C) 	edge[bend right=10] node{10} (vi)
+                (A)     edge[bend right=15, dashed] node{0} (D)
+                (D)     edge[bend right=15] node{15} (A)
+                (A)     edge[bend right=10] node{5} (E)
+                (E)     edge[bend right=10] node{5} (A)
+                (B)     edge[bend right=15] node{5} (D)
+                (B)     edge[bend right=10,dashed] node{0} (F)
+                (F)     edge[bend right=10] node{10} (B)
+                (C)     edge[bend right=10, dashed] node{0} (D)
+                (D)     edge[bend right=10] node{10} (C)
+                (C)     edge[bend right=15, line width=1.5pt] node{5} (E)
+                (C)     edge[bend right=15] node{5} (F)
+                
+                (D)     edge[bend right=10, dashed] node{0} (vf)
+                (vf)    edge[bend right=10] node{25} (D)
+                (E)     edge[bend right=10, line width=1.5pt] node{15} (vf)
+                (vf)    edge[bend right=10] node{5} (E)
+                (F)     edge[bend right=10] node{10} (vf)
+                (vf)    edge[bend right=10] node{10} (F)
                 ;
     \end{tikzpicture} &
-    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+    \begin{tikzpicture}[->,>=stealth',node distance=1.8cm,initial text=$ $,]
         \footnotesize
 		\node[state](vi) {$v_i$};
         \node[state, right of=vi](C) {$C$};
@@ -710,28 +739,38 @@ We will use the Edmonds-Karp algorithm, which consists of selecting the shortest
         \node[state, right of=B ](F) {$F$};
         \node[state, right of=D ](vf){$v_f$};
         
-        \draw   (vi) 	edge[above, dashed] node{0} (A)
-                (vi) 	edge[below, dashed] node{0} (B)
-                (vi) 	edge[above, line width=1.5pt] node{20} (C)
-                (A)     edge[above left, dashed] node{0} (D)
-                (A)     edge[above] node{5} (E)
-                (B)     edge[below left] node{5} (D)
-                (B)     edge[below, dashed] node{0} (F)
-                (C)     edge[above, dashed] node{0} (D)
-                (C)     edge[below left, dashed] node{0} (E)
-                (C)     edge[above left, line width=1.5pt] node{5} (F)
+        \draw   (vi) 	edge[bend right=10, dashed] node{0} (A)
+                (A) 	edge[bend right=10] node{20} (vi)
+                (vi) 	edge[bend right=10, dashed] node{0} (B)
+                (B) 	edge[bend right=10] node{10} (vi)
+                (vi) 	edge[bend right=10, line width=1.5pt] node{20} (C)
+                (C) 	edge[bend right=10] node{15} (vi)
+                (A)     edge[bend right=15, dashed] node{0} (D)
+                (D)     edge[bend right=15] node{15} (A)
+                (A)     edge[bend right=10] node{5} (E)
+                (E)     edge[bend right=10] node{5} (A)
+                (B)     edge[bend right=15] node{5} (D)
+                (B)     edge[bend right=10,dashed] node{0} (F)
+                (F)     edge[bend right=10] node{10} (B)
+                (C)     edge[bend right=10, dashed] node{0} (D)
+                (D)     edge[bend right=10] node{10} (C)
+                (C)     edge[bend right=15, dashed] node{0} (E)
+                (E)     edge[bend right=15,] node{5} (C)
+                (C)     edge[bend right=15, line width=1.5pt] node{5} (F)
                 
-                (D)     edge[above, dashed] node{0} (vf)
-                (E)     edge[above] node{10} (vf)
-                (F)     edge[above, line width=1.5pt] node{10} (vf)
+                (D)     edge[bend right=10, dashed] node{0} (vf)
+                (vf)    edge[bend right=10] node{25} (D)
+                (E)     edge[bend right=10] node{10} (vf)
+                (vf)    edge[bend right=10] node{10} (E)
+                (F)     edge[bend right=10, line width=1.5pt] node{10} (vf)
+                (vf)    edge[bend right=10] node{10} (F)
                 ;
-    \end{tikzpicture}\\
-    Total flow: 35 &
+    \end{tikzpicture} \\
     Total flow: 40 &
     Total flow: 45
 \end{tabular} \end{center}
 \begin{center} \begin{tabular}{c}
-    \begin{tikzpicture}[->,>=stealth',node distance=1.38cm,initial text=$ $,]
+    \begin{tikzpicture}[->,>=stealth',node distance=1.8cm,initial text=$ $,]
         \footnotesize
 		\node[state](vi) {$v_i$};
         \node[state, right of=vi](C) {$C$};
@@ -742,22 +781,34 @@ We will use the Edmonds-Karp algorithm, which consists of selecting the shortest
         \node[state, right of=B ](F) {$F$};
         \node[state, right of=D ](vf){$v_f$};
         
-        \draw   (vi) 	edge[above, dashed] node{0} (A)
-                (vi) 	edge[below, dashed] node{0} (B)
-                (vi) 	edge[above] node{15} (C)
-                (A)     edge[above left, dashed] node{0} (D)
-                (A)     edge[above] node{5} (E)
-                (B)     edge[below left] node{5} (D)
-                (B)     edge[below, dashed] node{0} (F)
-                (C)     edge[above, dashed] node{0} (D)
-                (C)     edge[below left, dashed] node{0} (E)
-                (C)     edge[above left, dashed] node{0} (F)
+        \draw   (vi) 	edge[bend right=10, dashed] node{0} (A)
+                (A) 	edge[bend right=10] node{20} (vi)
+                (vi) 	edge[bend right=10, dashed] node{0} (B)
+                (B) 	edge[bend right=10] node{10} (vi)
+                (vi) 	edge[bend right=10] node{15} (C)
+                (C) 	edge[bend right=10] node{20} (vi)
+                (A)     edge[bend right=15, dashed] node{0} (D)
+                (D)     edge[bend right=15] node{15} (A)
+                (A)     edge[bend right=10] node{5} (E)
+                (E)     edge[bend right=10] node{5} (A)
+                (B)     edge[bend right=15] node{5} (D)
+                (B)     edge[bend right=10,dashed] node{0} (F)
+                (F)     edge[bend right=10] node{10} (B)
+                (C)     edge[bend right=10, dashed] node{0} (D)
+                (D)     edge[bend right=10] node{10} (C)
+                (C)     edge[bend right=15, dashed] node{0} (E)
+                (E)     edge[bend right=15] node{5} (C)
+                (C)     edge[bend right=15, dashed] node{0} (F)
+                (F)     edge[bend right=15] node{5} (C)
                 
-                (D)     edge[above, dashed] node{0} (vf)
-                (E)     edge[above] node{10} (vf)
-                (F)     edge[above] node{5} (vf)
+                (D)     edge[bend right=10, dashed] node{0} (vf)
+                (vf)    edge[bend right=10] node{25} (D)
+                (E)     edge[bend right=10] node{10} (vf)
+                (vf)    edge[bend right=10] node{10} (E)
+                (F)     edge[bend right=10] node{5} (vf)
+                (vf)    edge[bend right=10] node{15} (F)
                 ;
-    \end{tikzpicture}\\
+    \end{tikzpicture} \\
     Total flow: 50
 \end{tabular} \end{center}
 
