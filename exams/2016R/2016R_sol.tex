@@ -75,6 +75,425 @@ where $T(n)$ is the time it takes to run $solve(l, r)$ with $n = r-l$.
 
 We know $\log_b{a} = \log_2{2} = 1$. Since $f(n) = O(1) = O(n^0) = O(n^{1-1}) = O(n^{\log_b{a}-\varepsilon})$ where $\varepsilon = 1$ is a positive constant, we know by the master theorem that $T(n) \in \Theta (n^{\log_b{a}})$; $\Theta (n^{\log_b{a}}) = \Theta (n^1) = \Theta(n) \subseteq O(n)$, so $T(n) \in O(n)$ meaning this algorithm takes time linear in $n$.
 
-\
+\questionitem{Item b}
+We now want to solve the problem using dynamic programming. Formalize a solution to this problem, presenting its recurrence formula. Implement that solution in pseudocode. Explain and mention its time complexity.
+
+\ansseparator
+
+$buy(i)$ is the best day to buy in $[0,i]$. $sell(i)$ is the best day to sell in $[i,n)$. $S_i$ is the solution if you decide to buy before or at day $i$ and sell after or at day $i$.
+
+\begin{alignat*}{2}
+    S_i     &= sell(i) - buy(i) \\
+    buy(i)  &= \begin{dcases}
+        0                          &: i=0 \\
+        buy(i-1) &: price(i) \geq price(buy(i-1)) \\
+        i        &: price(i) <    price(buy(i-1))
+    \end{dcases} \\
+    sell(i) &= \begin{dcases}
+        n-1                         &: i=n-1 \\
+        sell(i+1) &: price(i) <    price(sell(i+1)) \\
+        i         &: price(i) \geq price(sell(i+1))
+    \end{dcases}
+\end{alignat*}
+
+This solution takes time $O(n)$ since it takes $O(n)$ to calculate $buy$ and $sell$, and the last cycle iterates over $n$ elements.
+
+\newpage
+\begin{algorithm}[H]
+    \caption{2016R-01b}
+    \begin{algorithmic}[1]
+        \Function{solve}{$price$, $n$}
+            \State {$buy(0) \gets 0$}
+            \For{$i \gets 1:n-1$}
+                \If{$price(i) \geq price(buy(i-1))$}{ $buy(i) \gets buy(i-1)$}
+                \Else { $buy(i) \gets i$}
+                \EndIf
+            \EndFor
+            \State {$sell(n-1) \gets n-1$}
+            \For{$i \gets n-2:0$}
+                \If{$price(i) < price(sell(i-1))$}{ $sell(i) \gets sell(i+1)$}
+                \Else { $sell(i) \gets i$}
+                \EndIf
+            \EndFor
+            \State{$(b, s) \gets (buy(0), sell(0))$}
+            \For{$i \gets 1:n-1$}
+                \If{$price(s)-price(b) < price(sell(i)) - price(buy(i))$}
+                    \State {$(b, s) \gets (buy(i), sell(i))$}
+                \EndIf
+            \EndFor
+            \State \Return $(b, s)$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\question{Question 2}
+The following graph represents a road map. Vertices correspond to cities, and edges' values to the distance between cities.
+
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+		\node[state](A) {$A$};
+        \node[state, above right of=A](B) {$B$};
+        \node[state, below right of=A](D) {$D$};
+        \node[state, right of=B](C) {$C$};
+        \node[state, right of=D](E) {$E$};
+        \node[state, below right of=C](F) {$F$};
+        
+        \draw   (A) 	edge[above] node{7} (B)
+                (A) 	edge[below] node{2} (D)
+                (B) 	edge[above] node{2} (C)
+                (C) 	edge[left ] node{4} (E)
+                (C) 	edge[above] node{5} (F)
+                (D) 	edge[left ] node{3} (B)
+                (D) 	edge[above] node{8} (C)
+                (D) 	edge[below] node{4} (E)
+                (E) 	edge[below] node{8} (F)
+                ;
+	\end{tikzpicture}
+\end{center}
+
+\questionitem{Item a}
+Using Dijkstra's algorithm, find the shortest path from city $A$ to city $F$. Show all intermediate steps, explaining.
+
+\ansseparator
+
+\begin{algorithm}[H]
+    \caption{Dijkstra's algorithm}
+    \begin{algorithmic}[1]
+        \Function{Dijkstra}{$G(V,E)$, $s$}
+            \For{$v \in V$}{ $dist(v) \gets \infty,~prev(v) \gets \text{NULL}$}
+            \EndFor
+            \State {$Q \gets V$}
+            \State {$dist(s) \gets 0$}
+            \While{$|Q| > 0$}
+                \State {$u \gets \text{vertex of $Q$ with least $dist(u)$}$}
+                \State {$Q \gets Q \backslash \{u\}$}
+                \For{$v \in \Call{Adj}{G, u}$}
+                    \State{$c' \gets dist(u) + w(u,v)$}
+                    \If{$c' < dist(v)$}
+                        \State{$dist(v) \gets c',~prev(v) \gets u$}
+                    \EndIf
+                \EndFor
+            \EndWhile
+            \State \Return $dist$, $prev$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+Above each node is the distance and previous node in the shortest path.
+
+Nodes in light gray are visited, node in dark gray is active (current value of $u$). Nodes in light and dark gray are not in $Q$.
+
+\begin{center}
+    \begin{longtable}{p{76mm} | p{76mm}}
+        \textbf{Line 5} & \textbf{Line 8} \\ \hline 
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}](A) {$A$};
+            \node[state, above right of=A, label=above:{$\infty, -$}](B) {$B$};
+            \node[state, below right of=A, label=below:{$\infty, -$}](D) {$D$};
+            \node[state, right of=B      , label=above:{$\infty, -$}](C) {$C$};
+            \node[state, right of=D      , label=below:{$\infty, -$}](E) {$E$};
+            \node[state, below right of=C, label=above:{$\infty, -$}](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=activecolor ](A) {$A$};
+            \node[state, above right of=A, label=above:{$\infty, -$}](B) {$B$};
+            \node[state, below right of=A, label=below:{$\infty, -$}](D) {$D$};
+            \node[state, right of=B      , label=above:{$\infty, -$}](C) {$C$};
+            \node[state, right of=D      , label=below:{$\infty, -$}](E) {$E$};
+            \node[state, below right of=C, label=above:{$\infty, -$}](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} \\
+        We start by setting $dist(A) \gets 0$. &
+        Select node in $Q$ with least $dist$, which is $A$. \\ \\
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=visitedcolor ](A) {$A$};
+            \node[state, above right of=A, label=above:{$     7, A$}, double](B) {$B$};
+            \node[state, below right of=A, label=below:{$     2, A$}, double](D) {$D$};
+            \node[state, right of=B      , label=above:{$\infty, -$}](C) {$C$};
+            \node[state, right of=D      , label=below:{$\infty, -$}](E) {$E$};
+            \node[state, below right of=C, label=above:{$\infty, -$}](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=visitedcolor](A) {$A$};
+            \node[state, above right of=A, label=above:{$     7, A$}](B) {$B$};
+            \node[state, below right of=A, label=below:{$     2, A$}, fill=activecolor ](D) {$D$};
+            \node[state, right of=B      , label=above:{$\infty, -$}](C) {$C$};
+            \node[state, right of=D      , label=below:{$\infty, -$}](E) {$E$};
+            \node[state, below right of=C, label=above:{$\infty, -$}](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} \\
+        \begin{minipage}[c]{1\linewidth}
+            $B$ and $D$ are adjacent to $A$.\\
+            $dist(A)+w(A,B) = 7 < \infty$ so $B$ was updated.\\
+            $dist(A)+w(A,D) = 2 < \infty$ so $D$ was updated.
+        \end{minipage} &
+        Select node in $Q$ with least $dist$, which is $D$. \\ \\
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=visitedcolor](A) {$A$};
+            \node[state, above right of=A, label=above:{$     5, D$}, double](B) {$B$};
+            \node[state, below right of=A, label=below:{$     2, A$}, fill=visitedcolor](D) {$D$};
+            \node[state, right of=B      , label=above:{$    10, D$}, double](C) {$C$};
+            \node[state, right of=D      , label=below:{$     6, D$}, double](E) {$E$};
+            \node[state, below right of=C, label=above:{$\infty, -$}](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=visitedcolor](A) {$A$};
+            \node[state, above right of=A, label=above:{$     5, D$}, fill=activecolor ](B) {$B$};
+            \node[state, below right of=A, label=below:{$     2, A$}, fill=visitedcolor](D) {$D$};
+            \node[state, right of=B      , label=above:{$    10, D$}](C) {$C$};
+            \node[state, right of=D      , label=below:{$     6, D$}](E) {$E$};
+            \node[state, below right of=C, label=above:{$\infty, -$}](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} \\
+        \begin{minipage}[c]{1\linewidth}
+            $B$, $C$ and $E$ are adjacent to $D$.\\
+            $dist(D)+w(D,B) = 5 < 7$ so $B$ was updated.\\
+            $dist(D)+w(D,C) = 10 < \infty$ so $C$ was updated.\\
+            $dist(D)+w(D,E) = 6 < \infty$ so $E$ was updated.
+        \end{minipage} &
+        Select node in $Q$ with least $dist$, which is $B$. \\ \\
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=visitedcolor](A) {$A$};
+            \node[state, above right of=A, label=above:{$     5, D$}, fill=visitedcolor](B) {$B$};
+            \node[state, below right of=A, label=below:{$     2, A$}, fill=visitedcolor](D) {$D$};
+            \node[state, right of=B      , label=above:{$     7, B$}, double](C) {$C$};
+            \node[state, right of=D      , label=below:{$     6, D$}](E) {$E$};
+            \node[state, below right of=C, label=above:{$\infty, -$}](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=visitedcolor](A) {$A$};
+            \node[state, above right of=A, label=above:{$     5, D$}, fill=visitedcolor](B) {$B$};
+            \node[state, below right of=A, label=below:{$     2, A$}, fill=visitedcolor](D) {$D$};
+            \node[state, right of=B      , label=above:{$     7, B$}](C) {$C$};
+            \node[state, right of=D      , label=below:{$     6, D$}, fill=activecolor ](E) {$E$};
+            \node[state, below right of=C, label=above:{$\infty, -$}](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} \\
+        \begin{minipage}[c]{1\linewidth}
+            $C$ is adjacent to $B$.\\
+            $dist(B)+w(B,C) = 7 < 10$ so $C$ was updated.
+        \end{minipage} &
+        Select node in $Q$ with least $dist$, which is $E$. \\ \\
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=visitedcolor](A) {$A$};
+            \node[state, above right of=A, label=above:{$     5, D$}, fill=visitedcolor](B) {$B$};
+            \node[state, below right of=A, label=below:{$     2, A$}, fill=visitedcolor](D) {$D$};
+            \node[state, right of=B      , label=above:{$     7, B$}](C) {$C$};
+            \node[state, right of=D      , label=below:{$     6, D$}, fill=visitedcolor](E) {$E$};
+            \node[state, below right of=C, label=above:{$    14, E$}, double](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=visitedcolor](A) {$A$};
+            \node[state, above right of=A, label=above:{$     5, D$}, fill=visitedcolor](B) {$B$};
+            \node[state, below right of=A, label=below:{$     2, A$}, fill=visitedcolor](D) {$D$};
+            \node[state, right of=B      , label=above:{$     7, B$}, fill=activecolor ](C) {$C$};
+            \node[state, right of=D      , label=below:{$     6, D$}, fill=visitedcolor](E) {$E$};
+            \node[state, below right of=C, label=above:{$    14, E$}](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} \\
+        \begin{minipage}[c]{1\linewidth}
+            $F$ is adjacent to $E$.\\
+            $dist(E)+w(E,F) = 14 < \infty$ so $F$ was updated.
+        \end{minipage} &
+        Select node in $Q$ with least $dist$, which is $C$. \\ \\
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=visitedcolor](A) {$A$};
+            \node[state, above right of=A, label=above:{$     5, D$}, fill=visitedcolor](B) {$B$};
+            \node[state, below right of=A, label=below:{$     2, A$}, fill=visitedcolor](D) {$D$};
+            \node[state, right of=B      , label=above:{$     7, B$}, fill=visitedcolor](C) {$C$};
+            \node[state, right of=D      , label=below:{$     6, D$}, fill=visitedcolor](E) {$E$};
+            \node[state, below right of=C, label=above:{$    12, C$}, double](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=visitedcolor](A) {$A$};
+            \node[state, above right of=A, label=above:{$     5, D$}, fill=visitedcolor](B) {$B$};
+            \node[state, below right of=A, label=below:{$     2, A$}, fill=visitedcolor](D) {$D$};
+            \node[state, right of=B      , label=above:{$     7, B$}, fill=visitedcolor](C) {$C$};
+            \node[state, right of=D      , label=below:{$     6, D$}, fill=visitedcolor](E) {$E$};
+            \node[state, below right of=C, label=above:{$    12, C$}, fill=activecolor ](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} \\
+        \begin{minipage}[c]{1\linewidth}
+            $F$ is adjacent to $C$.\\
+            $dist(C)+w(C,F) = 12 < 14$ so $F$ was updated.
+        \end{minipage} &
+        Select node in $Q$ with least $dist$, which is $F$. \\ \\
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=visitedcolor](A) {$A$};
+            \node[state, above right of=A, label=above:{$     5, D$}, fill=visitedcolor](B) {$B$};
+            \node[state, below right of=A, label=below:{$     2, A$}, fill=visitedcolor](D) {$D$};
+            \node[state, right of=B      , label=above:{$     7, B$}, fill=visitedcolor](C) {$C$};
+            \node[state, right of=D      , label=below:{$     6, D$}, fill=visitedcolor](E) {$E$};
+            \node[state, below right of=C, label=above:{$    12, C$}, fill=visitedcolor](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{7} (B)
+                    (A) 	edge[below] node{2} (D)
+                    (B) 	edge[above] node{2} (C)
+                    (C) 	edge[left ] node{4} (E)
+                    (C) 	edge[above] node{5} (F)
+                    (D) 	edge[left ] node{3} (B)
+                    (D) 	edge[above] node{8} (C)
+                    (D) 	edge[below] node{4} (E)
+                    (E) 	edge[below] node{8} (F)
+                    ;
+        \end{tikzpicture} \\
+        \begin{minipage}[c]{1\linewidth}
+            There is not a node adjacent to $F$.
+        \end{minipage}
+    \end{longtable}
+\end{center}
+
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+        \node[state                  , label=above:{$(     0, -)$}, fill=visitedcolor](A) {$A$};
+        \node[state, above right of=A, label=above:{$(     5, D)$}, fill=visitedcolor](B) {$B$};
+        \node[state, below right of=A, label=below:{$(     2, A)$}, fill=visitedcolor](D) {$D$};
+        \node[state, right of=B      , label=above:{$(     7, B)$}, fill=visitedcolor](C) {$C$};
+        \node[state, right of=D      , label=below:{$(     6, D)$}, fill=visitedcolor](E) {$E$};
+        \node[state, below right of=C, label=above:{$(    12, C)$}, fill=visitedcolor](F) {$F$};
+        
+        \draw   (A) 	edge[above] node{7} (B)
+                (A) 	edge[below, line width=1.5pt] node{2} (D)
+                (B) 	edge[above, line width=1.5pt] node{2} (C)
+                (C) 	edge[left ] node{4} (E)
+                (C) 	edge[above, line width=1.5pt] node{5} (F)
+                (D) 	edge[left , line width=1.5pt] node{3} (B)
+                (D) 	edge[above] node{8} (C)
+                (D) 	edge[below] node{4} (E)
+                (E) 	edge[below] node{8} (F)
+                ;
+    \end{tikzpicture}
+\end{center}
+
+The shortest path from $A$ to $F$ is $A \rightarrow D \rightarrow B \rightarrow C \rightarrow F$, with a total weight of 12.
+
+\questionitem{Item b}
+
 
 }
