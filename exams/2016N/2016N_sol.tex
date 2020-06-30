@@ -426,6 +426,8 @@ Can the network transport the desired volume of 50,000 uv? What is the maximum f
 
 We will use Edmonds-Karp algorithm to find the maximum flow from $E$ to $C$. This algorithm operates by finding the shortest augmenting path in the residues graph and augment flow through that path, until there are no more augmenting paths. It specializes the Ford-Fulkerson algorithm by choosing the \textbf{shortest} (not \emph{any}) augmenting path.
 
+Below is the algorithm trace, in the form of the residues graph.
+
 \begin{center} \begin{tabular}{c | c}
     \begin{tikzpicture}[->,>=stealth',node distance=1.74cm,initial text=$ $,]
         \small
@@ -548,9 +550,10 @@ What is the impact of reverting the flow direction (inclination) of canal $GF$ (
 
 \ansseparator
 
+The following graph is the result of the operations mentioned in the question statement.
+
 \begin{center}
-    \begin{tikzpicture}[->,>=stealth',node distance=1.74cm,initial text=$ $,]
-        \small
+    \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
 		\node[state                  ](A) {$A$};
         \node[state, below right of=A, accepting](D) {$D$};
         \node[state, above right of=D](B) {$B$};
@@ -572,5 +575,531 @@ What is the impact of reverting the flow direction (inclination) of canal $GF$ (
                 ;
 	\end{tikzpicture}
 \end{center}
+
+We will again apply the Edmonds-Karp algorithm to find the maximum flow from $E$ to $D$ and $C$.
+
+\begin{center} \begin{longtable}{c | c}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.74cm,initial text=$ $,]
+        \small
+		\node[state                  ](A) {$A$};
+        \node[state, below right of=A, accepting](D) {$D$};
+        \node[state, above right of=D](B) {$B$};
+        \node[state,       right of=B, accepting](C) {$C$};
+        \node[state, below right of=D](G) {$G$};
+        \node[state, below left  of=D](F) {$F$};
+        \node[state,       left  of=F, initial](E) {$E$};
+
+        \draw   (A) 	edge[above] node{50} (B)
+                (A) 	edge[above] node{20} (D)
+                (B) 	edge[above] node{50} (C)
+                (B) 	edge[right] node{10} (G)
+                (D) 	edge[above] node{ 5} (B)
+                (D) 	edge[above] node{ 5} (F)
+                (E) 	edge[above, line width=1.5pt] node{50} (F)
+                (F) 	edge[left ] node{10} (A)
+                (G) 	edge[left , line width=1.5pt] node{20} (D)
+                (F) 	edge[below, line width=1.5pt] node{50} (G)
+                ;
+    \end{tikzpicture} & 
+    \begin{tikzpicture}[->,>=stealth',node distance=1.74cm,initial text=$ $,]
+        \small
+		\node[state                  ](A) {$A$};
+        \node[state, below right of=A, accepting](D) {$D$};
+        \node[state, above right of=D](B) {$B$};
+        \node[state,       right of=B, accepting](C) {$C$};
+        \node[state, below right of=D](G) {$G$};
+        \node[state, below left  of=D](F) {$F$};
+        \node[state,       left  of=F, initial](E) {$E$};
+
+        \draw   (A) 	edge[above] node{50} (B)
+                (A) 	edge[above, line width=1.5pt] node{20} (D)
+                (B) 	edge[above] node{50} (C)
+                (B) 	edge[right] node{10} (G)
+                (D) 	edge[above] node{ 5} (B)
+                (D) 	edge[above] node{ 5} (F)
+                (E) 	edge[bend right=10, below, line width=1.5pt] node{30} (F)
+                (F) 	edge[bend right=10, above] node{20} (E)
+                (F) 	edge[left , line width=1.5pt] node{10} (A)
+                (G) 	edge[bend right=15, dashed] node{ 0} (D)
+                (D) 	edge[bend right=15] node{20} (G)
+                (F) 	edge[bend right=10] node{30} (G)
+                (G) 	edge[bend right=10] node{20} (F)
+                ;
+    \end{tikzpicture} \\
+    &
+    Total flow: 20 \\ \\
+    \begin{tikzpicture}[->,>=stealth',node distance=1.74cm,initial text=$ $,]
+        \small
+		\node[state                  ](A) {$A$};
+        \node[state, below right of=A, accepting](D) {$D$};
+        \node[state, above right of=D](B) {$B$};
+        \node[state,       right of=B, accepting](C) {$C$};
+        \node[state, below right of=D](G) {$G$};
+        \node[state, below left  of=D](F) {$F$};
+        \node[state,       left  of=F, initial](E) {$E$};
+
+        \draw   (A) 	edge[above] node{50} (B)
+                (A) 	edge[bend right=15] node{10} (D)
+                (D) 	edge[bend right=15] node{10} (A)
+                (B) 	edge[above] node{50} (C)
+                (B) 	edge[right] node{10} (G)
+                (D) 	edge[above] node{ 5} (B)
+                (D) 	edge[above] node{ 5} (F)
+                (E) 	edge[bend right=10, below] node{20} (F)
+                (F) 	edge[bend right=10, above] node{30} (E)
+                (F) 	edge[bend right=10, dashed] node{0} (A)
+                (A) 	edge[bend right=10] node{10} (F)
+                (G) 	edge[bend right=15, dashed] node{ 0} (D)
+                (D) 	edge[bend right=15] node{20} (G)
+                (F) 	edge[bend right=10] node{30} (G)
+                (G) 	edge[bend right=10] node{20} (F)
+                ;
+    \end{tikzpicture} \\
+    Total flow: 30
+\end{longtable} \end{center}
+
+The maximum flow is now 30,000 uv.
+
+\question{Question 5}
+Consider the following text and answer the following questions, justifying.
+
+\begin{center}
+    a a a a a b b b C C d d d d d E E E E E D D d A A A a b c d d b a B B c c c c
+\end{center}
+
+\questionitem{Item a}
+Considering only the text characters, would 3 bits be enough to define a fixed-size code? What would be the total cost of coding the text, using fixed-size coding?
+
+\ansseparator
+
+Follows the frequency table for each character in the text.
+\begin{center} \begin{tabular}{c | r}
+    \textbf{Character} & \textbf{Frequency} \\ \hline
+    a                  &                  7 \\
+    b                  &                  5 \\
+    c                  &                  5 \\
+    d                  &                  8 \\
+    A                  &                  3 \\
+    B                  &                  2 \\
+    C                  &                  2 \\
+    D                  &                  2 \\
+    E                  &                  5 \\
+\end{tabular} \end{center}
+
+There are $N=9$ different characters, which means we would need at least $\lceil \log_2{N} \rceil \SI{}{\bit} = \SI{4}{\bit}$ to encode all characters. Thus, $\SI{3}{\bit}$ is not enough to define a fixed-size code for the text.
+
+To encode the text with fixed-size codes we would need $39 * \SI{4}{\bit} = \SI{156}{\bit}$.
+
+\questionitem{Item b}
+Considering variable-size codes, what is the minimum total cost of coding the text?
+
+\ansseparator
+
+\begin{center} \begin{tabular}{c | r}
+    \textbf{Character} & \textbf{Frequency} \\ \hline
+    d                  &                  8 \\
+    a                  &                  7 \\
+    b                  &                  5 \\
+    c                  &                  5 \\
+    E                  &                  5 \\
+    A                  &                  3 \\
+    B                  &                  2 \\
+    C                  &                  2 \\
+    D                  &                  2 \\
+\end{tabular} \end{center}
+
+\begin{center} \begin{tabular}{c}
+    \begin{tikzpicture}
+        \Tree 	[.{$d$ (8)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$a$ (7)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$b$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$c$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$E$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$A$ (3)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$B$ (2)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$C$ (2)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$D$ (2)}
+                ]
+    \end{tikzpicture} \\
+    \begin{tikzpicture}
+        \Tree 	[.{$d$ (8)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$a$ (7)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$b$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$c$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$E$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$A$ (3)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$B$ (2)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_1$ (4)}
+                    [.{$C$ (2)}
+                    ]
+                    [.{$D$ (2)}
+                    ]
+                ]
+    \end{tikzpicture}  \\
+    \begin{tikzpicture}
+        \Tree 	[.{$d$ (8)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$a$ (7)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$b$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$c$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$E$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_2$ (5)}
+                    [.{$A$ (3)}
+                    ]
+                    [.{$B$ (2)}
+                    ]
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_1$ (4)}
+                    [.{$C$ (2)}
+                    ]
+                    [.{$D$ (2)}
+                    ]
+                ]
+    \end{tikzpicture} \\
+    \begin{tikzpicture}
+        \Tree 	[.{$d$ (8)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$a$ (7)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$b$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$c$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$E$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_3$ (9)}
+                    [.{$T_2$ (5)}
+                        [.{$A$ (3)}
+                        ]
+                        [.{$B$ (2)}
+                        ]
+                    ]
+                    [.{$T_1$ (4)}
+                        [.{$C$ (2)}
+                        ]
+                        [.{$D$ (2)}
+                        ]
+                    ]
+                ]
+    \end{tikzpicture} \\
+    \begin{tikzpicture}
+        \Tree 	[.{$d$ (8)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$a$ (7)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$b$ (5)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_4$ (10)}
+                    [.{$c$ (5)}
+                    ]
+                    [.{$E$ (5)}
+                    ]
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_3$ (9)}
+                    [.{$T_2$ (5)}
+                        [.{$A$ (3)}
+                        ]
+                        [.{$B$ (2)}
+                        ]
+                    ]
+                    [.{$T_1$ (4)}
+                        [.{$C$ (2)}
+                        ]
+                        [.{$D$ (2)}
+                        ]
+                    ]
+                ]
+    \end{tikzpicture} \\
+    \begin{tikzpicture}
+        \Tree 	[.{$d$ (8)}
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_5$ (12)}
+                    [.{$a$ (7)}
+                    ]
+                    [.{$b$ (5)}
+                    ]
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_4$ (10)}
+                    [.{$c$ (5)}
+                    ]
+                    [.{$E$ (5)}
+                    ]
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_3$ (9)}
+                    [.{$T_2$ (5)}
+                        [.{$A$ (3)}
+                        ]
+                        [.{$B$ (2)}
+                        ]
+                    ]
+                    [.{$T_1$ (4)}
+                        [.{$C$ (2)}
+                        ]
+                        [.{$D$ (2)}
+                        ]
+                    ]
+                ]
+    \end{tikzpicture} \\
+    \begin{tikzpicture}
+        \Tree 	[.{$T_5$ (12)}
+                    [.{$a$ (7)}
+                    ]
+                    [.{$b$ (5)}
+                    ]
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_4$ (10)}
+                    [.{$c$ (5)}
+                    ]
+                    [.{$E$ (5)}
+                    ]
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_6$ (17)}
+                    [.{$d$ (8)}
+                    ]
+                    [.{$T_3$ (9)}
+                        [.{$T_2$ (5)}
+                            [.{$A$ (3)}
+                            ]
+                            [.{$B$ (2)}
+                            ]
+                        ]
+                        [.{$T_1$ (4)}
+                            [.{$C$ (2)}
+                            ]
+                            [.{$D$ (2)}
+                            ]
+                        ]
+                    ]
+                ]
+    \end{tikzpicture} \\
+    \begin{tikzpicture}
+        \Tree 	[.{$T_7$ (22)}
+                    [.{$T_5$ (12)}
+                        [.{$a$ (7)}
+                        ]
+                        [.{$b$ (5)}
+                        ]
+                    ]
+                    [.{$T_4$ (10)}
+                        [.{$c$ (5)}
+                        ]
+                        [.{$E$ (5)}
+                        ]
+                    ]
+                ]
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_6$ (17)}
+                    [.{$d$ (8)}
+                    ]
+                    [.{$T_3$ (9)}
+                        [.{$T_2$ (5)}
+                            [.{$A$ (3)}
+                            ]
+                            [.{$B$ (2)}
+                            ]
+                        ]
+                        [.{$T_1$ (4)}
+                            [.{$C$ (2)}
+                            ]
+                            [.{$D$ (2)}
+                            ]
+                        ]
+                    ]
+                ]
+    \end{tikzpicture}
+\end{tabular} \end{center}
+\begin{center} \begin{tabular}{c}
+    \begin{tikzpicture}
+        \Tree 	[.{$T_8$ (39)}
+                    [.{$T_7$ (22)}
+                        [.{$T_5$ (12)}
+                            [.{$a$ (7)}
+                            ]
+                            [.{$b$ (5)}
+                            ]
+                        ]
+                        [.{$T_4$ (10)}
+                            [.{$c$ (5)}
+                            ]
+                            [.{$E$ (5)}
+                            ]
+                        ]
+                    ]
+                    [.{$T_6$ (17)}
+                        [.{$d$ (8)}
+                        ]
+                        [.{$T_3$ (9)}
+                            [.{$T_2$ (5)}
+                                [.{$A$ (3)}
+                                ]
+                                [.{$B$ (2)}
+                                ]
+                            ]
+                            [.{$T_1$ (4)}
+                                [.{$C$ (2)}
+                                ]
+                                [.{$D$ (2)}
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+    \end{tikzpicture}
+\end{tabular} \end{center}
+
+\begin{center} \begin{tabular}{c | r l l}
+    \textbf{Character} & \textbf{Frequency} & \textbf{Code} & \textbf{Cost} \\ \hline
+    d                  &                  8 & 10            & $8*\SI{2}{\bit}=16$ \\
+    a                  &                  7 & 000           & $7*\SI{3}{\bit}=21$ \\
+    b                  &                  5 & 001           & $5*\SI{3}{\bit}=15$ \\
+    c                  &                  5 & 010           & $5*\SI{3}{\bit}=15$ \\
+    E                  &                  5 & 011           & $5*\SI{3}{\bit}=15$ \\
+    A                  &                  3 & 1100          & $3*\SI{4}{\bit}=12$ \\
+    B                  &                  2 & 1101          & $2*\SI{4}{\bit}=8$ \\
+    C                  &                  2 & 1110          & $2*\SI{4}{\bit}=8$ \\
+    D                  &                  2 & 1111          & $2*\SI{4}{\bit}=8$ \\
+\end{tabular} \end{center}
+
+Thus, the encoding cost is $16+21+15+15+15+12+8+8+8 = \SI{118}{\bit}$
+
+\questionitem{Item c}
+Compare and comment on the total costs of encoding the text using fixed-size code, variable-size code and RLE (Run-Length Encoding)
+
+\ansseparator
+
+Variable-size coding allows to obtain an optimal character-level compression (in this case $\SI{118}{\bit}$) when compared to fixed-size coding ($\SI{156}{\bit}$). However, as RLE performs optimization on a higher level (considers relative placement of characters instead of only their frequencies) it can achieve some improvements, particularly if there are quite a lot of relatively long sequences of similar characters as is the case.
+
+Using RLE we would arrive at compression
+
+\begin{center}
+    *a5 b b b C C *d5 *E5 D D d A A A a b c d d b a B B *c4
+\end{center}
+
+which has 12 distinct characters $\{a, b, c, d, A, B, C, D, E, *, 4, 5\}$, so each character can be represented with $\SI{4}{\bit}$. Since the RLE-compressed text has 32 characters the total compression cost for RLE with fixed-size codes is $32*\SI{4}{\bit} = \SI{128}{\bit}$, which is a significant improvement when compared with fixed-size codes compressing alone. This could be further improved by applying variable-size codes to the RLE-compressed text.
+
+\question{Question 6}
+An Internet Service Provider owns a server that receives numerous download requests at a considerable rate; for each request, it is possible to know the size of the requested file, in bytes. The company operates with limited bandwidth (data transmission capacity in bytes per unit time), and must select the requests it will answer in a certain time interval (e.g., every minute). To handle this problem, it resorted to the help of informatics engineers, to implement an efficient algorithm that maximizes the number of requests to be answered every minute.
+
+Considering this problem, answer the following questions:
+
+\questionitem{Item a}
+Rewrite this problem as a decision problem.
+
+\ansseparator
+
+Given a set of requests where each request takes a certain time interval to complete (stored in $S^*$), is it possible to answer to a set $S'^* \subseteq S^*$ of $n^*$ requests in a time interval exactly equal to $k^* = \SI{60}{\second}$?
+
+\remark If the problem was ``is it possible to answer to $n$ of those requests in a time interval equal to or less than $k^* = \SI{60}{\second}$'', the problem would be trivial: select the $n^*$ shortest requests and check if they take more than $k$ to finish. In this case it would not be necessary to resort to engineers given the problem's triviallity.
+
+\questionitem{Item b}
+Check if there is an efficient solution to this problem, explaining the steps you took.\\
+
+\textbf{Suggestion: } If needed, you may use the following NP-complete problems. If you wish you may also consider other NP-complete problems beyond this exam statement.
+
+\textbf{Vertex cover problem (VC): } Given a graph $G=(V,E)$, finding a cover of all vertices in $G$ is to find a subset $W \subseteq V$ such that, for all edges $(i,j) \in E$, $i \in W$ or $j \in W$.
+
+\textbf{Subset sum problem (SS): } Given a set of positive integers $S$ and an integer $k$, find a subset $S' \subseteq S$ such that the sum of its elements is $k$.
+
+\ansseparator
+
+This problem is NP-complete because it is:
+\begin{itemize}
+    \item in NP, given it is trivial to check in polynomial time if a subset has sum $k$: just iterate over it and sum all values, and at the end just compare that sum with $k$.
+    \item NP-hard, since we can reduce the SS problem to our problem by considering:
+    \begin{itemize}
+        \item \textbf{Input conversion:} A set of integers $S$ in the SS problem is a set of $|S|$ requests in our problem with times $S^* = S$; the sum of the subset in SS is the total request-serving time in our problem; $k$ in SS is $k^*$ in our problem.
+        \item \textbf{Output conversion:} A set of requests $S^*$ whose times sum to $k^*$ (a solution to our problem) corresponds to a set of integers $S' \subseteq S$ whose elements sum to $k$ (a solution for SS).
+    \end{itemize}
+\end{itemize}
 
 }
