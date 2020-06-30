@@ -1,0 +1,80 @@
+{
+\renewcommand{\thechapter}{\arabic{chapter}R}
+\setcounter{chapter}{15}
+\exam{Exam resource 2015/16}
+
+\question{Question 1}
+Mr Silva has 1000\euro that he wants to invest in BLA shares. He guarantees he known the values those stocks will have in the following $n$ days. Mr Silva wants to choose one (and only one) day to buy as many stocks as possible and another day, afterwardsm to sell all actions. The point is to maximize profit. Consider \texttt{price[]} to be the vector containing the prices of BLA shares in the following days, where \texttt{price[i]} is the price of a stock in day $i$.
+
+\questionitem{Item a}
+Implement in pseudocode a solution to this problem, using a divide-and-conquer strategy. Explain and mention its time complexity.
+
+\ansseparator
+
+Our function $solve(l,r)$ returns the best day to buy (minimum price) and best day to sell (maximum price) enforcing the condition that the best day to sell is after the best day to buy, and both days are in $[l,r)$.
+
+We will assume one can buy and sell stock in the same day, so we can account for a strictly decreasing $price$.
+
+The base case is $solve(i, i+1)=(i,i)$, because in a 1-day interval the best day to buy and sell is that one available day.
+
+The recursivity that allows us to develop a divide-and-conquer approach is that, for $solve(l,r)$, we can run $solve$ for the left and right halves, and then merge those results using the best of the three possible solutions:
+\begin{enumerate*}
+    \item Buy and sell in the left half;
+    \item Buy and sell in the right half;
+    \item Buy in the left half and sell in the right half.
+\end{enumerate*}
+
+\begin{algorithm}[H]
+    \caption{2016R-01a}
+    \begin{algorithmic}[1]
+        \Function{solve}{$price$, $l$, $r$}
+            \If{$r-l = 1$}{ \Return{$(l, l)$}}
+            \EndIf
+            \State{$m \gets (l+r)/2$}
+            \State{$(b_1, s_1) \gets \Call{solve}{price, l, m}$}
+            \State{$(b_2, s_2) \gets \Call{solve}{price, m, r}$}
+            \State{$(b,s) \gets (l,l)$}
+            \If{$price[s] - price[b] < price[s_1] - price[b_1]$}{ $(b, s) \gets (b_1, s_1)$}
+            \EndIf
+            \If{$price[s] - price[b] < price[s_2] - price[b_2]$}{ $(b, s) \gets (b_2, s_2)$}
+            \EndIf
+            \If{$price[s] - price[b] < price[s_2] - price[b_1]$}{ $(b, s) \gets (b_1, s_2)$}
+            \EndIf
+            \State \Return $(b, s)$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\newpage
+Our recurrence is reflected in terms of complexity as
+
+\begin{equation*}
+    T(n) = 2T(n/2) + 1 \iff \begin{cases}
+        T(n) = a\,T(n/b) + f(n) \\
+        a = 2 \\
+        b = 2 \\
+        f(n) = O(1)
+    \end{cases}
+\end{equation*}
+
+where $T(n)$ is the time it takes to run $solve(l, r)$ with $n = r-l$.
+
+\begin{theorem}[Master theorem for divide-and-conquer recurrences]
+    Let $a, b \geq 1$ be constants, left $f(n)$ be a function and left $T(n)$ be defined on the nonnegative integers by the recurrence
+    \begin{equation*}
+        T(n) = a\,T(n/b) + f(n)
+    \end{equation*}
+    (where $n/b$ is interpreted as either $\lfloor n/b \rfloor$ or $\lceil n/b \rceil$). Then $T(n)$ has the following asymptotic bounds:
+    \begin{enumerate}
+        \item $f(n) = O(n^{\log_b{a} - \varepsilon})$ for some constant $\varepsilon > 0$ $\implies T(n) = \Theta(n^{\log_b{a}})$
+        \item $f(n) = \Theta(n^{\log_b{a}}) \implies T(n) = \Theta(n^{\log_b{a}} \log{n})$
+        \item $f(n) = O(n^{\log_b{a} + \varepsilon})$ for some constant $\varepsilon > 0$, and $a f(n/b) \leq c f(n)$ for some constant $c < 1$ and $n$ asymptotically large $\implies T(n) = \Theta(f(n))$
+    \end{enumerate}
+\end{theorem}
+
+
+We know $\log_b{a} = \log_2{2} = 1$. Since $f(n) = O(1) = O(n^0) = O(n^{1-1}) = O(n^{\log_b{a}-\varepsilon})$ where $\varepsilon = 1$ is a positive constant, we know by the master theorem that $T(n) \in \Theta (n^{\log_b{a}})$; $\Theta (n^{\log_b{a}}) = \Theta (n^1) = \Theta(n) \subseteq O(n)$, so $T(n) \in O(n)$ meaning this algorithm takes time linear in $n$.
+
+\
+
+}
