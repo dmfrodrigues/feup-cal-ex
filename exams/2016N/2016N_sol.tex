@@ -198,4 +198,379 @@ I am almost absolutely sure this algorithm is not optimal in these conditions, a
 
 The best path is $A \rightarrow E \rightarrow F \rightarrow G$. Mr Joaquim must refill his tank in $A$ and $E$ so he spends 20\euro.
 
+\questionitem{Item c}
+Mr Joaquim now wants to know/travel through all roads, but he does not want to go through any of them more than once. Is that possible? If so, show the path he should follow.
+
+\ansseparator
+
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+		\node[state            , fill=gray!50 ](A) {$A$};
+        \node[state, above of=A](B) {$B$};
+        \node[state, above of=B](C) {$C$};
+        \node[state, left  of=A](E) {$E$};
+        \node[state, above of=E](D) {$D$};
+        \node[state, above of=D, fill=gray!100](G) {$G$};
+        \node[state, left  of=D](F) {$F$};
+        
+        \draw   (A) 	edge[bend right=40, right] node{8} (C)
+                (A) 	edge[above] node{7} (E)
+                (B) 	edge[right] node{2} (A)
+                (B) 	edge[bend left=10, below] node{3} (D)
+                (C) 	edge[right] node{4} (B)
+                (C) 	edge[above] node{1} (D)
+                (D) 	edge[bend left=10, above] node{1} (B)
+                (D) 	edge[above] node{4} (F)
+                (D) 	edge[left ] node{9} (G)
+                (E) 	edge[right] node{3} (D)
+                (E) 	edge[bend right=10, above] node{10} (F)
+                (F) 	edge[bend right=10, below] node{9} (E)
+                (F) 	edge[left ] node{3} (G)
+                (G) 	edge[above] node{6} (C)
+                
+                ;
+	\end{tikzpicture}
+\end{center}
+
+In white are vertices with in-degree equal to out-degree. In light gray are vertices with out-degree larger than in-degree by 1. In dark gray are vertices with in-degree larger than out-degree by 1. This means there is not an eulerian cycle because not all vertices have in-degree equal to out-degree, but there is an eulerian path starting in $A$ and ending in $G$, which can be $A \rightarrow E \rightarrow F \rightarrow E \rightarrow D \rightarrow B \rightarrow A \rightarrow C \rightarrow B \rightarrow D \rightarrow F \rightarrow G \rightarrow C \rightarrow D \rightarrow G$.
+
+\question{Question 3}
+Consider the following undirected weighted graph $G$, where vertices represent places and an edge's value represents the cost associated to the connection between adjacent places.
+
+\begin{center}
+    \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,]
+		\node[state            ](A) {$A$};
+        \node[state, right of=A](B) {$B$};
+        \node[state, right of=B](C) {$C$};
+        \node[state, right of=C](D) {$D$};
+        \node[state, right of=D](E) {$E$};
+        
+        \node[state, below of=A](F) {$F$};
+        \node[state, right of=F](G) {$G$};
+        \node[state, right of=G](H) {$H$};
+        \node[state, right of=H](I) {$I$};
+        
+        \node[state, below of=F](J) {$J$};
+        \node[state, right of=J](K) {$K$};
+        \node[state, right of=K](L) {$L$};
+        \node[state, right of=L](M) {$M$};
+        
+
+        \draw   (A) 	edge[above] node{ 2} (B)
+                (B) 	edge[above] node{13} (C)
+                (C) 	edge[above] node{ 2} (D)
+                (D) 	edge[above] node{ 1} (E)
+                (A) 	edge[left ] node{ 5} (F)
+                (A) 	edge[left ] node{ 2} (G)
+                (B) 	edge[left ] node{ 8} (G)
+                (C) 	edge[left ] node{ 5} (H)
+                (D) 	edge[left ] node{ 2} (H)
+                (D) 	edge[left ] node{ 7} (I)
+                (E) 	edge[left ] node{12} (I)
+                (E) 	edge[right] node{ 6} (M)
+                (F) 	edge[left ] node{ 4} (J)
+                (G) 	edge[left ] node{ 2} (J)
+                (G) 	edge[left ] node{ 1} (K)
+                (H) 	edge[left ] node{ 3} (K)
+                (H) 	edge[left ] node{ 4} (L)
+                (I) 	edge[left ] node{ 1} (L)
+                (I) 	edge[left ] node{ 2} (M)
+                (J) 	edge[below] node{ 4} (K)
+                (K) 	edge[below] node{ 7} (L)
+                (L) 	edge[below] node{ 3} (M)
+                ;
+	\end{tikzpicture}
+\end{center}
+
+\questionitem{Item a}
+Find a minimum spanning tree, using the algorithm you find convenient. Present the order in which vertices are added to the minimum spanning tree, according to the algorithm you chose. Explain.
+
+\ansseparator
+
+I will use Kruskal's algorithm. This algorithm consists of initially representing a graph as a forest of individual nodes; we order all edges by weight and process them by increasing weight, selecting edges that connect two separate trees until there is only one tree.
+
+We will sort edges by increasing weight, then increasing first node and then increasing second node.
+
+\begin{center}
+    \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,]
+        \small
+		\node[state            ](A) {$A$};
+        \node[state, right of=A](B) {$B$};
+        \node[state, right of=B](C) {$C$};
+        \node[state, right of=C](D) {$D$};
+        \node[state, right of=D](E) {$E$};
+        
+        \node[state, below of=A](F) {$F$};
+        \node[state, right of=F](G) {$G$};
+        \node[state, right of=G](H) {$H$};
+        \node[state, right of=H](I) {$I$};
+        
+        \node[state, below of=F](J) {$J$};
+        \node[state, right of=J](K) {$K$};
+        \node[state, right of=K](L) {$L$};
+        \node[state, right of=L](M) {$M$};
+        
+
+        \draw   (A) 	edge[above, line width=1.5pt] node{ 2} (B)
+                (B) 	edge[above] node{13} (C)
+                (C) 	edge[above, line width=1.5pt] node{ 2} (D)
+                (D) 	edge[above, line width=1.5pt] node{ 1} (E)
+                (A) 	edge[left ] node{ 5} (F)
+                (A) 	edge[left , line width=1.5pt] node{ 2} (G)
+                (B) 	edge[left ] node{ 8} (G)
+                (C) 	edge[left ] node{ 5} (H)
+                (D) 	edge[left , line width=1.5pt] node{ 2} (H)
+                (D) 	edge[left ] node{ 7} (I)
+                (E) 	edge[left ] node{12} (I)
+                (E) 	edge[right] node{ 6} (M)
+                (F) 	edge[left , line width=1.5pt] node{ 4} (J)
+                (G) 	edge[left , line width=1.5pt] node{ 2} (J)
+                (G) 	edge[left , line width=1.5pt] node{ 1} (K)
+                (H) 	edge[left , line width=1.5pt] node{ 3} (K)
+                (H) 	edge[left , line width=1.5pt] node{ 4} (L)
+                (I) 	edge[left , line width=1.5pt] node{ 1} (L)
+                (I) 	edge[left , line width=1.5pt] node{ 2} (M)
+                (J) 	edge[below] node{ 4} (K)
+                (K) 	edge[below] node{ 7} (L)
+                (L) 	edge[below] node{ 3} (M)
+                ;
+	\end{tikzpicture}
+\end{center}
+
+\begin{center} \begin{tabular}{l | r c}
+    \textbf{Edge}    & \textbf{Weight} & \textbf{Action} \\ \hline
+    $D \text{---} E$ &               1 & Added \\
+    $G \text{---} K$ &               1 & Added \\
+    $I \text{---} L$ &               1 & Added \\
+    $A \text{---} B$ &               2 & Added \\
+    $A \text{---} G$ &               2 & Added \\
+    $C \text{---} D$ &               2 & Added \\
+    $D \text{---} H$ &               2 & Added \\
+    $G \text{---} J$ &               2 & Added \\
+    $I \text{---} M$ &               2 & Added \\
+    $H \text{---} K$ &               3 & Added \\
+    $L \text{---} M$ &               3 & Ignored \\
+    $F \text{---} J$ &               4 & Added \\
+    $H \text{---} L$ &               4 & Added \\
+    $J \text{---} K$ &               4 & Ignored \\
+    $A \text{---} F$ &               5 & Ignored \\
+    $C \text{---} H$ &               5 & Ignored \\
+    $E \text{---} M$ &               6 & Ignored \\
+    $D \text{---} I$ &               7 & Ignored \\
+    $K \text{---} L$ &               7 & Ignored \\
+    $B \text{---} G$ &               8 & Ignored \\
+    $E \text{---} I$ &              12 & Ignored \\
+    $B \text{---} C$ &              13 & Ignored
+\end{tabular} \end{center}
+
+Edges were added by the following order: $D \text{---} E$, $G \text{---} K$, $I \text{---} L$, $A \text{---} B$, $A \text{---} G$, $C \text{---} D$, $D \text{---} H$, $G \text{---} J$, $I \text{---} M$, $H \text{---} K$, $F \text{---} J$, $H \text{---} L$.
+
+\questionitem{Item b}
+Implement an efficient algorithm (in pseudocode) that, knowing the minimum spanning tree $T$ of a graph $G$, identifies the second minimum spanning tree ($T_2$). $T_2$ is the spanning tree of $G$ having the least cost, other than $T$. Note that $T$ and $T_2$ differ only by one edge.
+
+\ansseparator
+
+\begin{algorithm}[H]
+    \caption{Second MST}
+    \begin{algorithmic}[1]
+        \Function{SecondMST}{$G(V,E,w)$, $MST$}
+            \State{$res \gets \text{NULL},~c \gets \infty$}
+            \For{$(u,v) \in MST$}
+                \State{$MST' \gets MST \backslash (u,v)$}
+                \State{$G' \gets (V, MST', w)$} \Comment{Has two tree components}
+                \State{$W' \gets \sum_{(u',v') \in MST'}{w(u',v')}$} \Comment{Sum of all weights in $G'$}
+                \State{$S_1 \gets \Call{DFS}{G', u}$} \Comment{Tree component containing $u$}
+                \State{$S_2 \gets \Call{DFS}{G', v}$} \Comment{Tree component containing $v$}
+                \For{$(u',v') \in E$}
+                    \If{$u' \in S_1 \textbf{ and } v' \in S_2 \textbf{ and } W'+w(u',v') < c$}
+                        \State{$res \gets MST' \cup \{(u',v')\},~c \gets W'+w(u',v')$}
+                    \EndIf
+                \EndFor
+            \EndFor
+            \State \Return $res$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\question{Question 3}
+A drainage system was designed, according to the following graph, to transport 50,000 units of volume (uv) of waste water from the source in node $E$ to the sink in node $C$. Transport is made by gravity, meaning canals have no pressure; in the network the canals' inclination is indicated with the direction of the arows, and their capacities in parenthesis are given in 1,000 uv. Answer the following questions, presenting the proper justification.
+
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+		\node[state            ](A) {$A$};
+        \node[state, below right of=A](D) {$D$};
+        \node[state, above right of=D](B) {$B$};
+        \node[state, right of=B](C) {$C$};
+        \node[state, below right of=D](G) {$G$};
+        \node[state, below left  of=D](F) {$F$};
+        \node[state, left  of=F](E) {$E$};
+
+        \draw   (A) 	edge[above] node{50} (B)
+                (A) 	edge[above] node{20} (D)
+                (B) 	edge[above] node{50} (C)
+                (B) 	edge[right] node{10} (G)
+                (D) 	edge[above] node{ 5} (B)
+                (D) 	edge[above] node{ 5} (F)
+                (E) 	edge[above] node{50} (F)
+                (F) 	edge[left ] node{10} (A)
+                (G) 	edge[left ] node{20} (D)
+                (G) 	edge[below] node{50} (F)
+                ;
+	\end{tikzpicture}
+\end{center}
+
+\questionitem{Item a}
+Can the network transport the desired volume of 50,000 uv? What is the maximum flow this network can transport?
+
+\ansseparator
+
+We will use Edmonds-Karp algorithm to find the maximum flow from $E$ to $C$. This algorithm operates by finding the shortest augmenting path in the residues graph and augment flow through that path, until there are no more augmenting paths. It specializes the Ford-Fulkerson algorithm by choosing the \textbf{shortest} (not \emph{any}) augmenting path.
+
+\begin{center} \begin{tabular}{c | c}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.74cm,initial text=$ $,]
+        \small
+        \node[state            ](A) {$A$};
+        \node[state, below right of=A](D) {$D$};
+        \node[state, above right of=D](B) {$B$};
+        \node[state, right of=B, accepting](C) {$C$};
+        \node[state, below right of=D](G) {$G$};
+        \node[state, below left  of=D](F) {$F$};
+        \node[state, left  of=F, initial](E) {$E$};
+
+        \draw   (A) 	edge[above, line width=1.5pt] node{50} (B)
+                (A) 	edge[above] node{20} (D)
+                (B) 	edge[above, line width=1.5pt] node{50} (C)
+                (B) 	edge[right] node{10} (G)
+                (D) 	edge[above] node{ 5} (B)
+                (D) 	edge[above] node{ 5} (F)
+                (E) 	edge[above, line width=1.5pt] node{50} (F)
+                (F) 	edge[left , line width=1.5pt] node{10} (A)
+                (G) 	edge[left ] node{20} (D)
+                (G) 	edge[below] node{50} (F)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[->,>=stealth',node distance=1.74cm,initial text=$ $,]
+        \small
+        \node[state            ](A) {$A$};
+        \node[state, below right of=A](D) {$D$};
+        \node[state, above right of=D](B) {$B$};
+        \node[state, right of=B, accepting](C) {$C$};
+        \node[state, below right of=D](G) {$G$};
+        \node[state, below left  of=D](F) {$F$};
+        \node[state, left  of=F, initial](E) {$E$};
+
+        \draw   (A) 	edge[bend right=10, below] node{40} (B)
+                (B) 	edge[bend right=10, above] node{10} (A)
+                (A) 	edge[above] node{20} (D)
+                (B) 	edge[bend right=10, below] node{40} (C)
+                (C) 	edge[bend right=10, above] node{10} (B)
+                (B) 	edge[right] node{10} (G)
+                (D) 	edge[above] node{ 5} (B)
+                (D) 	edge[above] node{ 5} (F)
+                (E) 	edge[bend right=10, below] node{40} (F)
+                (F) 	edge[bend right=10, above] node{10} (E)
+                (F) 	edge[bend right=10, right, dashed] node{0} (A)
+                (A) 	edge[bend right=10, left ] node{10} (F)
+                (G) 	edge[left ] node{20} (D)
+                (G) 	edge[below] node{50} (F)
+                ;
+    \end{tikzpicture} \\
+    &
+    Total flow: 10
+\end{tabular} \end{center}
+
+The maximum flow from $E$ to $C$ is thus 10,000 uv, so the network cannot transport the desired volume of 50,000 uv.
+
+\questionitem{Item b}
+What happens to the maximum volume if a new sink, additionally to $C$, is placed in $D$?
+
+\ansseparator
+
+\begin{center} \begin{tabular}{c | c}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.74cm,initial text=$ $,]
+        \small
+        \node[state            ](A) {$A$};
+        \node[state, below right of=A](D) {$D$};
+        \node[state, above right of=D](B) {$B$};
+        \node[state, right of=B, accepting](C) {$C$};
+        \node[state, below right of=D](G) {$G$};
+        \node[state, below left  of=D](F) {$F$};
+        \node[state, left  of=F, initial](E) {$E$};
+
+        \draw   (A) 	edge[above, line width=1.5pt] node{50} (B)
+                (A) 	edge[above] node{20} (D)
+                (B) 	edge[above, line width=1.5pt] node{50} (C)
+                (B) 	edge[right] node{10} (G)
+                (D) 	edge[above] node{ 5} (B)
+                (D) 	edge[below] node{50} (C)
+                (D) 	edge[above] node{ 5} (F)
+                (E) 	edge[above, line width=1.5pt] node{50} (F)
+                (F) 	edge[left , line width=1.5pt] node{10} (A)
+                (G) 	edge[left ] node{20} (D)
+                (G) 	edge[below] node{50} (F)
+                ;
+    \end{tikzpicture} &
+    \begin{tikzpicture}[->,>=stealth',node distance=1.74cm,initial text=$ $,]
+        \small
+        \node[state            ](A) {$A$};
+        \node[state, below right of=A](D) {$D$};
+        \node[state, above right of=D](B) {$B$};
+        \node[state, right of=B, accepting](C) {$C$};
+        \node[state, below right of=D](G) {$G$};
+        \node[state, below left  of=D](F) {$F$};
+        \node[state, left  of=F, initial](E) {$E$};
+
+        \draw   (A) 	edge[bend right=10, below] node{40} (B)
+                (B) 	edge[bend right=10, above] node{10} (A)
+                (A) 	edge[above] node{20} (D)
+                (B) 	edge[bend right=10] node{40} (C)
+                (C) 	edge[bend right=10, above] node{10} (B)
+                (B) 	edge[right] node{10} (G)
+                (D) 	edge[above] node{ 5} (B)
+                (D) 	edge[below] node{50} (C)
+                (D) 	edge[above] node{ 5} (F)
+                (E) 	edge[bend right=10, below] node{40} (F)
+                (F) 	edge[bend right=10, above] node{10} (E)
+                (F) 	edge[bend right=10, right, dashed] node{0} (A)
+                (A) 	edge[bend right=10, left ] node{10} (F)
+                (G) 	edge[left ] node{20} (D)
+                (G) 	edge[below] node{50} (F)
+                ;
+    \end{tikzpicture} \\
+    &
+    Total flow: 10
+\end{tabular} \end{center}
+
+Nothing happens, the maximum volume is similarly 10,000 uv. The bottleneck is edge $F \xrightarrow{10} A$.
+
+\questionitem{Item c}
+What is the impact of reverting the flow direction (inclination) of canal $GF$ (will become $FG$), in the network's performance, considering two consumers $C$ and $D$?
+
+\ansseparator
+
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',node distance=1.74cm,initial text=$ $,]
+        \small
+		\node[state                  ](A) {$A$};
+        \node[state, below right of=A, accepting](D) {$D$};
+        \node[state, above right of=D](B) {$B$};
+        \node[state,       right of=B, accepting](C) {$C$};
+        \node[state, below right of=D](G) {$G$};
+        \node[state, below left  of=D](F) {$F$};
+        \node[state,       left  of=F, initial](E) {$E$};
+
+        \draw   (A) 	edge[above] node{50} (B)
+                (A) 	edge[above] node{20} (D)
+                (B) 	edge[above] node{50} (C)
+                (B) 	edge[right] node{10} (G)
+                (D) 	edge[above] node{ 5} (B)
+                (D) 	edge[above] node{ 5} (F)
+                (E) 	edge[above] node{50} (F)
+                (F) 	edge[left ] node{10} (A)
+                (G) 	edge[left ] node{20} (D)
+                (F) 	edge[below] node{50} (G)
+                ;
+	\end{tikzpicture}
+\end{center}
+
 }
