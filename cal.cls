@@ -64,6 +64,7 @@
 \usepackage[binary-units=true]{siunitx} %SI units
 \newcommand\comb[2]{^{#1}C_{#2}}
 \usepackage{mathtools} %dcases
+\newcommand\realset{\mathbb{R}}
 % Definitions, theorems, remarks,...
 \usepackage{amsthm}
 \usepackage{amssymb, latexsym} %Load math symbols like \blacksquare, but also load normal \leadsto arrows
