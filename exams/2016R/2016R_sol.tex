@@ -184,7 +184,7 @@ Above each node is the distance and previous node in the shortest path.
 Nodes in light gray are visited, node in dark gray is active (current value of $u$). Nodes in light and dark gray are not in $Q$.
 
 \begin{center}
-    \begin{longtable}{p{76mm} | p{76mm}}
+    \begin{longtable}{P{76mm} | P{76mm}}
         \textbf{Line 5} & \textbf{Line 8} \\ \hline 
         \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
             \node[state                  , label=above:{$     0, -$}](A) {$A$};
@@ -501,47 +501,46 @@ Consider people exiting a city must pay a tariff established by city services. C
 We do not need to change Dijkstra's algorith, we only need to change the values of edges. Since we want to minimize tariffs, all we have to do is, for each edge $(u,v) \in E$, set its cost to the tariff to leave city $u$, so $w(u,v) = tariff(u)$.
 
 \begin{center}
-    \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
-		\node[state](A) {$A$};
-        \node[state, above right of=A](B) {$B$};
-        \node[state, below right of=A](D) {$D$};
-        \node[state, right of=B](C) {$C$};
-        \node[state, right of=D](E) {$E$};
-        \node[state, below right of=C](F) {$F$};
-        
-        \draw   (A) 	edge[above] node{10} (B)
-                (A) 	edge[below] node{10} (D)
-                (B) 	edge[above] node{20} (C)
-                (C) 	edge[left ] node{30} (E)
-                (C) 	edge[above] node{30} (F)
-                (D) 	edge[left ] node{22} (B)
-                (D) 	edge[above] node{22} (C)
-                (D) 	edge[below] node{22} (E)
-                (E) 	edge[below] node{25} (F)
-                ;
-	\end{tikzpicture}
-\end{center}
-
-\begin{center}
-    \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
-		\node[state                  , label=above:{$     0, -$}, fill=visitedcolor](A) {$A$};
-        \node[state, above right of=A, label=above:{$    10, A$}, fill=visitedcolor](B) {$B$};
-        \node[state, below right of=A, label=below:{$    10, A$}, fill=visitedcolor](D) {$D$};
-        \node[state, right of=B      , label=above:{$    30, B$}, fill=visitedcolor](C) {$C$};
-        \node[state, right of=D      , label=below:{$    32, E$}, fill=visitedcolor](E) {$E$};
-        \node[state, below right of=C, label=above:{$    57, F$}, fill=visitedcolor](F) {$F$};
-        
-        \draw   (A) 	edge[above] node{10} (B)
-                (A) 	edge[below, line width=1.5pt] node{10} (D)
-                (B) 	edge[above] node{20} (C)
-                (C) 	edge[left ] node{30} (E)
-                (C) 	edge[above] node{30} (F)
-                (D) 	edge[left ] node{22} (B)
-                (D) 	edge[above] node{22} (C)
-                (D) 	edge[below, line width=1.5pt] node{22} (E)
-                (E) 	edge[below, line width=1.5pt] node{25} (F)
-                ;
-	\end{tikzpicture}
+    \begin{tabular}{c | c}
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state](A) {$A$};
+            \node[state, above right of=A](B) {$B$};
+            \node[state, below right of=A](D) {$D$};
+            \node[state, right of=B](C) {$C$};
+            \node[state, right of=D](E) {$E$};
+            \node[state, below right of=C](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{10} (B)
+                    (A) 	edge[below] node{10} (D)
+                    (B) 	edge[above] node{20} (C)
+                    (C) 	edge[left ] node{30} (E)
+                    (C) 	edge[above] node{30} (F)
+                    (D) 	edge[left ] node{22} (B)
+                    (D) 	edge[above] node{22} (C)
+                    (D) 	edge[below] node{22} (E)
+                    (E) 	edge[below] node{25} (F)
+                    ;
+        \end{tikzpicture} &
+        \begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+            \node[state                  , label=above:{$     0, -$}, fill=visitedcolor](A) {$A$};
+            \node[state, above right of=A, label=above:{$    10, A$}, fill=visitedcolor](B) {$B$};
+            \node[state, below right of=A, label=below:{$    10, A$}, fill=visitedcolor](D) {$D$};
+            \node[state, right of=B      , label=above:{$    30, B$}, fill=visitedcolor](C) {$C$};
+            \node[state, right of=D      , label=below:{$    32, E$}, fill=visitedcolor](E) {$E$};
+            \node[state, below right of=C, label=above:{$    57, F$}, fill=visitedcolor](F) {$F$};
+            
+            \draw   (A) 	edge[above] node{10} (B)
+                    (A) 	edge[below, line width=1.5pt] node{10} (D)
+                    (B) 	edge[above] node{20} (C)
+                    (C) 	edge[left ] node{30} (E)
+                    (C) 	edge[above] node{30} (F)
+                    (D) 	edge[left ] node{22} (B)
+                    (D) 	edge[above] node{22} (C)
+                    (D) 	edge[below, line width=1.5pt] node{22} (E)
+                    (E) 	edge[below, line width=1.5pt] node{25} (F)
+                    ;
+        \end{tikzpicture}
+    \end{tabular}
 \end{center}
 
 The path that minimizes tariffs from $A$ to $F$ is $A \rightarrow D \rightarrow E \rightarrow F$, with a total weight of 57.
@@ -597,6 +596,8 @@ Find the set of communication lines to be rented from company BLA so as to allow
 This problem is equivalent to finding the minimum spanning tree (MST) of the graph, since the goal is the same: connect all nodes via edges with the minimum possible cost.
 
 I will apply Kruskal's algorithm to solve this problem. This algorithm consists of processing edges by increasing weight, where processing means we add edge $(u,v)$ if we can't reach $v$ from $u$ using only the edges selected so far (more formally, we start with a forest where each node is a separate tree, and we process edges by increasing weight and connect the two trees $u$ and $v$ belong to if they are not yet in the same tree; we do that until there is only one tree).
+
+\newpage
 
 \begin{center}
     \begin{tabular}{c | r  c}
@@ -673,7 +674,6 @@ $C \text{---} D$ with a total cost of 77.
 
 That statement is true, because as one can see that was the last edge to be added to the MST by Kruskal's algorithm, meaning all other nodes are already connected to each other to the exception of $C$. If we remove edge $C\text{---}F$ the only possible connection from $C$ to the rest of the MST is through edge $C\text{---}D$ which has a higher weight, meaning the MST cost would increase if we removed $C\text{---}F$. This means there is no alternative to $C\text{---}F$ as otherwise the MST cost would increase.
 
-\newpage
 \questionitem{Item c}
 Let $T$ be the minimum spanning tree of graph $G=(V,E)$. A branch of tree $T$, with origin in $v$ and destination in $u$, is the shortest path between $v$ and $u$. Comment this statement.
 
@@ -823,9 +823,9 @@ We will apply the Edmonds-Karp algorithm to find the maximum flow. At each itera
                     ;
         \end{tikzpicture} \\
         Recompute $G_r$ and select shortest augmenting path, $s_1 \rightarrow a \rightarrow t_1$. &
-        Add flow $f=3$ to flow graph across $s_1 \rightarrow a \rightarrow t_1$. \\ \hline \\
+        Add flow $f=3$ to flow graph across $s_1 \rightarrow a \rightarrow t_1$. \\ \hline
         \begin{tikzpicture}[->,>=stealth',node distance=1.65cm,initial text=$ $,]
-            \small
+            \footnotesize
             \node[state                        ](a) {$a$};
             \node[state,            below of=a ](c) {$c$};
             \node[state,            below of=c ](b) {$b$};
@@ -1053,7 +1053,7 @@ We will apply the Edmonds-Karp algorithm to find the maximum flow. At each itera
                     (s1) 	edge[above] node{ 2} (c)
                     ;
         \end{tikzpicture}\\
-        Recompute $G_r$. There are no more augmenting paths. &
+        Recompute $G_r$. No more augmenting paths. &
         Final flow graph.
     \end{longtable}
 \end{center}
@@ -1523,6 +1523,7 @@ Check if the binary code \texttt{100010010001101} can be a fragment of the text 
 
 The provided binary code could be a fragment. It would be decoded to \texttt{100|01|00|100|01|101} = \texttt{f[2]|f[6]|f[0]|f[2]|f[6]|f[7]}. For that, one only has to follow the tree according to the encoding, starting in the root and go left or right if the next code bit is a \texttt{0} or a \texttt{1} until a leaf is reached, after which that character has been decoded and we should return to the Huffman tree root and continue processing the encoded sequence.
 
+\newpage
 \question{Question 6}
 Consider a computer network, represented by a graph $G$ where vertices represent routers and edges represent physical connections to the network. The company responsible for managing the network intends to modernize it by installing some new routers (not all) with very sophisticated functionalities, namely for monitoring incidents in network connections. However, the new routers are extremely expensive, and the company wishes to minimize spendings with the routers purchase, by determining the sufficient number of new routers to buy to monitor all connections.
 
