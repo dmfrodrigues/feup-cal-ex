@@ -1523,4 +1523,37 @@ Check if the binary code \texttt{100010010001101} can be a fragment of the text 
 
 The provided binary code could be a fragment. It would be decoded to \texttt{100|01|00|100|01|101} = \texttt{f[2]|f[6]|f[0]|f[2]|f[6]|f[7]}. For that, one only has to follow the tree according to the encoding, starting in the root and go left or right if the next code bit is a \texttt{0} or a \texttt{1} until a leaf is reached, after which that character has been decoded and we should return to the Huffman tree root and continue processing the encoded sequence.
 
+\question{Question 6}
+Consider a computer network, represented by a graph $G$ where vertices represent routers and edges represent physical connections to the network. The company responsible for managing the network intends to modernize it by installing some new routers (not all) with very sophisticated functionalities, namely for monitoring incidents in network connections. However, the new routers are extremely expensive, and the company wishes to minimize spendings with the routers purchase, by determining the sufficient number of new routers to buy to monitor all connections.
+
+Considering the exposed problem, answer the following questions:
+
+\questionitem{Item a}
+Rewrite this problem as a decision problem.
+
+\ansseparator
+
+Given a computer network represented by a graph $G^* = (V^*, E^*)$, is it possible to buy $k$ or less new routers to be placed in nodes $S^* \subseteq V^*$ ($|S^*| \leq k$) and still monitor all connections?
+
+\questionitem{Item b}
+Check if there is an efficient solution for this problem, explaining the steps of your solution.\\
+
+\textbf{Suggestion:} If needed, you may consider the following definitions of NP-complete problems. If you wish you may also consider other NP-complete problems beyond those in this statement.
+
+\textbf{Vertex cover (VC):} Given a graph $G=(V, E)$, to find a cover of the vertices of $G$ is to find a subset $W \subseteq V$ such that, for every edge $(i,j) \in E$, $i \in W$ or $j \in W$.
+
+\textbf{Subset sum (SS):} Given a set of positive integers $S$ and an integer $k$, find a subset $S' \subseteq S$ such that the sum of its elements is equal to $k$.
+
+\ansseparator
+
+There is not an efficient solution for this problem, as it is NP-complete because it is:
+\begin{itemize}
+    \item in NP, since it is trivial to check if each connection has a new router on one of its ends.
+    \item NP-hard, because we can reduce the vertex cover problem to our problem in polynomial time, by taking into account the following:
+    \begin{itemize}
+        \item \textbf{Input conversion:} A graph $G=(V,E)$ in VC is a computer network $G^* = G$ in our problem.
+        \item \textbf{Output conversion:} In the vertex cover problem we are looking for the smallest set $S \subseteq V$ such that $\forall (u,v) \in E, u \in S \vee v \in S$. The solution of our problem is exactly that: the smallest set of routers $S^* \subseteq V^*$ that must be replaced such that each connection $(u,v) \in E$ between routers $u$ and $v$ is monitored by a new router (i.e., $u$ is a new router or $v$ is a new router, $u \in S^* \vee v \in S^*$). Thus we do not really need to convert anything, $S$ from VC is equal to $S^*$ in our problem.
+    \end{itemize}
+\end{itemize}
+
 }
