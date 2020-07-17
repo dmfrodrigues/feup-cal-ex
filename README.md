@@ -1,6 +1,7 @@
 # FEUP/CAL 2019/20 - solved exercises
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
 ![test](https://github.com/dmfrodrigues/feup-cal-ex/workflows/test/badge.svg)
 ![docs](https://github.com/dmfrodrigues/feup-cal-ex/workflows/docs/badge.svg)
@@ -25,6 +26,7 @@ Documents are compiled by Github Actions, to see them go to [`Actions`](https://
 © 2020 Diogo Rodrigues
 
 All files are licensed under [GNU General Public License v3](LICENSE) by **© 2020 Diogo Rodrigues**, to the exception of:
-- `.pdf`/`.jpg` files, which were authored by the lecturers
+- `.pdf`/`.jpg` files, which were authored by the lecturers;
+- all files inside directory `exams` and all artifacts deriving from them, which are licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International](exams/LICENSE) public license.
 
 The files not authored by me are presented as a fundamental complement to the presented solutions, and are made available under *fair use for education*.
