@@ -409,12 +409,47 @@ vector<Vertex<T>* > Graph<T>::calculatePrim() {
 	return V;
 }
 
-
+template<class T>
+class union_find {
+private:
+	unordered_map<T, T> p;
+public:
+	void add(const T &t){ p[t] = t; }
+	const T& get(const T &t){
+		if(p.at(t) == t) return t;
+		else return get(p.at(t));
+	}
+	void join(const T &t1, const T &t2){
+		if(get(t1) == t1 && get(t2) == t2) p[t2] = t1;
+		else join(get(t1), get(t2));
+	}
+};
 
 template <class T>
 vector<Vertex<T>*> Graph<T>::calculateKruskal() {
-	// TODO
-	return vertexSet;
+
+    vector<Vertex<T>* > V = getVertexSet();
+	union_find<T> uf;
+	for(Vertex<T> *v: V) uf.add(v->getInfo());
+    MutablePriorityQueue<Edge<T>> Q;
+    for(Vertex<T> *v: V){
+        for(Edge<T> &e: v->adj){
+            Q.insert(&e);
+        }
+    }
+
+    while(!Q.empty()){
+        Edge<T> *e = Q.extractMin();
+        Vertex<T> *u = e->orig, *v = e->dest;
+        if(uf.get(u->getInfo()) != uf.get(v->getInfo())){
+            if(v->getInfo() > u->getInfo()) swap(u,v);
+            if(u->path == nullptr) u->path = v;
+            else                   v->path = u;
+            uf.join(u->getInfo(), v->getInfo());
+        }
+    }
+
+    return V;
 }
 
 
