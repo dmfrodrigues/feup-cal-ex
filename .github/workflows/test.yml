@@ -76,8 +76,6 @@ jobs:
         cd tp/tp06/cal_fp06_CLion
         mkdir build && cd build
         cmake .. && cmake --build .
-    - name: test
-      run: cd tp/tp06/cal_fp06_CLion/build && ./CAL_FP06
 
   test-tp07:
     runs-on: ubuntu-latest
