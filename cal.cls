@@ -6,7 +6,6 @@
 % Tables with colored cells
 \usepackage[table,dvipsnames]{xcolor}%
 % Graphics and images
-\usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{tikz-qtree}
 \usetikzlibrary{automata, positioning, arrows}
@@ -17,9 +16,6 @@
 \usepackage{textcomp, eurosym}
 \let\texteuro\euro
 \newcommand\eqeuro{\text{\euro}}
-% Language
-\usepackage[english]{babel}
-%
 % Hyperreferences
 \usepackage{hyperref}
 % Source code
@@ -51,7 +47,6 @@
 % Tables that can span across multiple pages
 \usepackage{longtable}
 % Tables with diagonal slashes
-%\usepackage{slashbox}
 \usepackage{diagbox}
 % Tables with p centered
 \usepackage{array}
@@ -75,6 +70,26 @@
 \renewcommand\qedsymbol{$\blacksquare$}
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
+% Tick
+\newcommand\greencheckmark{{\color{ForestGreen}\checkmark}}
+% Colors
+\definecolor{visitedcolor}{gray}{0.75}
+\definecolor{activecolor}{gray}{0.40}
+% Directory trees
+\RequirePackage{dirtree}
+% Answer separator
+\newcommand\ansseparator{\noindent\hfil\rule{0.5\textwidth}{.4pt}\hfil}
+% Copyright page
+\newenvironment{secondpage}{
+    \clearpage\null\vfill
+    \thispagestyle{empty}
+    \begin{minipage}[b]{0.9\textwidth}
+        \footnotesize\raggedright
+        \setlength{\parskip}{0.5\baselineskip}
+}{
+    \end{minipage}
+    \vspace*{2\baselineskip}
+}
 % Some work
 \def\title#1{\gdef\@title{#1}\gdef\@@title{#1}}
 \def\author#1{\gdef\@author{#1}\gdef\@@author{#1}}
@@ -89,25 +104,15 @@
 \fancyhead[RE, LO]{\textit{\leftmark}}
 \fancyhead[LE, RO]{\thepage}
 \fancyfoot[LE, RO]{\ifx\@@author\@empty\else\@@author\fi}
-% Directory trees
-\RequirePackage{dirtree}
-% Answer separator
-\newcommand\ansseparator{\noindent\hfil\rule{0.5\textwidth}{.4pt}\hfil}
-% Alias
-\setcounter{secnumdepth}{1}
-\newcommand\exam[1]{\chapter{#1}}
-\newcommand\exampart[1]{\section{#1}}
-\newcommand\question[1]{\subsection{#1}}
-\newcommand\questionitem[1]{\subsubsection{#1}}
+% Sections
 \makeatletter
 \renewcommand\thesection{\thechapter\ifnum\c@section>\z@ -P\arabic{section}\fi}
 \renewcommand\thesubsection{\thesection-\arabic{subsection}}
 \renewcommand\thesubsubsection{\thesubsection\alph{subsubsection}}
 \makeatother
-\RequirePackage{titlesec}
-\newcommand{\sectionbreak}{\clearpage}
-% Tick
-\newcommand\greencheckmark{{\color{ForestGreen}\checkmark}}
-% Colors
-\definecolor{visitedcolor}{gray}{0.75}
-\definecolor{activecolor}{gray}{0.40}
+% Alias
+\setcounter{secnumdepth}{-2}
+\newcommand\exam[1]{\chapter{#1}}
+\newcommand\exampart[1]{\section{#1}}
+\newcommand\question[1]{\subsection{#1}}
+\newcommand\questionitem[1]{\subsubsection{#1}}
