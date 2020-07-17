@@ -19,3 +19,86 @@ jobs:
     - name: test
       run: cd tp/tp01/cal_fp01_CLion/build && ./CAL_FP01
 
+  test-tp02:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: build
+      run: |
+        cd tp/tp02/cal_fp02_CLion
+        mkdir build && cd build
+        cmake .. && cmake --build .
+    - name: test
+      run: cd tp/tp02/cal_fp02_CLion/build && ./CAL_FP02
+
+  test-tp03:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: build
+      run: |
+        cd tp/tp03/cal_fp03_CLion
+        mkdir build && cd build
+        cmake .. && cmake --build .
+    - name: test
+      run: cd tp/tp03/cal_fp03_CLion/build && ./CAL_FP03
+
+  test-tp04:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: build
+      run: |
+        cd tp/tp04/cal_fp04_CLion
+        mkdir build && cd build
+        cmake .. && cmake --build .
+    - name: test
+      run: cd tp/tp04/cal_fp04_CLion/build && ./CAL_FP04
+
+  test-tp05:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: build
+      run: |
+        cd tp/tp05/cal_fp05_CLion
+        mkdir build && cd build
+        cmake .. && cmake --build .
+    - name: test
+      run: cd tp/tp05/cal_fp05_CLion/build && ./CAL_FP05
+
+  test-tp06:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: build
+      run: |
+        cd tp/tp06/cal_fp06_CLion
+        mkdir build && cd build
+        cmake .. && cmake --build .
+    - name: test
+      run: cd tp/tp06/cal_fp06_CLion/build && ./CAL_FP06
+
+  test-tp07:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: build
+      run: |
+        cd tp/tp07/cal_fp07_CLion
+        mkdir build && cd build
+        cmake .. && cmake --build .
+    - name: test
+      run: cd tp/tp07/cal_fp07_CLion/build && ./CAL_FP07
+
+  test-tp08:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: build
+      run: |
+        cd tp/tp08/cal_fp08_CLion
+        mkdir build && cd build
+        cmake .. && cmake --build .
+    - name: test
+      run: cd tp/tp08/cal_fp08_CLion/build && ./CAL_FP08
