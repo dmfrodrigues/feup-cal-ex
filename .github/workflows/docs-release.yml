@@ -1,14 +1,21 @@
-name: docs
+name: docs-release
 
 on:
   push:
-    branches: [ master ]
+    tags:
+      - 'v*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
+    - name: Set version
+      run: echo ::set-env name=VERSION::${GITHUB_REF#refs/*/}
+
+    - name: Checkout right version
+      run: git checkout $(git rev-list -n 1 $VERSION)
 
     - name: Install latex
       run: sudo apt install -y latexmk texlive-latex-extra texlive-science
@@ -17,7 +24,7 @@ jobs:
       run: chmod u+x *.sh
 
     - name: Compile exams
-      run: make exams/CAL_exams.pdf
+      run: make exams/CAL_exams.pdf VERSION=${VERSION:1:100}
 
     - name: Upload exams
       uses: actions/upload-artifact@v2
