@@ -19,7 +19,9 @@
 
 ## Documents
 
-Documents are compiled by Github Actions, to see them go to [`Actions`](https://github.com/dmfrodrigues/feup-cal-ex/actions) > `Workflows` > [`docs`](https://github.com/dmfrodrigues/feup-cal-ex/actions?query=workflow%3Adocs), go to the most recent action and check `This run > Artifacts`.
+Documents are available as [release](https://github.com/dmfrodrigues/feup-cal-ex/releases) assets.
+
+Documents are also compiled by Github Actions; to see more recent versions go to [`Actions`](https://github.com/dmfrodrigues/feup-cal-ex/actions) > `Workflows` > [`docs`](https://github.com/dmfrodrigues/feup-cal-ex/actions?query=workflow%3Adocs), go to the most recent action and check `This run > Artifacts`.
 
 ## License
 
