@@ -1,0 +1,21 @@
+name: test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test-tp01:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: build
+      run: |
+        cd tp/tp01/cal_fp01_CLion
+        mkdir build && cd build
+        cmake .. && cmake --build .
+    - name: test
+      run: cd tp/tp01/cal_fp01_CLion/build && ./CAL_FP01
+
