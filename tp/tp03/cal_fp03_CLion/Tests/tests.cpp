@@ -163,7 +163,7 @@ int testNPRandConstX(int size, string name, double dmin, NP_FUNC func, string al
 
 void testNearestPoints(NP_FUNC func, string alg) {
     cout << "algorithm; data set; time elapsed (ms); distance; point1; point2" << endl;
-    int maxTime = 10000;
+    int maxTime = 1000;
     if ( testNPFile("Pontos8", 11841.3, func, alg) > maxTime)
         return;
     if ( testNPFile("Pontos64", 556.066, func, alg) > maxTime)
