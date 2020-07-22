@@ -2,8 +2,17 @@
 \ProvidesClass{cal}
 \LoadClass{bookauthor}
 
+\usepackage{import}
+\usepackage{standalone}
+\usepackage[english]{babel}
+\usepackage[yyyymmdd,hhmmss]{datetime}
+\renewcommand{\dateseparator}{-}
+
 % Tables with colored cells
 \usepackage[table,dvipsnames]{xcolor}%
+\definecolor{visitedcolor}{gray}{0.75}
+\definecolor{activecolor}{gray}{0.40}
+\newcommand\greencheckmark{{\color{ForestGreen}\checkmark}}
 
 \RequirePackage{basiclistings}
 \RequirePackage{dirtree}
@@ -33,15 +42,9 @@
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 % Math stuff
 \usepackage[mathscr]{euscript}
-\usepackage{amsmath,amssymb}
-\usepackage{mathtools}
+\usepackage{amssymb}
 \usepackage[inline]{enumitem}
 \usepackage[binary-units=true]{siunitx} %SI units
 \newcommand\comb[2]{^{#1}C_{#2}}
 \usepackage{mathtools} %dcases
 \newcommand\realset{\mathbb{R}}
-% Tick
-\newcommand\greencheckmark{{\color{ForestGreen}\checkmark}}
-% Colors
-\definecolor{visitedcolor}{gray}{0.75}
-\definecolor{activecolor}{gray}{0.40}
