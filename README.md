@@ -11,7 +11,7 @@
 - **Course:** [CAL](https://sigarra.up.pt/feup/en/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=436441) (Algorithm Design and Analysis)
 - **Subjects:** Generic algorithm design techniques ([greedy](https://en.wikipedia.org/wiki/Greedy_algorithm), [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming), [backtracking](https://en.wikipedia.org/wiki/Backtracking), [divide-and-conquer](https://en.wikipedia.org/wiki/Divide-and-conquer_algorithm)), graphs (shortest path, MST, connectivity, max-flow, stable matching), strings (search and compression), [P](https://en.wikipedia.org/wiki/P_(complexity)) and [NP](https://en.wikipedia.org/wiki/NP_(complexity)).
 - **Tools:** C++
-- **Course grade:** ?/20
+- **Course grade:** 19/20
 
 ## Contents
 
