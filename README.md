@@ -6,6 +6,7 @@
 ![test](https://github.com/dmfrodrigues/feup-cal-ex/workflows/test/badge.svg)
 ![docs](https://github.com/dmfrodrigues/feup-cal-ex/workflows/docs/badge.svg)
 ![docs-additional](https://github.com/dmfrodrigues/feup-cal-ex/workflows/docs-additional/badge.svg)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/84e55a520a664092bde3574d6bc15345)](https://www.codacy.com/gh/dmfrodrigues/feup-cal-ex/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dmfrodrigues/feup-cal-ex&amp;utm_campaign=Badge_Grade)
 
 - **Institution:** [FEUP](https://sigarra.up.pt/feup/en/web_page.Inicial)
 - **Course:** [CAL](https://sigarra.up.pt/feup/en/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=436441) (Algorithm Design and Analysis)
