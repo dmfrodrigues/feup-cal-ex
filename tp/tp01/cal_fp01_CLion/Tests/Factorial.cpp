@@ -12,9 +12,8 @@ int factorialRecurs(int n){
 
 std::vector<long long> fac(1, 1);
 int factorialDinam(int n){
-    long long m;
     while(n >= fac.size()){
-        m = fac.size();
+        long long m = fac.size();
         fac.push_back(fac[m-1]*m);
     }
     return fac[n];
