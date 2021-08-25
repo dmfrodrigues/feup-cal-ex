@@ -14,10 +14,23 @@
 - **Tools:** C++
 - **Course grade:** 19/20
 
+## Contents
+
+- [Theoretical-practical lessons](tp)
+- [Exam solutions](exams)
+
+## Documents
+
+Documents are available as [release](https://github.com/dmfrodrigues/feup-cal-ex/releases) assets.
+
+Documents are also compiled by Github Actions; to see more recent versions go to [`Actions`](https://github.com/dmfrodrigues/feup-cal-ex/actions) > `Workflows` > [`docs`](https://github.com/dmfrodrigues/feup-cal-ex/actions?query=workflow%3Adocs), go to the most recent action and check `This run > Artifacts`.
+
 ## License
 
 © 2020 Diogo Rodrigues
 
-All files are licensed under [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International](LICENSE) public license by **© 2020 Diogo Rodrigues**.
+All files are licensed under [GNU General Public License v3](LICENSE) by **© 2020 Diogo Rodrigues**, to the exception of:
+- `.pdf`/`.jpg` files, which were authored by the lecturers;
+- all files inside directory `exams` and all artifacts deriving from them, which are licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International](exams/LICENSE) public license.
 
 The files not authored by me are presented as a fundamental complement to the presented solutions, and are made available under *fair use for education*.
